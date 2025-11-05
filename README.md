@@ -89,6 +89,6 @@ Paint.net (Pancho)
 - Flavius045
 
 # Preview and Game Structure
-##Structure
+## Structure
 Main menu (Start game) > Game Screen (fight)> Game Store (Buy)
 Main menu (Load game) > Game Store (Buy) 
