@@ -79,8 +79,9 @@ Paint.net (Pancho)
 # Team Roles
 ## Team lider
 - Pancho
-## Composer
+## Composers
 - Lukas Pfeiffer
+- Jaime54321
 ## Coders
 - Sags
 - Kinggj457
