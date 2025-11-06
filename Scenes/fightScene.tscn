@@ -23,12 +23,12 @@ position = Vector2(929, 559)
 position = Vector2(557, 173)
 
 [node name="Sprite2D" type="Sprite2D" parent="wallPoint1"]
-position = Vector2(1, 52.5)
-scale = Vector2(0.0703125, 0.804688)
+position = Vector2(1, 63)
+scale = Vector2(0.0703125, 0.96875)
 texture = ExtResource("1_d1vt0")
 
 [node name="wallPoint2" type="Node2D" parent="."]
-position = Vector2(560, 280)
+position = Vector2(560, 301)
 
 [node name="wallPoint3" type="Node2D" parent="."]
 position = Vector2(689, 342)
@@ -41,7 +41,18 @@ texture = ExtResource("1_d1vt0")
 [node name="wallPoint4" type="Node2D" parent="."]
 position = Vector2(688, 402)
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "wall_point_1", "wall_point_2", "wall_point_3", "wall_point_4")]
+[node name="wallPoint5" type="Node2D" parent="."]
+position = Vector2(513, 266)
+
+[node name="Sprite2D" type="Sprite2D" parent="wallPoint5"]
+position = Vector2(1.25001, 38)
+scale = Vector2(0.0664061, 0.578125)
+texture = ExtResource("1_d1vt0")
+
+[node name="wallPoint6" type="Node2D" parent="."]
+position = Vector2(513, 350)
+
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "wall_point_1", "wall_point_2", "wall_point_3", "wall_point_4", "wall_point_5", "wall_point_6")]
 script = ExtResource("1_viax6")
 wave_start = NodePath("../waveStart")
 wave_end1 = NodePath("../waveEnd1")
@@ -50,5 +61,7 @@ wall_point_1 = NodePath("../wallPoint1")
 wall_point_2 = NodePath("../wallPoint2")
 wall_point_3 = NodePath("../wallPoint3")
 wall_point_4 = NodePath("../wallPoint4")
+wall_point_5 = NodePath("../wallPoint5")
+wall_point_6 = NodePath("../wallPoint6")
 
 [node name="fightController" type="Node" parent="."]
