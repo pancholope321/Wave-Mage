@@ -80,14 +80,19 @@ Paint.net (Pancho)
 ## Team lider
 - Pancho
 ## Composers
+### Music
 - Lukas Pfeiffer
+### SFX
 - Jaime54321
 ## Coders
 - Sags
 - Kinggj457
 - Pancho
 ## Artist
+### General art
 - Flavius045
+### UI leader
+- Mint_rps
 
 # Preview and Game Structure
 ## Structure
