@@ -91,7 +91,7 @@ Paint.net (Pancho)
 ## Artist
 ### General art
 - Flavius045
-### UI leader
+### UI design
 - Mint_rps
 
 # Preview and Game Structure
