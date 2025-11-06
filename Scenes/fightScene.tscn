@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmwrawjnsytee"]
+
+[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
+[ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
+
+[node name="fight" type="Node2D"]
+
+[node name="waveStart" type="Node2D" parent="."]
+position = Vector2(198, 327)
+
+[node name="waveEnd1" type="Node2D" parent="."]
+position = Vector2(930, 149)
+
+[node name="Sprite2D" type="Sprite2D" parent="waveEnd1"]
+position = Vector2(89.5, 204)
+scale = Vector2(1.42969, 3.35938)
+texture = ExtResource("1_d1vt0")
+
+[node name="waveEnd2" type="Node2D" parent="."]
+position = Vector2(929, 559)
+
+[node name="wallPoint1" type="Node2D" parent="."]
+position = Vector2(557, 173)
+
+[node name="Sprite2D" type="Sprite2D" parent="wallPoint1"]
+position = Vector2(1, 52.5)
+scale = Vector2(0.0703125, 0.804688)
+texture = ExtResource("1_d1vt0")
+
+[node name="wallPoint2" type="Node2D" parent="."]
+position = Vector2(560, 280)
+
+[node name="wallPoint3" type="Node2D" parent="."]
+position = Vector2(689, 342)
+
+[node name="Sprite2D" type="Sprite2D" parent="wallPoint3"]
+position = Vector2(1.25001, 27)
+scale = Vector2(0.0664061, 0.40625)
+texture = ExtResource("1_d1vt0")
+
+[node name="wallPoint4" type="Node2D" parent="."]
+position = Vector2(688, 402)
+
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "wall_point_1", "wall_point_2", "wall_point_3", "wall_point_4")]
+script = ExtResource("1_viax6")
+wave_start = NodePath("../waveStart")
+wave_end1 = NodePath("../waveEnd1")
+wave_end2 = NodePath("../waveEnd2")
+wall_point_1 = NodePath("../wallPoint1")
+wall_point_2 = NodePath("../wallPoint2")
+wall_point_3 = NodePath("../wallPoint3")
+wall_point_4 = NodePath("../wallPoint4")
+
+[node name="fightController" type="Node" parent="."]
