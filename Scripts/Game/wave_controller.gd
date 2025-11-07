@@ -9,10 +9,12 @@ extends Node2D
 @export var wall_point_4:Node2D
 @export var wall_point_5:Node2D
 @export var wall_point_6:Node2D
-
+var script_instances = {}
 
 var Structures = []
+var power_file_relation
 func _ready() -> void:
+	power_file_relation = await load_json_config("res://ConfigFiles/power_file_relation.json")
 	attack(1)
 
 # when attack is pressed the wave is propagating
@@ -55,15 +57,29 @@ func attack(damage):
 				"powerName": structure.get("powerName", "unknown"),
 				"currentPos":pos,
 				"id":structure["id"],
-				"damage":1
+				"damage":damage
 			}
 			order.append(dictOrder)
 	
 	order.sort_custom(sort_by_angle_then_distance)
 	var firstBeam=paint_ordered_walls(order)
-	for i in range(firstBeam.size()/2):
-		call(firstBeam[i*2].powerName,firstBeam[i*2],firstBeam[i*2+1])
+	var totalDamage=0
+	
 
+	for i in range(firstBeam.size() / 2):
+		var filepath = power_file_relation[firstBeam[i*2].powerName]
+		var functionName = firstBeam[i*2].powerName
+		
+		if not script_instances.has(filepath):
+			var script = load(filepath)
+			if script:
+				script_instances[filepath] = script.new()
+			else:
+				print("Failed to load script: ", filepath)
+				continue
+		
+		totalDamage += script_instances[filepath].call(functionName, firstBeam[i*2], firstBeam[i*2+1])
+	print("totalDamage: ",totalDamage)
 # with this function we visualize the borders of the waves
 func paint_ordered_walls(order):
 	var currentStructures=[]
@@ -134,22 +150,38 @@ func sort_by_distance(a, b):
 	else:
 		return a.angle < b.angle
 
-# here are the functions called
 
-#apply damage to the enemy is surface area times damage
-func enemy(start,end):
-	print("enemy")
-	print("start: ",start)
-	print("end: ",end)
 
-# nothing function
-func wall(start,end):
-	print("wall")
-	print("start: ",start)
-	print("end: ",end)
 
-# here we need to apply the duplicate wave function, logic comes next
-func duplicatePower(start,end):
-	print("duplicate")
-	print("start: ",start)
-	print("end: ",end)
+
+func load_json_config(file_path: String):
+	if not FileAccess.file_exists(file_path):
+		push_error("JSON file does not exist: " + file_path)
+		return null
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if not file:
+		push_error("Failed to open JSON file: " + file_path)
+		return null
+	var json_string = file.get_as_text()
+	file.close()
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	if parse_result != OK:
+		push_error("JSON Parse Error: " + json.get_error_message() + " at line " + str(json.get_error_line()))
+		return null
+	return json.data
+
+func save_json_config(object, path):
+	var user_dir = OS.get_user_data_dir()
+	var file_path = user_dir + path+ "/buffs.json"
+	# Create a FileAccess object for writing
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		# Convert your data to JSON string
+		var json_string = JSON.stringify(object)
+		# Write the JSON string to file
+		file.store_string(json_string)
+		file.close()
+	else:
+		print("Error: Could not save file to path")
+	return
