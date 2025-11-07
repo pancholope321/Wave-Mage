@@ -1,7 +1,7 @@
 extends Node
 
 # nothing function
-func wall(start,end):
+func wall(container,start,end):
 	print("wall")
 	print("start: ",start)
 	print("end: ",end)
