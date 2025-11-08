@@ -114,10 +114,12 @@ func paint_ordered_walls(order):
 					currentLines.append(newdict)
 				else:
 					activePower={"distance"=99999999}
+	setupWaves(currentLines)
 	return currentLines
 
 var linesDrawn=[]
 func _draw():
+	return
 	var size=20.0
 	for line in linesDrawn:
 		var start_position =line.start_position
@@ -127,6 +129,75 @@ func _draw():
 		draw_line(start_position, end_position, random_color, size)
 		size*=0.75
 
+func setupWaves(lines):
+	for i in range(lines.size() / 2):
+		var start_position = lines[i * 2].start_position
+		var vertix1 = lines[i * 2].position
+		var vertix2 = lines[i * 2 + 1].position
+		var distance = (lines[i * 2].distance + lines[i * 2 + 1].distance) / 2.0
+		
+		var bounds = get_triangle_bounds([start_position, vertix1, vertix2])
+		
+		# Make the ColorRect square to prevent stretching
+		var max_size = max(bounds.size.x, bounds.size.y)
+		var square_bounds = Rect2(
+			bounds.position, 
+			Vector2(max_size, max_size)
+		)
+		
+		var color_rect = ColorRect.new()
+		add_child(color_rect)
+		color_rect.position = square_bounds.position
+		color_rect.size = square_bounds.size
+		color_rect.color = Color(1.0, 1.0, 1.0, 1.0)
+		
+		var shader_material = ShaderMaterial.new()
+		shader_material.shader = preload("res://Shaders/wave_shader.gdshader")
+		
+		# Convert points to the square coordinate system
+		var points_array = [start_position, vertix1, vertix2]
+		var points_relative = []
+		for point in points_array:
+			points_relative.append((point - square_bounds.position) / square_bounds.size)
+		
+		# Calculate frequency based on the square size (consistent across all triangles)
+		var base_frequency = 12.0
+		#var normalized_frequency = base_frequency / (max_size / 200.0)
+		
+		shader_material.set_shader_parameter("triangle_points", points_relative)
+		shader_material.set_shader_parameter("origin", (start_position - square_bounds.position) / square_bounds.size)
+		shader_material.set_shader_parameter("wave_speed", 20.0)
+		shader_material.set_shader_parameter("wave_frequency", distance/5.0)
+		shader_material.set_shader_parameter("min_alpha", 0.0)
+		shader_material.set_shader_parameter("max_alpha", 1.0)
+		
+		color_rect.material = shader_material
+
+
+
+func get_triangle_bounds(points: Array) -> Rect2:
+	if points.size() < 3:
+		return Rect2()
+	
+	var min_point = points[0]
+	var max_point = points[0]
+	
+	for point in points:
+		min_point.x = min(min_point.x, point.x)
+		min_point.y = min(min_point.y, point.y)
+		max_point.x = max(max_point.x, point.x)
+		max_point.y = max(max_point.y, point.y)
+	
+	return Rect2(min_point, max_point - min_point)
+
+func world_to_uv(world_pos: Vector2, bounds: Rect2) -> Vector2:
+	if bounds.size.x == 0 or bounds.size.y == 0:
+		return Vector2(0.5, 0.5)
+	
+	var uv_x = (world_pos.x - bounds.position.x) / bounds.size.x
+	var uv_y = (world_pos.y - bounds.position.y) / bounds.size.y
+	
+	return Vector2(uv_x, uv_y)
 
 func processDamage(firstBeam):
 	var totalDamage=0
