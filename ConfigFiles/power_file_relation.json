@@ -1,5 +1,6 @@
 {
 	"enemy":"res://Scripts/Powers/enemy.gd",
 	"wall":"res://Scripts/Powers/wall.gd",
-	"duplicatePower":"res://Scripts/Powers/duplicatePower.gd"
+	"duplicatePower":"res://Scripts/Powers/duplicatePower.gd",
+	"mirror":"res://Scripts/Powers/mirror.gd"
 }

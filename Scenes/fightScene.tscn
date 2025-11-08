@@ -20,7 +20,7 @@ texture = ExtResource("1_d1vt0")
 position = Vector2(929, 559)
 
 [node name="duplicatePoint1" type="Node2D" parent="."]
-position = Vector2(557, 173)
+position = Vector2(557, 357)
 
 [node name="Sprite2D" type="Sprite2D" parent="duplicatePoint1"]
 position = Vector2(-1.25, 63)
@@ -32,41 +32,64 @@ position = Vector2(3.25, 63)
 scale = Vector2(0.0351563, 0.96875)
 texture = ExtResource("1_d1vt0")
 
-[node name="duplicatePoint2" type="Node2D" parent="."]
-position = Vector2(560, 301)
+[node name="duplicatePoint2" type="Node2D" parent="duplicatePoint1"]
+position = Vector2(3, 128)
 
 [node name="wallPoint3" type="Node2D" parent="."]
-position = Vector2(689, 342)
+position = Vector2(390, 299)
 
 [node name="Sprite2D" type="Sprite2D" parent="wallPoint3"]
 position = Vector2(1.25001, 27)
 scale = Vector2(0.0664061, 0.40625)
 texture = ExtResource("1_d1vt0")
 
-[node name="wallPoint4" type="Node2D" parent="."]
-position = Vector2(688, 402)
+[node name="wallPoint4" type="Node2D" parent="wallPoint3"]
+position = Vector2(-1, 60)
 
 [node name="wallPoint5" type="Node2D" parent="."]
-position = Vector2(513, 266)
+position = Vector2(270, 261)
 
 [node name="Sprite2D" type="Sprite2D" parent="wallPoint5"]
 position = Vector2(1.25001, 38)
 scale = Vector2(0.0664061, 0.578125)
 texture = ExtResource("1_d1vt0")
 
-[node name="wallPoint6" type="Node2D" parent="."]
-position = Vector2(513, 350)
+[node name="wallPoint6" type="Node2D" parent="wallPoint5"]
+position = Vector2(0, 84)
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "wall_point_1", "wall_point_2", "wall_point_3", "wall_point_4", "wall_point_5", "wall_point_6")]
+[node name="mirrorPoint1" type="Node2D" parent="."]
+position = Vector2(300, 576)
+
+[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1"]
+position = Vector2(79.25, 3.00001)
+scale = Vector2(1.26172, 0.0390626)
+texture = ExtResource("1_d1vt0")
+
+[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1/Sprite2D"]
+position = Vector2(1.25001, 27)
+scale = Vector2(0.0664061, 0.40625)
+texture = ExtResource("1_d1vt0")
+
+[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1/Sprite2D/Sprite2D"]
+position = Vector2(1.25001, 27)
+scale = Vector2(0.0664061, 0.40625)
+texture = ExtResource("1_d1vt0")
+
+[node name="mirrorPoint2" type="Node2D" parent="mirrorPoint1"]
+position = Vector2(163, 1)
+
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "wall_point_1", "wall_point_2", "wall_point_3", "wall_point_4", "wall_point_5", "wall_point_6", "mirror_point_1", "mirror_point_2")]
 script = ExtResource("1_viax6")
 wave_start = NodePath("../waveStart")
 wave_end1 = NodePath("../waveEnd1")
 wave_end2 = NodePath("../waveEnd2")
 wall_point_1 = NodePath("../duplicatePoint1")
-wall_point_2 = NodePath("../duplicatePoint2")
+wall_point_2 = NodePath("../duplicatePoint1/duplicatePoint2")
 wall_point_3 = NodePath("../wallPoint3")
-wall_point_4 = NodePath("../wallPoint4")
+wall_point_4 = NodePath("../wallPoint3/wallPoint4")
 wall_point_5 = NodePath("../wallPoint5")
-wall_point_6 = NodePath("../wallPoint6")
+wall_point_6 = NodePath("../wallPoint5/wallPoint6")
+mirror_point_1 = NodePath("../mirrorPoint1")
+mirror_point_2 = NodePath("../mirrorPoint1/mirrorPoint2")
 
 [node name="fightController" type="Node" parent="."]
