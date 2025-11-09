@@ -126,8 +126,18 @@ func paint_ordered_walls(order):
 					currentLines.append(newdict)
 				else:
 					activePower={"distance"=99999999}
+	currentLines=clearcurrentLines(currentLines)
 	setupWaves(currentLines)
 	return currentLines
+
+func clearcurrentLines(currentLines):
+	var finalOrder=[]
+	for i in range(currentLines.size()/2):
+		var x=i*2
+		if (currentLines[x].position-currentLines[x+1].position).length()>0.1:
+			finalOrder.append(currentLines[x])
+			finalOrder.append(currentLines[x+1])
+	return finalOrder
 
 
 func paint_ordered_walls_square(order):
@@ -547,7 +557,7 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage):
 					dictOrder["is_clipped"] = true
 				
 				order.append(dictOrder)
-	
+	order.sort_custom(sort_by_angle_then_distance)
 	return order
 
 # Keep all your helper functions the same...

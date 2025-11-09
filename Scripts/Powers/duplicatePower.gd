@@ -11,7 +11,7 @@ func duplicatePower(container,start,end):
 	var order=container.get_structures_in_angle(start_wave_position,angle,damage)
 	
 	var beam= await container.paint_ordered_walls(order)
-	
+	print("beams_duplicator: ",beam)
 	var total_damage=await container.processDamage(beam)
 	#return total_damage
 	return total_damage
