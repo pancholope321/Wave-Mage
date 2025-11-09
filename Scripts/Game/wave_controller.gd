@@ -12,6 +12,9 @@ extends Node2D
 
 @export var mirror_point_1:Node2D
 @export var mirror_point_2:Node2D
+
+@export var mirror_point_3:Node2D
+@export var mirror_point_4:Node2D
 var script_instances = {}
 
 var Structures = []
@@ -35,7 +38,10 @@ func attack(damage,start_position=wave_start.position):
 		"endPos": wall_point_6.global_position},
 		{"id":4,"powerName":"mirror",
 		"startPos": mirror_point_2.global_position, 
-		"endPos": mirror_point_1.global_position}]
+		"endPos": mirror_point_1.global_position},
+		{"id":5,"powerName":"mirror",
+		"startPos": mirror_point_4.global_position, 
+		"endPos": mirror_point_3.global_position}]
 	var dict = {"id":0,
 		"powerName": "enemy",
 		"startPos": wave_end1.global_position, 
@@ -69,7 +75,6 @@ func attack(damage,start_position=wave_start.position):
 			order.append(dictOrder)
 	
 	order.sort_custom(sort_by_angle_then_distance)
-	print("order: ",order)
 	var firstBeam=paint_ordered_walls(order)
 	var totalDamage=processDamage(firstBeam)
 	
@@ -129,12 +134,22 @@ func paint_ordered_walls_square(order):
 	var currentStructures = []
 	var activePower = {"distance": 99999999, "id":-1}
 	var currentLines = []
-	print("this is the order: ",order)
 	# Sort order by distance first to ensure proper processing
 	for element in order:
 		if element["currentPos"] == "startPos":
 			currentStructures.append(element)
-			if element.distance < activePower.distance:
+			var elementDistance=element.distance
+			var ray_source_pos = element["start_position"]
+			var rayDirection=element.start_position-element.position
+			var activePowerDistance=activePower.distance
+			if activePower.has("position"):
+				var newElements = order.filter(func(x): return x.id == activePower.id)
+				var nepos1 = newElements[0].position
+				var nepos2 = newElements[1].position
+				var dir1=nepos1-nepos2
+				var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
+				activePowerDistance=(newElementPosition-ray_source_pos).length()
+			if rayDirection.length() < activePowerDistance:
 				# If there was an active power, create an intermediate end point for it
 				if activePower.has("position"):
 					var newElements = order.filter(func(x): return x.id == activePower.id)
@@ -142,14 +157,7 @@ func paint_ordered_walls_square(order):
 						var nepos1 = newElements[0].position
 						var nepos2 = newElements[1].position
 						var dir1=nepos1-nepos2
-						var neposang1 = newElements[0].angle
-						var neposang2 = newElements[1].angle
-						# Use the current element's start_position instead of assuming ray source
-						var ray_source_pos = element["start_position"]
-						#var rayDirection=Vector2(cos(element.angle),sin(element.angle))
-						var rayDirection=element.start_position-element.position
 						var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
-						print("newElementPosition: ",newElementPosition)
 						var newdict = activePower.duplicate()
 						newdict.position = newElementPosition
 						newdict.currentPos = "endPos"
@@ -171,39 +179,58 @@ func paint_ordered_walls_square(order):
 				
 				if currentStructures.size() > 0:
 					currentStructures.sort_custom(sort_by_distance)
-					activePower = currentStructures[0]
 					
-					var newElements = order.filter(func(x): return x.id == activePower.id)
-					if newElements.size() >= 2:
-						var nepos1 = newElements[0].position
-						var nepos2 = newElements[1].position
-						var dir1=nepos1-nepos2
-						var neposang1 = newElements[0].angle
-						var neposang2 = newElements[1].angle
-						# Use the current element's start_position instead of assuming ray source
+					# Calculate actual distance for the new active power from current end position
+					var closestPower = null
+					var closestDistance = 99999999
+					
+					for structure in currentStructures:
+						var ray_source_pos = element["position"]  # Start from current end position
+						var rayDirection = element.start_position - element.position  # Use element's original direction
+						
+						var newElements = order.filter(func(x): return x.id == structure.id)
+						if newElements.size() >= 2:
+							var nepos1 = newElements[0].position
+							var nepos2 = newElements[1].position
+							var dir1 = nepos1 - nepos2
+							var newElementPosition = instersection_pos_dir_pos_dir(ray_source_pos, rayDirection, nepos1, dir1)
+							
+							if newElementPosition != null:
+								var actualDistance = (newElementPosition - ray_source_pos).length()
+								if actualDistance < closestDistance:
+									closestDistance = actualDistance
+									closestPower = structure
+					
+					if closestPower != null:
+						activePower = closestPower
+						
+						# Create the intersection point for the new active power
 						var ray_source_pos = element["start_position"]
-						#var rayDirection=Vector2(cos(element.angle),sin(element.angle))
-						var rayDirection=ray_source_pos-element.position
-						var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
-						print("nepos1: ",nepos1)
-						print("dir1: ",dir1)
-						print("ray_source_pos: ",ray_source_pos)
-						print("rayDirection: ",rayDirection)
-						print("newElementPosition: ",newElementPosition)
-						print("newElements: ",newElements)
-						print("element: ",element)
-						var newdict = activePower.duplicate()
-						newdict.position = newElementPosition
-						newdict.currentPos = "endPos"
-						newdict.start_position = ray_source_pos  # Use the current element's start position
-						linesDrawn.append(newdict)
-						currentLines.append(newdict)
+						var rayDirection = element.start_position - element.position
+						
+						var newElements = order.filter(func(x): return x.id == activePower.id)
+						if newElements.size() >= 2:
+							var nepos1 = newElements[0].position
+							var nepos2 = newElements[1].position
+							var dir1 = nepos1 - nepos2
+							var newElementPosition = instersection_pos_dir_pos_dir(ray_source_pos, rayDirection, nepos1, dir1)
+							
+							if newElementPosition != null:
+								var newdict = activePower.duplicate()
+								newdict.position = newElementPosition
+								newdict.currentPos = "endPos"
+								newdict.start_position = ray_source_pos
+								linesDrawn.append(newdict)
+								currentLines.append(newdict)
+					else:
+						activePower = {"distance": 99999999, "id":-1}
 				else:
-					activePower = {"distance": 99999999,"id":-1}
+					activePower = {"distance": 99999999, "id":-1}
 	
-	print("currentLines: ", currentLines)
 	setupWavesSquare(currentLines)
 	return currentLines
+
+
 
 var linesDrawn=[]
 func _draw():
@@ -272,6 +299,8 @@ func setupWavesSquare(lines):
 		var vertix3 = line2.position        # Second ray intersection
 		var vertix4 = line2.start_position  # Second ray origin
 		
+		if (vertix1 - vertix4).length() <= 1.0 and (vertix2 - vertix3).length() <= 1.0:
+			continue
 		# Use all four vertices for bounds calculation
 		var bounds = get_square_bounds([vertix1, vertix2, vertix3, vertix4])
 		
@@ -590,7 +619,7 @@ enum betweenDirectionsCase {
 	none
 	}
 
-func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage):
+func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted=false):
 	var start_wave_position = start["position"]
 	var end_wave_position = end["position"]
 	var angle1 = angle_ray_1
@@ -601,9 +630,6 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 	# Calculate ray directions
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
-	print("start: ",start)
-	print("ray1_dir ",ray1_dir)
-	print("structures: ", Structures)
 	
 	for structure in Structures:
 		if structure.id == start.id:
@@ -633,20 +659,6 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 			currentCase=betweenDirectionsCase.bottom
 		elif between_rays:
 			currentCase=betweenDirectionsCase.center
-		print("---------------------")
-		print("structure: ",structure)
-		print("ypos: ",ypos)
-		print("ypos2: ",ypos2)
-		print("topypos: ",topypos)
-		print("topypos2: ",topypos2)
-		print("ypos_end: ",ypos_end)
-		print("ypos2_end: ",ypos2_end)
-		print("topypos_end: ",topypos_end)
-		print("topypos2_end: ",topypos2_end)
-		print("crosses_ray1: ",crosses_ray1)
-		print("crosses_ray2: ",crosses_ray2)
-		print("between_rays: ",between_rays)
-		print("---------------------")
 		match currentCase:
 			betweenDirectionsCase.both_toaching:
 				var position_struct=Vector2(struct_pos.x,ypos)
@@ -684,7 +696,6 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.top:
-				print("topCase")
 				var position_struct=Vector2(struct_pos.x,ypos)
 				var start_position=start_wave_position
 				var angle=angle_ray_1
@@ -741,7 +752,7 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
 				var start_position2=end_wave_position
-				var angle_2=angle_ray_1+alphaFactor*(angle_ray_2-angle_ray_1)
+				var angle_2=angle_ray_2
 				var angle_degrees2=rad_to_deg(angle_2)
 				var distance2=start_position2.distance_to(position_struct2)+end.distance
 				var dictOrder2 = {
@@ -756,7 +767,6 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage
 				}
 				order.append(dictOrder2)
-				print("order appended: ",order)
 			betweenDirectionsCase.center:
 				var position_struct=struct_pos
 				var alphaFactor=(struct_pos.y-ypos2_end)/(ypos-ypos2_end)
@@ -796,249 +806,27 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
 				continue
-	print("stop")
-	order.sort_custom(sort_by_angle_then_distance)
+	
+	if inverted:
+		order.sort_custom(sort_by_ray_origin_inverted)
+	else:
+		order.sort_custom(sort_by_ray_origin)
 	return order
 
+func sort_by_ray_origin(a, b):
+	if a.start_position.x != b.start_position.x:
+		return a.start_position.x < b.start_position.x
+	else:
+		return a.distance < b.distance
 
+func sort_by_ray_origin_inverted(a, b):
+	if a.start_position.x != b.start_position.x:
+		return a.start_position.x > b.start_position.x
+	else:
+		return a.distance < b.distance
 
-func get_structures_between_directionsV_1(start, angle_ray_1, end, angle_ray_2, damage):
-	var start_wave_position = start["position"]
-	var end_wave_position = end["position"]
-	var angle1 = angle_ray_1
-	var angle2 = angle_ray_2
-	
-	var order = []
-	
-	# Calculate ray directions
-	var ray1_dir = Vector2(cos(angle1), sin(angle1))
-	var ray2_dir = Vector2(cos(angle2), sin(angle2))
-	
-	print("structures: ", Structures)
-	
-	for structure in Structures:
-		if structure.id == start.id:
-			continue
-		
-		var point1 = structure.startPos
-		var point2 = structure.endPos
-		var valid_points = []
-		
-		# Calculate the actual y-value of each ray at the structure's x-coordinate
-		var ray1_slope = ray1_dir.y / ray1_dir.x if abs(ray1_dir.x) > 0.0001 else 999999.0
-		var ray2_slope = ray2_dir.y / ray2_dir.x if abs(ray2_dir.x) > 0.0001 else 999999.0
-		
-		var ray1_y_at_point1_x = start_wave_position.y + ray1_slope * (point1.x - start_wave_position.x)
-		var ray1_y_at_point2_x = start_wave_position.y + ray1_slope * (point2.x - start_wave_position.x)
-		var ray2_y_at_point1_x = end_wave_position.y + ray2_slope * (point1.x - end_wave_position.x)
-		var ray2_y_at_point2_x = end_wave_position.y + ray2_slope * (point2.x - end_wave_position.x)
-		
-		# Check if points are above/below each ray
-		var check1_ray1 = point1.y > ray1_y_at_point1_x
-		var check1_ray2 = point1.y > ray2_y_at_point1_x
-		var check2_ray1 = point2.y > ray1_y_at_point2_x
-		var check2_ray2 = point2.y > ray2_y_at_point2_x
-		
-		print("Structure ", structure.id, ":")
-		print("  Point1: ", point1, " Point2: ", point2)
-		print("  Point1 - above ray1: ", check1_ray1, " above ray2: ", check1_ray2)
-		print("  Point2 - above ray1: ", check2_ray1, " above ray2: ", check2_ray2)
-		
-		# Check for intersections with rays
-		var ray1_intersect = line_intersection(start_wave_position, start_wave_position + ray1_dir * 10000, point1, point2)
-		var ray2_intersect = line_intersection(end_wave_position, end_wave_position + ray2_dir * 10000, point1, point2)
-		
-		var has_ray1_intersect = ray1_intersect and point_on_line_segment(ray1_intersect, point1, point2)
-		var has_ray2_intersect = ray2_intersect and point_on_line_segment(ray2_intersect, point1, point2)
-		
-		print("  Intersects with ray1: ", has_ray1_intersect, " ray2: ", has_ray2_intersect)
-		if has_ray1_intersect:
-			print("  Ray1 intersection: ", ray1_intersect)
-		if has_ray2_intersect:
-			print("  Ray2 intersection: ", ray2_intersect)
-		
-		# Check if structure should be included
-		var skip_structure = true
-		
-		# Check if at least one point is between the rays
-		if (check1_ray1 != check1_ray2) or (check2_ray1 != check2_ray2):
-			skip_structure = false
-			print("  Keeping - point between rays")
-		
-		# Check if line crosses between the rays
-		if (check1_ray1 != check2_ray1) and (check1_ray2 != check2_ray2):
-			skip_structure = false
-			print("  Keeping - line crosses between rays")
-		
-		# Check for intersections
-		if has_ray1_intersect or has_ray2_intersect:
-			skip_structure = false
-			print("  Keeping - intersects with ray")
-		
-		if skip_structure:
-			print("  Skipping structure ", structure.id)
-			continue
-		
-		# Add points that are between the rays
-		if check1_ray1 != check1_ray2:
-			valid_points.append({
-				"position": point1,
-				"currentPos": "startPos",
-				"is_original": true,
-				"source_position": start_wave_position,
-				"ray_source": "both"
-			})
-		
-		if check2_ray1 != check2_ray2:
-			valid_points.append({
-				"position": point2, 
-				"currentPos": "endPos",
-				"is_original": true,
-				"source_position": start_wave_position,
-				"ray_source": "both"
-			})
-		
-		# Add intersection points
-		var intersections = []
-		if has_ray1_intersect:
-			intersections.append({
-				"point": ray1_intersect,
-				"ray_source": "ray1",
-				"source_position": start_wave_position
-			})
-		
-		if has_ray2_intersect:
-			intersections.append({
-				"point": ray2_intersect,
-				"ray_source": "ray2", 
-				"source_position": end_wave_position
-			})
-		
-		for intersection in intersections:
-			var intersect_point = intersection["point"]
-			var dist_from_point1 = point1.distance_to(intersect_point)
-			var dist_from_point2 = point2.distance_to(intersect_point)
-			
-			var current_pos = "startPos" if dist_from_point1 < dist_from_point2 else "endPos"
-			
-			valid_points.append({
-				"position": intersect_point,
-				"currentPos": current_pos,
-				"is_original": false,
-				"is_clipped": true,
-				"ray_source": intersection["ray_source"],
-				"source_position": intersection["source_position"]
-			})
-		
-		# DEBUG: If we detected crossing but no intersections, manually calculate them
-		if valid_points.size() == 0 and (check1_ray1 != check2_ray1) and (check1_ray2 != check2_ray2):
-			print("  WARNING: Crossing detected but no intersections found!")
-			print("  Manually calculating intersection points...")
-			
-			# Since the line crosses between rays, we should intersect with both rays
-			# Let's try a more robust intersection calculation
-			var robust_ray1_intersect = robust_line_intersection(start_wave_position, ray1_dir, point1, point2)
-			var robust_ray2_intersect = robust_line_intersection(end_wave_position, ray2_dir, point1, point2)
-			
-			if robust_ray1_intersect:
-				intersections.append({
-					"point": robust_ray1_intersect,
-					"ray_source": "ray1",
-					"source_position": start_wave_position
-				})
-				print("  Robust ray1 intersection: ", robust_ray1_intersect)
-			
-			if robust_ray2_intersect:
-				intersections.append({
-					"point": robust_ray2_intersect,
-					"ray_source": "ray2", 
-					"source_position": end_wave_position
-				})
-				print("  Robust ray2 intersection: ", robust_ray2_intersect)
-			
-			# Add the robust intersections
-			for intersection in intersections:
-				var intersect_point = intersection["point"]
-				var dist_from_point1 = point1.distance_to(intersect_point)
-				var dist_from_point2 = point2.distance_to(intersect_point)
-				
-				var current_pos = "startPos" if dist_from_point1 < dist_from_point2 else "endPos"
-				
-				valid_points.append({
-					"position": intersect_point,
-					"currentPos": current_pos,
-					"is_original": false,
-					"is_clipped": true,
-					"ray_source": intersection["ray_source"],
-					"source_position": intersection["source_position"]
-				})
-		
-		print("  Valid points found: ", valid_points.size())
-		
-		if valid_points.size() >= 2:
-			valid_points.sort_custom(func(a, b): 
-				return point1.distance_to(a["position"]) < point1.distance_to(b["position"])
-			)
-			
-			var clipped_segment = [valid_points[0], valid_points[valid_points.size() - 1]]
-			
-			if clipped_segment.size() == 2:
-				var dist1 = point1.distance_to(clipped_segment[0]["position"])
-				var dist2 = point1.distance_to(clipped_segment[1]["position"])
-				
-				if dist1 <= dist2:
-					clipped_segment[0]["currentPos"] = "startPos"
-					clipped_segment[1]["currentPos"] = "endPos"
-				else:
-					clipped_segment[0]["currentPos"] = "endPos"
-					clipped_segment[1]["currentPos"] = "startPos"
-			
-			for point_data in clipped_segment:
-				var source_pos = point_data.get("source_position", start_wave_position)
-				var vector_to_point = point_data["position"] - source_pos
-				var angle = normalize_angle(vector_to_point.angle())
-				var angle_degrees = rad_to_deg(angle)
-				var distance = source_pos.distance_to(point_data["position"])
-				
-				var dictOrder = {
-					"start_position": source_pos,
-					"position": point_data["position"],
-					"angle": angle,
-					"angle_degrees": angle_degrees,
-					"distance": distance,
-					"powerName": structure.get("powerName", "unknown"),
-					"currentPos": point_data["currentPos"],
-					"id": structure["id"],
-					"damage": damage,
-					"ray_source": point_data.get("ray_source", "both")
-				}
-				
-				if point_data.get("is_clipped", false):
-					dictOrder["is_clipped"] = true
-				
-				order.append(dictOrder)
-				print("  Added point: ", point_data["position"], " as ", point_data["currentPos"])
-	
-	print("Total structures in order: ", order.size())
-	return order
 
 # More robust intersection function
-func robust_line_intersection(ray_origin: Vector2, ray_dir: Vector2, line_start: Vector2, line_end: Vector2):
-	var line_vec = line_end - line_start
-	var ray_to_line_start = line_start - ray_origin
-	
-	var denominator = ray_dir.x * line_vec.y - ray_dir.y * line_vec.x
-	
-	if abs(denominator) < 0.0001:
-		return null  # Lines are parallel
-	
-	var t = (ray_to_line_start.x * line_vec.y - ray_to_line_start.y * line_vec.x) / denominator
-	var u = (ray_to_line_start.x * ray_dir.y - ray_to_line_start.y * ray_dir.x) / denominator
-	
-	if u >= 0 and u <= 1:  # Intersection point lies on the line segment
-		return ray_origin + t * ray_dir
-	
-	return null
 
 
 func instersection_pos_dir_pos_dir(pos1, dir1, pos2, dir2):
