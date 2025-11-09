@@ -20,45 +20,45 @@ texture = ExtResource("1_d1vt0")
 position = Vector2(929, 559)
 
 [node name="duplicatePoint1" type="Node2D" parent="."]
-position = Vector2(557, 357)
+position = Vector2(654, 240)
 
 [node name="Sprite2D" type="Sprite2D" parent="duplicatePoint1"]
-position = Vector2(-1.25, 63)
-scale = Vector2(0.0351563, 0.96875)
+position = Vector2(-0.999992, 32)
+scale = Vector2(0.0312499, 0.484375)
 texture = ExtResource("1_d1vt0")
 
 [node name="Sprite2D2" type="Sprite2D" parent="duplicatePoint1"]
-position = Vector2(3.25, 63)
-scale = Vector2(0.0351563, 0.96875)
+position = Vector2(3.25, 31.5)
+scale = Vector2(0.0351563, 0.476563)
 texture = ExtResource("1_d1vt0")
 
 [node name="duplicatePoint2" type="Node2D" parent="duplicatePoint1"]
-position = Vector2(3, 128)
+position = Vector2(1, 64)
 
 [node name="wallPoint3" type="Node2D" parent="."]
-position = Vector2(390, 299)
+position = Vector2(251, 256)
 
 [node name="Sprite2D" type="Sprite2D" parent="wallPoint3"]
-position = Vector2(1.25001, 27)
-scale = Vector2(0.0664061, 0.40625)
+position = Vector2(1.25001, 50)
+scale = Vector2(0.0664061, 0.765625)
 texture = ExtResource("1_d1vt0")
 
 [node name="wallPoint4" type="Node2D" parent="wallPoint3"]
-position = Vector2(-1, 60)
+position = Vector2(-1, 99)
 
 [node name="wallPoint5" type="Node2D" parent="."]
-position = Vector2(270, 261)
+position = Vector2(788, 503)
 
 [node name="Sprite2D" type="Sprite2D" parent="wallPoint5"]
-position = Vector2(1.25001, 38)
-scale = Vector2(0.0664061, 0.578125)
+position = Vector2(1.25001, 22)
+scale = Vector2(0.0664061, 0.328125)
 texture = ExtResource("1_d1vt0")
 
 [node name="wallPoint6" type="Node2D" parent="wallPoint5"]
-position = Vector2(0, 84)
+position = Vector2(0, 44)
 
 [node name="mirrorPoint1" type="Node2D" parent="."]
-position = Vector2(300, 576)
+position = Vector2(529, 620)
 
 [node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1"]
 position = Vector2(79.25, 3.00001)

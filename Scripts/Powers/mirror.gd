@@ -11,9 +11,10 @@ func mirror(container,start,end):
 	var end_position=end.position
 	var angle_ray_1= reflect_angle_in_mirror(start_position, end_position, start.angle)
 	var angle_ray_2= reflect_angle_in_mirror(start_position, end_position, end.angle)
-	var order=container.get_structures_between_directions(start,angle_ray_1,end,angle_ray_2,damage)
+	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage)
 	print("mirror order: ---------")
 	print(order)
+	print("mirror order: ---------")
 	var beam= await container.paint_ordered_walls_square(order)
 	
 	var total_damage=await container.processDamage(beam)

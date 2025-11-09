@@ -126,51 +126,82 @@ func paint_ordered_walls(order):
 
 
 func paint_ordered_walls_square(order):
-	var currentStructures=[]
-	var activePower={"distance"=99999999}
-	var currentLines=[]
+	var currentStructures = []
+	var activePower = {"distance": 99999999, "id":-1}
+	var currentLines = []
+	print("this is the order: ",order)
+	# Sort order by distance first to ensure proper processing
 	for element in order:
-		if element["currentPos"]=="startPos":
+		if element["currentPos"] == "startPos":
 			currentStructures.append(element)
-			if element.distance<activePower.distance:
+			if element.distance < activePower.distance:
+				# If there was an active power, create an intermediate end point for it
 				if activePower.has("position"):
-					var newElements=order.filter(func(x): return x.id == activePower.id)
-					var nepos1=newElements[0].position
-					var nepos2=newElements[1].position
-					var neposang1=newElements[0].angle
-					var neposang2=newElements[1].angle
-					var newElementPosition=nepos2+(nepos1-nepos2)*(neposang2-element["angle"])/(neposang2-neposang1)
-					var newdict=activePower.duplicate()
-					newdict.position=newElementPosition
-					newdict.currentPos="endPos"
-					linesDrawn.append(newdict)
-					currentLines.append(newdict)
-				activePower=element
+					var newElements = order.filter(func(x): return x.id == activePower.id)
+					if newElements.size() >= 2:
+						var nepos1 = newElements[0].position
+						var nepos2 = newElements[1].position
+						var dir1=nepos1-nepos2
+						var neposang1 = newElements[0].angle
+						var neposang2 = newElements[1].angle
+						# Use the current element's start_position instead of assuming ray source
+						var ray_source_pos = element["start_position"]
+						#var rayDirection=Vector2(cos(element.angle),sin(element.angle))
+						var rayDirection=element.start_position-element.position
+						var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
+						print("newElementPosition: ",newElementPosition)
+						var newdict = activePower.duplicate()
+						newdict.position = newElementPosition
+						newdict.currentPos = "endPos"
+						newdict.start_position = ray_source_pos  # Use the current element's start position
+						linesDrawn.append(newdict)
+						currentLines.append(newdict)
+				activePower = element
 				linesDrawn.append(element)
 				currentLines.append(element)
 			else:
 				continue
-		elif element["currentPos"]=="endPos":
+				
+		elif element["currentPos"] == "endPos":
 			currentStructures = currentStructures.filter(func(x): return x.id != element.id)
-			if activePower.id==element.id:
+			
+			if activePower.id == element.id:
 				linesDrawn.append(element)
 				currentLines.append(element)
-				if currentStructures.size()>0:
+				
+				if currentStructures.size() > 0:
 					currentStructures.sort_custom(sort_by_distance)
-					activePower=currentStructures[0]
-					var newElements=order.filter(func(x): return x.id == activePower.id)
-					var nepos1=newElements[0].position
-					var nepos2=newElements[1].position
-					var neposang1=newElements[0].angle
-					var neposang2=newElements[1].angle
-					var newElementPosition=nepos2+(nepos1-nepos2)*(neposang2-element["angle"])/(neposang2-neposang1)
-					var newdict=activePower.duplicate()
-					newdict.position=newElementPosition
-					linesDrawn.append(newdict)
-					currentLines.append(newdict)
+					activePower = currentStructures[0]
+					
+					var newElements = order.filter(func(x): return x.id == activePower.id)
+					if newElements.size() >= 2:
+						var nepos1 = newElements[0].position
+						var nepos2 = newElements[1].position
+						var dir1=nepos1-nepos2
+						var neposang1 = newElements[0].angle
+						var neposang2 = newElements[1].angle
+						# Use the current element's start_position instead of assuming ray source
+						var ray_source_pos = element["start_position"]
+						#var rayDirection=Vector2(cos(element.angle),sin(element.angle))
+						var rayDirection=ray_source_pos-element.position
+						var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
+						print("nepos1: ",nepos1)
+						print("dir1: ",dir1)
+						print("ray_source_pos: ",ray_source_pos)
+						print("rayDirection: ",rayDirection)
+						print("newElementPosition: ",newElementPosition)
+						print("newElements: ",newElements)
+						print("element: ",element)
+						var newdict = activePower.duplicate()
+						newdict.position = newElementPosition
+						newdict.currentPos = "endPos"
+						newdict.start_position = ray_source_pos  # Use the current element's start position
+						linesDrawn.append(newdict)
+						currentLines.append(newdict)
 				else:
-					activePower={"distance"=99999999}
-	print("currentLines: ",currentLines)
+					activePower = {"distance": 99999999,"id":-1}
+	
+	print("currentLines: ", currentLines)
 	setupWavesSquare(currentLines)
 	return currentLines
 
@@ -551,8 +582,227 @@ func load_json_config(file_path: String):
 		push_error("JSON Parse Error: " + json.get_error_message() + " at line " + str(json.get_error_line()))
 		return null
 	return json.data
+enum betweenDirectionsCase {
+	top,
+	bottom,
+	both_toaching,
+	center,
+	none
+	}
 
 func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage):
+	var start_wave_position = start["position"]
+	var end_wave_position = end["position"]
+	var angle1 = angle_ray_1
+	var angle2 = angle_ray_2
+	
+	var order = []
+	
+	# Calculate ray directions
+	var ray1_dir = Vector2(cos(angle1), sin(angle1))
+	var ray2_dir = Vector2(cos(angle2), sin(angle2))
+	print("start: ",start)
+	print("ray1_dir ",ray1_dir)
+	print("structures: ", Structures)
+	
+	for structure in Structures:
+		if structure.id == start.id:
+			continue
+		var struct_pos=structure.startPos
+		var ypos=start_wave_position.y+ray1_dir.y*(struct_pos.x-start_wave_position.x)/ray1_dir.x
+		var ypos2=end_wave_position.y+ray2_dir.y*(struct_pos.x-end_wave_position.x)/ray2_dir.x
+		var topypos=struct_pos.y>ypos
+		var topypos2=struct_pos.y>ypos2
+		
+		var struct_end_pos=structure.endPos
+		var ypos_end=start_wave_position.y+ray1_dir.y*(struct_end_pos.x-start_wave_position.x)/ray1_dir.x
+		var ypos2_end=end_wave_position.y+ray2_dir.y*(struct_end_pos.x-end_wave_position.x)/ray2_dir.x
+		var topypos_end=struct_end_pos.y>ypos_end
+		var topypos2_end=struct_end_pos.y>ypos2_end
+		var crosses_ray1 = (struct_pos.y > ypos) != (struct_end_pos.y > ypos_end)
+		var crosses_ray2 = (struct_pos.y > ypos2) != (struct_end_pos.y > ypos2_end)
+		
+		# Check if structure is between both rays (one side above both rays, other side below both rays)
+		var between_rays = (topypos!=topypos2_end)
+		var currentCase=betweenDirectionsCase.none
+		if (crosses_ray1 and crosses_ray2):
+			currentCase=betweenDirectionsCase.both_toaching
+		elif crosses_ray1:
+			currentCase=betweenDirectionsCase.top
+		elif crosses_ray2:
+			currentCase=betweenDirectionsCase.bottom
+		elif between_rays:
+			currentCase=betweenDirectionsCase.center
+		print("---------------------")
+		print("structure: ",structure)
+		print("ypos: ",ypos)
+		print("ypos2: ",ypos2)
+		print("topypos: ",topypos)
+		print("topypos2: ",topypos2)
+		print("ypos_end: ",ypos_end)
+		print("ypos2_end: ",ypos2_end)
+		print("topypos_end: ",topypos_end)
+		print("topypos2_end: ",topypos2_end)
+		print("crosses_ray1: ",crosses_ray1)
+		print("crosses_ray2: ",crosses_ray2)
+		print("between_rays: ",between_rays)
+		print("---------------------")
+		match currentCase:
+			betweenDirectionsCase.both_toaching:
+				var position_struct=Vector2(struct_pos.x,ypos)
+				var start_position=start_wave_position
+				var angle=angle_ray_1
+				var angle_degrees=rad_to_deg(angle)
+				var distance=start_position.distance_to(position_struct)+start.distance
+				var dictOrder = {
+					"start_position": start_position,
+					"position": position_struct,
+					"angle": angle,
+					"angle_degrees": angle_degrees,
+					"distance": distance,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "startPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder)
+				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
+				var start_position2=end_wave_position
+				var angle_2=angle_ray_2
+				var angle_degrees2=rad_to_deg(angle_2)
+				var distance2=start_position2.distance_to(position_struct2)+end.distance
+				var dictOrder2 = {
+					"start_position": start_position2,
+					"position": position_struct2,
+					"angle": angle_2,
+					"angle_degrees": angle_degrees2,
+					"distance": distance2,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "endPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder2)
+			betweenDirectionsCase.top:
+				print("topCase")
+				var position_struct=Vector2(struct_pos.x,ypos)
+				var start_position=start_wave_position
+				var angle=angle_ray_1
+				var angle_degrees=rad_to_deg(angle)
+				var distance=start_position.distance_to(position_struct)+start.distance
+				var dictOrder = {
+					"start_position": start_position,
+					"position": position_struct,
+					"angle": angle,
+					"angle_degrees": angle_degrees,
+					"distance": distance,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "startPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder)
+				var position_struct2=struct_end_pos
+				var alphaFactor=(struct_end_pos.y-ypos2_end)/(ypos-ypos2_end)
+				var start_position2=end_wave_position+alphaFactor*(start_wave_position-end_wave_position)
+				var angle_2=angle_ray_1+alphaFactor*(angle_ray_2-angle_ray_1)
+				var angle_degrees2=rad_to_deg(angle_2)
+				var distance2=start_position2.distance_to(position_struct2)+end.distance
+				var dictOrder2 = {
+					"start_position": start_position2,
+					"position": position_struct2,
+					"angle": angle_2,
+					"angle_degrees": angle_degrees2,
+					"distance": distance2,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "endPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder2)
+			betweenDirectionsCase.bottom:
+				var position_struct=struct_pos
+				var alphaFactor=(struct_pos.y-ypos2_end)/(ypos-ypos2_end)
+				var start_position=end_wave_position+alphaFactor*(start_wave_position-end_wave_position)
+				var angle=angle_ray_2+alphaFactor*(angle_ray_1-angle_ray_2)
+				var angle_degrees=rad_to_deg(angle)
+				var distance=start_position.distance_to(position_struct)+start.distance
+				var dictOrder = {
+					"start_position": start_position,
+					"position": position_struct,
+					"angle": angle,
+					"angle_degrees": angle_degrees,
+					"distance": distance,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "startPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder)
+				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
+				var start_position2=end_wave_position
+				var angle_2=angle_ray_1+alphaFactor*(angle_ray_2-angle_ray_1)
+				var angle_degrees2=rad_to_deg(angle_2)
+				var distance2=start_position2.distance_to(position_struct2)+end.distance
+				var dictOrder2 = {
+					"start_position": start_position2,
+					"position": position_struct2,
+					"angle": angle_2,
+					"angle_degrees": angle_degrees2,
+					"distance": distance2,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "endPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder2)
+				print("order appended: ",order)
+			betweenDirectionsCase.center:
+				var position_struct=struct_pos
+				var alphaFactor=(struct_pos.y-ypos2_end)/(ypos-ypos2_end)
+				var start_position=end_wave_position+alphaFactor*(start_wave_position-end_wave_position)
+				var angle=angle_ray_2+alphaFactor*(angle_ray_1-angle_ray_2)
+				var angle_degrees=rad_to_deg(angle)
+				var distance=start_position.distance_to(position_struct)+start.distance
+				var dictOrder = {
+					"start_position": start_position,
+					"position": position_struct,
+					"angle": angle,
+					"angle_degrees": angle_degrees,
+					"distance": distance,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "startPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder)
+				var position_struct2=struct_end_pos
+				var alphaFactor2=(struct_end_pos.y-ypos2_end)/(ypos-ypos2_end)
+				var start_position2=end_wave_position+alphaFactor2*(start_wave_position-end_wave_position)
+				var angle_2=angle_ray_1+alphaFactor*(angle_ray_2-angle_ray_1)
+				var angle_degrees2=rad_to_deg(angle_2)
+				var distance2=start_position2.distance_to(position_struct2)+end.distance
+				var dictOrder2 = {
+					"start_position": start_position2,
+					"position": position_struct2,
+					"angle": angle_2,
+					"angle_degrees": angle_degrees2,
+					"distance": distance2,
+					"powerName": structure.get("powerName", "unknown"),
+					"currentPos": "endPos",
+					"id": structure["id"],
+					"damage": damage
+				}
+				order.append(dictOrder2)
+			betweenDirectionsCase.none:
+				continue
+	print("stop")
+	order.sort_custom(sort_by_angle_then_distance)
+	return order
+
+
+
+func get_structures_between_directionsV_1(start, angle_ray_1, end, angle_ray_2, damage):
 	var start_wave_position = start["position"]
 	var end_wave_position = end["position"]
 	var angle1 = angle_ray_1
@@ -789,6 +1039,23 @@ func robust_line_intersection(ray_origin: Vector2, ray_dir: Vector2, line_start:
 		return ray_origin + t * ray_dir
 	
 	return null
+
+
+func instersection_pos_dir_pos_dir(pos1, dir1, pos2, dir2):
+	# Standard line intersection formula for:
+	# Line1: pos1 + t * dir1
+	# Line2: pos2 + u * dir2
+	
+	var cross = dir1.x * dir2.y - dir1.y * dir2.x
+	
+	# Check if lines are parallel
+	if abs(cross) < 0.0001:
+		return null
+	
+	var diff = pos2 - pos1
+	var t = (diff.x * dir2.y - diff.y * dir2.x) / cross
+	
+	return pos1 + t * dir1
 
 func save_json_config(object, path):
 	var user_dir = OS.get_user_data_dir()
