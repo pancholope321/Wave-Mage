@@ -1,7 +1,7 @@
 extends Node
 
 #apply damage to the enemy is surface area times damage
-func enemy(container,start,end):
+func enemy(container,start,end,context):
 	print("enemy")
 	print("start: ",start)
 	print("end: ",end)

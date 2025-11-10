@@ -3,8 +3,7 @@ extends Node2D
 @export var wave_start:Node2D
 @export var wave_end1:Node2D
 @export var wave_end2:Node2D
-@export var wall_point_1:Node2D
-@export var wall_point_2:Node2D
+@export var duplicator:Area2D
 @export var wall_point_3:Node2D
 @export var wall_point_4:Node2D
 @export var wall_point_5:Node2D
@@ -21,31 +20,37 @@ var Structures = []
 var power_file_relation
 func _ready() -> void:
 	power_file_relation = await load_json_config("res://ConfigFiles/power_file_relation.json")
-	attack(1)
+	#attack(1)
 
 # when attack is pressed the wave is propagating
 func attack(damage,start_position=wave_start.position):
 	# this are the structures that are placed on the canvas (example)
 	# the powerName is the actual function name, so wall calls func wall
 	var listOfPowers=[{"id":1,"powerName": "duplicatePower",
-		"startPos": wall_point_1.global_position, 
-		"endPos": wall_point_2.global_position},
+		"startPos": duplicator.get_two_points()[0].global_position, 
+		"endPos": duplicator.get_two_points()[1].global_position,
+		"node":duplicator},
 		{"id":2,"powerName": "wall",
 		"startPos": wall_point_3.global_position, 
-		"endPos": wall_point_4.global_position},
+		"endPos": wall_point_4.global_position,
+		"node":wall_point_3},
 		{"id":3,"powerName": "wall",
 		"startPos": wall_point_5.global_position, 
-		"endPos": wall_point_6.global_position},
+		"endPos": wall_point_6.global_position,
+		"node":wall_point_5},
 		{"id":4,"powerName":"mirror",
 		"startPos": mirror_point_2.global_position, 
-		"endPos": mirror_point_1.global_position},
+		"endPos": mirror_point_1.global_position,
+		"node":mirror_point_1},
 		{"id":5,"powerName":"mirror",
 		"startPos": mirror_point_4.global_position, 
-		"endPos": mirror_point_3.global_position}]
+		"endPos": mirror_point_3.global_position,
+		"node":mirror_point_3}]
 	var dict = {"id":0,
 		"powerName": "enemy",
 		"startPos": wave_end1.global_position, 
-		"endPos": wave_end2.global_position
+		"endPos": wave_end2.global_position,
+		"node":wave_end1
 	}
 	
 	Structures.append(dict)
@@ -138,6 +143,14 @@ func clearcurrentLines(currentLines):
 			finalOrder.append(currentLines[x])
 			finalOrder.append(currentLines[x+1])
 	return finalOrder
+
+func get_structure_context(id):
+	for structure in Structures:
+		if structure.id == id:
+			if structure.node.has_method("get_context"):
+				return structure.get_context()
+			break
+	return {}
 
 
 func paint_ordered_walls_square(order):
@@ -406,8 +419,8 @@ func processDamage(firstBeam):
 			else:
 				print("Failed to load script: ", filepath)
 				continue
-		
-		totalDamage += script_instances[filepath].call(functionName, self, firstBeam[i*2], firstBeam[i*2+1])
+		var context=get_structure_context(firstBeam[i*2].id)
+		totalDamage += script_instances[filepath].call(functionName, self, firstBeam[i*2], firstBeam[i*2+1],context)
 	return totalDamage
 
 
@@ -869,3 +882,7 @@ func save_json_config(object, path):
 	else:
 		print("Error: Could not save file to path")
 	return
+
+
+func _on_button_pressed() -> void:
+	attack(1)

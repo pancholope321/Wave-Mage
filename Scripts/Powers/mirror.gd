@@ -1,12 +1,16 @@
 extends Node
 
 # nothing function
-func mirror(container,start,end):
-	if start.position.y<start.start_position.y:
-		return await mirror_inv(container,start,end)
+func mirror(container,start,end,context):
+	print("context: ",context)
+	if context.has("mirror_inverted"):
+		if context.mirror_inverted:
+			return await mirror_inv(container,start,end)
 	print("mirror")
 	print("start: ",start)
 	print("end: ",end)
+	if start.position.y<start.start_position.y:
+		return 0
 	var start_wave_position=(start.position + end.position)/2.0
 	var damage=(start.damage+end.damage)/2.0
 	var start_position=start.position
@@ -24,6 +28,8 @@ func mirror_inv(container,start,end):
 	print("mirror_inverted")
 	print("start: ",start)
 	print("end: ",end)
+	if start.position.y>start.start_position.y:
+		return 0
 	var start_wave_position=(start.position + end.position)/2.0
 	var damage=(start.damage+end.damage)/2.0
 	var start_position=start.position

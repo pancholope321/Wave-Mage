@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4meincvq4xs"]
+
+[ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_84w76"]
+[ext_resource type="Texture2D" uid="uid://b0vjsprtca3kv" path="res://Sprites/Structure Sprites/silver_duplicator.png" id="1_v6w0w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6w0w"]
+size = Vector2(28, 64)
+
+[node name="duplicatePoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+script = ExtResource("1_84w76")
+point1 = NodePath(".")
+point2 = NodePath("duplicatePoint2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_v6w0w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3, 31.75)
+scale = Vector2(0.711, 0.711)
+texture = ExtResource("1_v6w0w")
+
+[node name="duplicatePoint2" type="Node2D" parent="."]
+position = Vector2(0, 64)

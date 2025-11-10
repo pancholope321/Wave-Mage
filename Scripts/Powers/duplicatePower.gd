@@ -1,7 +1,7 @@
 extends Node
 
 # here we need to apply the duplicate wave function, logic comes next
-func duplicatePower(container,start,end):
+func duplicatePower(container,start,end,context):
 	print("duplicate")
 	print("start: ",start)
 	print("end: ",end)
