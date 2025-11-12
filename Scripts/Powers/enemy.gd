@@ -6,7 +6,7 @@ func enemy(container,start,end,context):
 	print("start: ",start)
 	print("end: ",end)
 	var vector=start.position - end.position
-	var distance=vector.length()
+	var distance=abs(vector.length())
 	var damageMult=(start.damage+end.damage)/200.0
 	var damage=damageMult*distance
 	return damage
