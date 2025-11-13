@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://0rn3vhsia6i5"]
+
+[ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_b2u6c"]
+[ext_resource type="Texture2D" uid="uid://co765vsy1ce3v" path="res://Sprites/Structure Sprites/silver_mirror.png" id="2_o055h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y1olj"]
+size = Vector2(152, 28)
+
+[node name="mirrorPoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+script = ExtResource("1_b2u6c")
+point1 = NodePath(".")
+point2 = NodePath("mirrorPoint2")
+horizontal = true
+mirror = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(66, -2.38419e-07)
+scale = Vector2(1.42, 1.42)
+texture = ExtResource("2_o055h")
+
+[node name="mirrorPoint2" type="Node2D" parent="."]
+position = Vector2(130, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(65, 0)
+shape = SubResource("RectangleShape2D_y1olj")

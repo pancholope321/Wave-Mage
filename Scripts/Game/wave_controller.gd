@@ -9,8 +9,7 @@ extends Node2D
 @export var wall_point_5:Node2D
 @export var wall_point_6:Node2D
 
-@export var mirror_point_1:Node2D
-@export var mirror_point_2:Node2D
+@export var mirror:Node2D
 
 @export var mirror_point_3:Node2D
 @export var mirror_point_4:Node2D
@@ -39,9 +38,9 @@ func attack(damage,start_position=wave_start.position):
 		"endPos": wall_point_6.global_position,
 		"node":wall_point_5},
 		{"id":4,"powerName":"mirror",
-		"startPos": mirror_point_2.global_position, 
-		"endPos": mirror_point_1.global_position,
-		"node":mirror_point_1},
+		"startPos": mirror.get_two_points()[0].global_position, 
+		"endPos": mirror.get_two_points()[1].global_position,
+		"node":mirror},
 		{"id":5,"powerName":"mirror",
 		"startPos": mirror_point_4.global_position, 
 		"endPos": mirror_point_3.global_position,
@@ -148,7 +147,7 @@ func get_structure_context(id):
 	for structure in Structures:
 		if structure.id == id:
 			if structure.node.has_method("get_context"):
-				return structure.get_context()
+				return structure.node.get_context()
 			break
 	return {}
 
