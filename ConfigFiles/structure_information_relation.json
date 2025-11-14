@@ -1,0 +1,23 @@
+{
+"power_player_functions":{
+	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath"},
+	"mirror":{"structure":"res://Structures/mirror.tscn"},
+	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"}
+},
+"power_image":{
+	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
+	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png"
+},
+"power_name":{
+	"mirror":"Mirror",
+	"duplicatePower":"Duplicator"
+},
+"power_description":{
+	"mirror":"Reflects the wave",
+	"duplicatePower":"Duplicates incoming waves"
+},
+"power_costs":{
+	"mirror":3,
+	"duplicatePower":3
+}
+}

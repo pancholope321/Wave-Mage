@@ -1,60 +1,89 @@
 extends Node2D
 
 @export var wave_start:Node2D
-@export var wave_end1:Node2D
-@export var wave_end2:Node2D
-@export var duplicator:Area2D
-@export var wall_point_3:Node2D
-@export var wall_point_4:Node2D
-@export var wall_point_5:Node2D
-@export var wall_point_6:Node2D
+@export var enemyPoint1:Area2D
+@export var enemyPoint2:Node2D
 
-@export var mirror:Node2D
-
-@export var mirror_point_3:Node2D
-@export var mirror_point_4:Node2D
 var script_instances = {}
 
 var Structures = []
 var power_file_relation
 func _ready() -> void:
-	power_file_relation = await load_json_config("res://ConfigFiles/power_file_relation.json")
+	power_file_relation = await load_json_config("res://ConfigFiles/structure_file_relation.json")
 	#attack(1)
 
+var listOfPowers=[]
+func create_list_of_powers(PowerJson,structureJson):
+	listOfPowers=[]
+	var dict = {"id":0,
+		"powerName": "enemy",
+		"startPos": enemyPoint1, 
+		"endPos": enemyPoint2,
+		"node":enemyPoint1
+	}
+	listOfPowers.append(dict)
+	var keys=PowerJson.keys()
+	var index=1
+	for key in keys:
+		for i in range(PowerJson[key]):
+			var path=structureJson[key].structure
+			var pathloaded=load(path)
+			var instance=pathloaded.instantiate()
+			add_child(instance)
+			instance.setup_wave_starting_point(wave_start.global_position)
+			var newDict={
+			"id":index,
+			"powerName": key,
+			"startPos": instance.get_two_points()[0], 
+			"endPos": instance.get_two_points()[1],
+			"node":instance}
+			index+=1
+			listOfPowers.append(newDict)
+	print("listOfPowers: ",listOfPowers)
+	pass
+	
+	
 # when attack is pressed the wave is propagating
 func attack(damage,start_position=wave_start.position):
 	# this are the structures that are placed on the canvas (example)
 	# the powerName is the actual function name, so wall calls func wall
-	var listOfPowers=[{"id":1,"powerName": "duplicatePower",
-		"startPos": duplicator.get_two_points()[0].global_position, 
-		"endPos": duplicator.get_two_points()[1].global_position,
-		"node":duplicator},
-		{"id":2,"powerName": "wall",
-		"startPos": wall_point_3.global_position, 
-		"endPos": wall_point_4.global_position,
-		"node":wall_point_3},
-		{"id":3,"powerName": "wall",
-		"startPos": wall_point_5.global_position, 
-		"endPos": wall_point_6.global_position,
-		"node":wall_point_5},
-		{"id":4,"powerName":"mirror",
-		"startPos": mirror.get_two_points()[0].global_position, 
-		"endPos": mirror.get_two_points()[1].global_position,
-		"node":mirror},
-		{"id":5,"powerName":"mirror",
-		"startPos": mirror_point_4.global_position, 
-		"endPos": mirror_point_3.global_position,
-		"node":mirror_point_3}]
-	var dict = {"id":0,
-		"powerName": "enemy",
-		"startPos": wave_end1.global_position, 
-		"endPos": wave_end2.global_position,
-		"node":wave_end1
-	}
+	#var listOfPowers=[{"id":1,"powerName": "duplicatePower",
+		#"startPos": duplicator.get_two_points()[0].global_position, 
+		#"endPos": duplicator.get_two_points()[1].global_position,
+		#"node":duplicator},
+		#{"id":2,"powerName": "wall",
+		#"startPos": wall_point_3.global_position, 
+		#"endPos": wall_point_4.global_position,
+		#"node":wall_point_3},
+		#{"id":3,"powerName": "wall",
+		#"startPos": wall_point_5.global_position, 
+		#"endPos": wall_point_6.global_position,
+		#"node":wall_point_5},
+		#{"id":4,"powerName":"mirror",
+		#"startPos": mirror.get_two_points()[0].global_position, 
+		#"endPos": mirror.get_two_points()[1].global_position,
+		#"node":mirror},
+		#{"id":5,"powerName":"mirror",
+		#"startPos": mirror_point_4.global_position, 
+		#"endPos": mirror_point_3.global_position,
+		#"node":mirror_point_3}]
+	#var dict = {"id":0,
+		#"powerName": "enemy",
+		#"startPos": enemyPoint1.global_position, 
+		#"endPos": enemyPoint2.global_position,
+		#"node":enemyPoint1
+	#}
 	
-	Structures.append(dict)
+	#Structures.append(dict)
+	Structures=[]
 	for i in range(listOfPowers.size()):
+		var powerAdded=listOfPowers[i]
+		print("power_added ",powerAdded)
+		powerAdded.startPos=powerAdded.node.get_two_points()[0].global_position
+		powerAdded.endPos=powerAdded.node.get_two_points()[1].global_position
 		Structures.append(listOfPowers[i])
+		
+			
 	
 	var start_wave_position = wave_start.global_position
 	var order = []
@@ -79,6 +108,7 @@ func attack(damage,start_position=wave_start.position):
 			order.append(dictOrder)
 	
 	order.sort_custom(sort_by_angle_then_distance)
+	print("order: ",order)
 	var firstBeam=paint_ordered_walls(order)
 	var totalDamage=processDamage(firstBeam)
 	
@@ -112,6 +142,8 @@ func paint_ordered_walls(order):
 				continue
 		elif element["currentPos"]=="endPos":
 			currentStructures = currentStructures.filter(func(x): return x.id != element.id)
+			print("activePower ",activePower)
+			print("element ",element)
 			if activePower.id==element.id:
 				linesDrawn.append(element)
 				currentLines.append(element)

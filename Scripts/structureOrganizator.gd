@@ -6,10 +6,12 @@ extends Area2D
 @export var horizontal=false
 @export var mirror=false
 @export var inverted=false
+@export var mobile=true
 
 var is_dragging=false
 var mouse_offset=Vector2(0,0)
 var waveStartingPoint=Vector2(576,324)
+
 func setup_wave_starting_point(point):
 	waveStartingPoint=point
 
@@ -22,11 +24,14 @@ func get_two_points():
 	return [point1,point2]
 
 func _input_event(viewport, event, shape_idx):
+	if !mobile:
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
+			# Set this as the topmost draggable object
+			get_viewport().set_input_as_handled()
 			is_dragging = true
 			mouse_offset = global_position - get_global_mouse_position()
-			#initial_position = global_position
 		elif event.is_released():
 			is_dragging = false
 

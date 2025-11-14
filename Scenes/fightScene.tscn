@@ -1,10 +1,12 @@
 [gd_scene load_steps=6 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
+[ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_gn0l3"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
-[ext_resource type="PackedScene" uid="uid://c4meincvq4xs" path="res://Structures/duplicator.tscn" id="2_yk4my"]
-[ext_resource type="PackedScene" uid="uid://0rn3vhsia6i5" path="res://Structures/mirror.tscn" id="3_57ar5"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aek1"]
+size = Vector2(182, 260)
 
 [node name="fight" type="Node2D"]
 
@@ -14,73 +16,34 @@ anchor_mode = 0
 [node name="waveStart" type="Node2D" parent="."]
 position = Vector2(198, 327)
 
-[node name="waveEnd1" type="Node2D" parent="."]
+[node name="enemyP1" type="Area2D" parent="." node_paths=PackedStringArray("point1", "point2")]
 position = Vector2(930, 149)
+script = ExtResource("1_gn0l3")
+point1 = NodePath(".")
+point2 = NodePath("enemyP2")
+mobile = false
 
-[node name="Sprite2D" type="Sprite2D" parent="waveEnd1"]
+[node name="Sprite2D" type="Sprite2D" parent="enemyP1"]
 position = Vector2(89.5, 204)
 scale = Vector2(1.42969, 3.35938)
 texture = ExtResource("1_d1vt0")
 
-[node name="waveEnd2" type="Node2D" parent="."]
-position = Vector2(929, 559)
+[node name="enemyP2" type="Node2D" parent="enemyP1"]
+position = Vector2(-1, 410)
 
-[node name="duplicatePoint1" parent="." instance=ExtResource("2_yk4my")]
-position = Vector2(545, 488)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyP1"]
+position = Vector2(81, 120)
+shape = SubResource("RectangleShape2D_7aek1")
 
-[node name="wallPoint3" type="Node2D" parent="."]
-position = Vector2(275, 282)
-
-[node name="Sprite2D" type="Sprite2D" parent="wallPoint3"]
-position = Vector2(1.25001, 50)
-scale = Vector2(0.0664061, 0.765625)
-texture = ExtResource("1_d1vt0")
-
-[node name="wallPoint4" type="Node2D" parent="wallPoint3"]
-position = Vector2(-1, 99)
-
-[node name="wallPoint5" type="Node2D" parent="."]
-position = Vector2(414, 213)
-
-[node name="Sprite2D" type="Sprite2D" parent="wallPoint5"]
-position = Vector2(-2.86102e-06, 22)
-scale = Vector2(0.0625042, 0.335937)
-texture = ExtResource("1_d1vt0")
-
-[node name="wallPoint6" type="Node2D" parent="wallPoint5"]
-position = Vector2(0, 44)
-
-[node name="mirrorPoint1" parent="." instance=ExtResource("3_57ar5")]
-position = Vector2(310, 642)
-
-[node name="mirrorPoint3" type="Node2D" parent="."]
-position = Vector2(724, 142)
-
-[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint3"]
-position = Vector2(-51, 0)
-scale = Vector2(0.822174, 0.0273437)
-texture = ExtResource("1_d1vt0")
-
-[node name="mirrorPoint4" type="Node2D" parent="mirrorPoint3"]
-position = Vector2(-101, 1)
-
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "duplicator", "wall_point_3", "wall_point_4", "wall_point_5", "wall_point_6", "mirror", "mirror_point_3", "mirror_point_4")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "enemyPoint1", "enemyPoint2")]
 script = ExtResource("1_viax6")
 wave_start = NodePath("../waveStart")
-wave_end1 = NodePath("../waveEnd1")
-wave_end2 = NodePath("../waveEnd2")
-duplicator = NodePath("../duplicatePoint1")
-wall_point_3 = NodePath("../wallPoint3")
-wall_point_4 = NodePath("../wallPoint3/wallPoint4")
-wall_point_5 = NodePath("../wallPoint5")
-wall_point_6 = NodePath("../wallPoint5/wallPoint6")
-mirror = NodePath("../mirrorPoint1")
-mirror_point_3 = NodePath("../mirrorPoint3")
-mirror_point_4 = NodePath("../mirrorPoint3/mirrorPoint4")
+enemyPoint1 = NodePath("../enemyP1")
+enemyPoint2 = NodePath("../enemyP1/enemyP2")
 
-[node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("listStructures")]
+[node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
-listStructures = [NodePath("../duplicatePoint1")]
+waveController = NodePath("../waveController")
 
 [node name="fightController" type="Node" parent="."]
 
@@ -91,10 +54,6 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -14.0
-offset_right = -8.0
-offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
