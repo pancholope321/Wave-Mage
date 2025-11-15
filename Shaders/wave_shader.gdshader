@@ -6,6 +6,8 @@ uniform float wave_frequency = 120.0;
 uniform float min_alpha = 0.2;
 uniform float max_alpha = 1.0;
 uniform vec2 triangle_points[3];
+uniform float inner_radius = -0.1;
+uniform float outer_radius = 0.0;
 
 void fragment() {
     vec2 uv = UV;
@@ -27,13 +29,21 @@ void fragment() {
     
     // Check if point is in triangle
     if ((u >= 0.0) && (v >= 0.0) && (u + v <= 1.0)) {
-        // Inside triangle - apply wave effect
+        // Inside triangle - calculate distance from origin
         float dist = distance(uv, origin);
-        float wave = sin(dist * wave_frequency - TIME * wave_speed);
-        float alpha_wave = (wave + 1.0) * 0.5;
-        float alpha = mix(min_alpha, max_alpha, alpha_wave);
         
-        COLOR = vec4(COLOR.rgb, alpha);
+        // Check if distance is within the adjustable band
+        if (dist >= inner_radius && dist <= outer_radius) {
+            // Within the band - apply wave effect
+            float wave = sin(dist * wave_frequency - TIME * wave_speed);
+            float alpha_wave = (wave + 1.0) * 0.5;
+            float alpha = mix(min_alpha, max_alpha, alpha_wave);
+            
+            COLOR = vec4(COLOR.rgb, alpha);
+        } else {
+            // Outside the band - transparent
+            COLOR = vec4(0.0);
+        }
     } else {
         // Outside triangle - transparent
         COLOR = vec4(0.0);

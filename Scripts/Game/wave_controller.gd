@@ -39,46 +39,17 @@ func create_list_of_powers(PowerJson,structureJson):
 			"node":instance}
 			index+=1
 			listOfPowers.append(newDict)
-	print("listOfPowers: ",listOfPowers)
 	pass
 	
 	
 # when attack is pressed the wave is propagating
+var list_of_shader_order=[]
 func attack(damage,start_position=wave_start.position):
-	# this are the structures that are placed on the canvas (example)
-	# the powerName is the actual function name, so wall calls func wall
-	#var listOfPowers=[{"id":1,"powerName": "duplicatePower",
-		#"startPos": duplicator.get_two_points()[0].global_position, 
-		#"endPos": duplicator.get_two_points()[1].global_position,
-		#"node":duplicator},
-		#{"id":2,"powerName": "wall",
-		#"startPos": wall_point_3.global_position, 
-		#"endPos": wall_point_4.global_position,
-		#"node":wall_point_3},
-		#{"id":3,"powerName": "wall",
-		#"startPos": wall_point_5.global_position, 
-		#"endPos": wall_point_6.global_position,
-		#"node":wall_point_5},
-		#{"id":4,"powerName":"mirror",
-		#"startPos": mirror.get_two_points()[0].global_position, 
-		#"endPos": mirror.get_two_points()[1].global_position,
-		#"node":mirror},
-		#{"id":5,"powerName":"mirror",
-		#"startPos": mirror_point_4.global_position, 
-		#"endPos": mirror_point_3.global_position,
-		#"node":mirror_point_3}]
-	#var dict = {"id":0,
-		#"powerName": "enemy",
-		#"startPos": enemyPoint1.global_position, 
-		#"endPos": enemyPoint2.global_position,
-		#"node":enemyPoint1
-	#}
-	
-	#Structures.append(dict)
 	Structures=[]
+	list_of_shader_order=[]
+	#get current structure position
 	for i in range(listOfPowers.size()):
 		var powerAdded=listOfPowers[i]
-		print("power_added ",powerAdded)
 		powerAdded.startPos=powerAdded.node.get_two_points()[0].global_position
 		powerAdded.endPos=powerAdded.node.get_two_points()[1].global_position
 		Structures.append(listOfPowers[i])
@@ -87,7 +58,7 @@ func attack(damage,start_position=wave_start.position):
 	
 	var start_wave_position = wave_start.global_position
 	var order = []
-	
+	var order_activation=0
 	for structure in Structures:
 		for pos in ["startPos","endPos"]:
 			var vector_to_pos = structure[pos] - start_wave_position
@@ -103,17 +74,23 @@ func attack(damage,start_position=wave_start.position):
 				"powerName": structure.get("powerName", "unknown"),
 				"currentPos":pos,
 				"id":structure["id"],
-				"damage":damage
+				"damage":damage,
+				"order_activation":order_activation
 			}
 			order.append(dictOrder)
 	
 	order.sort_custom(sort_by_angle_then_distance)
-	print("order: ",order)
 	var firstBeam=paint_ordered_walls(order)
-	var totalDamage=processDamage(firstBeam)
-	
+	var totalDamage=await processDamage(firstBeam)
 	print("final totalDamange: ",totalDamage)
-	
+	await activate_visual_waves(list_of_shader_order)
+	clear_color_rects()
+
+func clear_color_rects():
+	var children = get_children()
+	for child in children:
+		if child.is_class("ColorRect"):
+			child.queue_free()
 # with this function we visualize the borders of the waves
 func paint_ordered_walls(order):
 	var currentStructures=[]
@@ -142,8 +119,6 @@ func paint_ordered_walls(order):
 				continue
 		elif element["currentPos"]=="endPos":
 			currentStructures = currentStructures.filter(func(x): return x.id != element.id)
-			print("activePower ",activePower)
-			print("element ",element)
 			if activePower.id==element.id:
 				linesDrawn.append(element)
 				currentLines.append(element)
@@ -341,6 +316,9 @@ func setupWaves(lines):
 		shader_material.set_shader_parameter("max_alpha", 1.0)
 		
 		color_rect.material = shader_material
+		var act_order = lines[i * 2].order_activation
+		var dict={"shader":shader_material,"activation_order":act_order}
+		list_of_shader_order.append(dict)
 
 func setupWavesSquare(lines):
 	for i in range(lines.size() / 2):
@@ -394,7 +372,9 @@ func setupWavesSquare(lines):
 		shader_material.set_shader_parameter("max_alpha", 1.0)
 		
 		color_rect.material = shader_material
-	
+		var act_order = lines[i * 2].order_activation
+		var dict={"shader":shader_material,"activation_order":act_order}
+		list_of_shader_order.append(dict)
 	pass
 
 # Helper function to calculate bounds for four points
@@ -470,11 +450,11 @@ func sort_by_distance(a, b):
 		return a.angle < b.angle
 
 
-func get_structures_in_angle(start_wave_position, angle_struct, damage):
+func get_structures_in_angle(start_wave_position, angle_struct, damage,order_activ):
 	var min_angle = deg_to_rad(-angle_struct)  # negative angle
 	var max_angle = deg_to_rad(angle_struct)   # positive angle
 	var order = []
-	
+	var order_activation=1+order_activ
 	for structure in Structures:
 		var valid_points = []
 		
@@ -594,7 +574,8 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage):
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": point_data["currentPos"],  # This should now be correct
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				
 				if point_data.get("is_clipped", false):
@@ -673,12 +654,12 @@ enum betweenDirectionsCase {
 	none
 	}
 
-func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted=false):
+func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted,order_activ):
 	var start_wave_position = start["position"]
 	var end_wave_position = end["position"]
 	var angle1 = angle_ray_1
 	var angle2 = angle_ray_2
-	
+	var order_activation=order_activ+1
 	var order = []
 	
 	# Calculate ray directions
@@ -729,7 +710,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -746,7 +728,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.top:
@@ -764,7 +747,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -782,7 +766,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.bottom:
@@ -801,7 +786,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -818,7 +804,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.center:
@@ -837,7 +824,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -855,7 +843,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
@@ -917,3 +906,37 @@ func save_json_config(object, path):
 
 func _on_button_pressed() -> void:
 	attack(1)
+
+
+func activate_visual_waves(list_shader_order):
+	var current_order = 0
+	var total_elements = list_of_shader_order.size()
+	var elements_counted = 0
+	while elements_counted < total_elements:
+		var listActivation = []
+		for element in list_shader_order:
+			var act_order = element.activation_order
+			if act_order == current_order:
+				elements_counted += 1
+				listActivation.append(element.shader)
+		var tween = create_tween()
+		tween.set_parallel(true)  # This makes all tween properties animate simultaneously
+		for i in range(listActivation.size()):
+			var shader_act = listActivation[i]
+			# Set initial values using set_shader_parameter
+			shader_act.set_shader_parameter("inner_radius", -0.1)
+			shader_act.set_shader_parameter("outer_radius", 0.0)
+			
+			# Tween the shader parameters
+			tween.tween_method(
+				func(value): shader_act.set_shader_parameter("inner_radius", value), 
+				-0.3, 1.0, 1.3
+			)
+			tween.tween_method(
+				func(value): shader_act.set_shader_parameter("outer_radius", value), 
+				0.0, 1.0, 1.0
+			)
+		
+		current_order += 1
+		await tween.finished
+	return

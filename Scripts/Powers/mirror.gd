@@ -11,13 +11,15 @@ func mirror(container,start,end,context):
 	print("end: ",end)
 	if start.position.y<start.start_position.y:
 		return 0
+	var order_activation=start.order_activation
 	var start_wave_position=(start.position + end.position)/2.0
 	var damage=(start.damage+end.damage)/2.0
 	var start_position=start.position
 	var end_position=end.position
 	var angle_ray_1= reflect_angle_in_mirror(start_position, end_position, start.angle)
 	var angle_ray_2= reflect_angle_in_mirror(start_position, end_position, end.angle)
-	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage)
+	var inverted=false
+	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted,order_activation)
 	var beam= await container.paint_ordered_walls_square(order)
 	
 	var total_damage=await container.processDamage(beam)
@@ -37,7 +39,8 @@ func mirror_inv(container,start,end):
 	var angle_ray_1= reflect_angle_in_mirror(start_position, end_position, start.angle)
 	var angle_ray_2= reflect_angle_in_mirror(start_position, end_position, end.angle)
 	var inverted=true
-	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted)
+	var order_activation=start.order_activation
+	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted,order_activation)
 	var beam= await container.paint_ordered_walls_square(order)
 	
 	var total_damage=await container.processDamage(beam)

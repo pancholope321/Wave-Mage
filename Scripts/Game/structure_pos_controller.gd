@@ -14,6 +14,7 @@ var test_json={
 	"duplicatePower":{}
 	}
 }
+@export var debug=false
 
 @export var waveController:Node2D
 
@@ -21,8 +22,10 @@ func _ready() -> void:
 	var file_path = "user://my_file.txt"
 	var structure_path="res://ConfigFiles/structure_information_relation.json"
 	var structureJson=load_json_config(structure_path)
-	if check_file_exists(file_path):
+	if check_file_exists(file_path) and !debug:
 		print("File exists!")
+		var final_json=load_json_config(file_path)
+		waveController.create_list_of_powers(final_json.unlocked_powers,structureJson.power_player_functions)
 	else:
 		waveController.create_list_of_powers(test_json.unlocked_powers,structureJson.power_player_functions)
 		print("File does not exist!")
