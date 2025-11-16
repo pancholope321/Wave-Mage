@@ -2,7 +2,8 @@
 "power_player_functions":{
 	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath"},
 	"mirror":{"structure":"res://Structures/mirror.tscn"},
-	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"}
+	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"},
+	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"}
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
@@ -10,11 +11,13 @@
 },
 "power_name":{
 	"mirror":"Mirror",
-	"duplicatePower":"Duplicator"
+	"duplicatePower":"Duplicator",
+	"enemy1":"enemy"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
-	"duplicatePower":"Duplicates incoming waves"
+	"duplicatePower":"Duplicates incoming waves",
+	"enemy1":"Enemy attacking"
 },
 "power_costs":{
 	"mirror":3,

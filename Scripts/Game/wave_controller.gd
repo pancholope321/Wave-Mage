@@ -1,31 +1,44 @@
 extends Node2D
 
 @export var wave_start:Node2D
-@export var enemyPoint1:Area2D
-@export var enemyPoint2:Node2D
-
+@export var enemy_container:VBoxContainer
 var script_instances = {}
 
 var Structures = []
-var enemyList
+var enemyList=[]
 var power_file_relation
 func _ready() -> void:
 	power_file_relation = await load_json_config("res://ConfigFiles/structure_file_relation.json")
 	#attack(1)
-	enemyList=[enemyPoint1]
+	
 
 var listOfPowers=[]
-func create_list_of_powers(PowerJson,structureJson):
+func create_list_of_powers(enemyJson,PowerJson,structureJson):
 	listOfPowers=[]
-	var dict = {"id":0,
-		"powerName": "enemy",
-		"startPos": enemyPoint1, 
-		"endPos": enemyPoint2,
-		"node":enemyPoint1
-	}
-	listOfPowers.append(dict)
+	var index=0
+	var keys_enemy=enemyJson.keys()
+	for key in keys_enemy:
+		for i in range(enemyJson[key]):
+			var path=structureJson[key].structure
+			var pathloaded=load(path)
+			var instance=pathloaded.instantiate()
+			var container=MarginContainer.new()
+			container.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+			
+			enemy_container.add_child(container)
+			container.add_child(instance)
+			instance.setup_wave_starting_point(wave_start.global_position)
+			var newDict={
+			"id":index,
+			"powerName": "enemy",
+			"startPos": instance.get_two_points()[0], 
+			"endPos": instance.get_two_points()[1],
+			"node":instance}
+			enemyList.append(instance)
+			index+=1
+			listOfPowers.append(newDict)
 	var keys=PowerJson.keys()
-	var index=1
+	
 	for key in keys:
 		for i in range(PowerJson[key]):
 			var path=structureJson[key].structure
@@ -91,7 +104,6 @@ func attack(damage,start_position=wave_start.position):
 	activate_end_round()
 
 func activate_end_round():
-	print("enemyList", enemyList)
 	for enemy in enemyList:
 		if !enemy.is_alive():
 			enemyList.erase(enemy)

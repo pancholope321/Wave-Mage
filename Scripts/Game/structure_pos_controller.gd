@@ -14,6 +14,11 @@ var test_json={
 	"duplicatePower":{}
 	}
 }
+var enemy_json={
+"enemy_count":{
+	"enemy1":3
+	}
+}
 @export var debug=false
 
 @export var waveController:Node2D
@@ -25,9 +30,9 @@ func _ready() -> void:
 	if check_file_exists(file_path) and !debug:
 		print("File exists!")
 		var final_json=load_json_config(file_path)
-		waveController.create_list_of_powers(final_json.unlocked_powers,structureJson.power_player_functions)
+		waveController.create_list_of_powers(enemy_json.enemy_count,final_json.unlocked_powers,structureJson.power_player_functions)
 	else:
-		waveController.create_list_of_powers(test_json.unlocked_powers,structureJson.power_player_functions)
+		waveController.create_list_of_powers(enemy_json.enemy_count,test_json.unlocked_powers,structureJson.power_player_functions)
 		print("File does not exist!")
 		
 		

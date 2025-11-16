@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bokpwd7wpqxvp"]
+
+[ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_1ydr5"]
+[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_agpfj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aek1"]
+size = Vector2(19, 123)
+
+[node name="enemyP1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+script = ExtResource("1_1ydr5")
+point1 = NodePath(".")
+point2 = NodePath("enemyP2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_yk4my")
+position = Vector2(2, 60.9999)
+scale = Vector2(0.15625, 0.953126)
+texture = ExtResource("2_agpfj")
+
+[node name="enemyP2" type="Node2D" parent="."]
+position = Vector2(0, 122)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 61.5)
+shape = SubResource("RectangleShape2D_7aek1")

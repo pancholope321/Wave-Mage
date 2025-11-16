@@ -1,17 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=6 format=3 uid="uid://cmwrawjnsytee"]
 
-[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
-[ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_yk4my"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
 [ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aek1"]
-size = Vector2(182, 420)
 
 [node name="fight" type="Node2D"]
 
@@ -21,30 +14,23 @@ anchor_mode = 0
 [node name="waveStart" type="Node2D" parent="."]
 position = Vector2(198, 327)
 
-[node name="enemyP1" type="Area2D" parent="." node_paths=PackedStringArray("point1", "point2")]
-position = Vector2(930, 149)
-script = ExtResource("1_yk4my")
-point1 = NodePath(".")
-point2 = NodePath("enemyP2")
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(930, 330)
 
-[node name="Sprite2D" type="Sprite2D" parent="enemyP1"]
-material = SubResource("ShaderMaterial_yk4my")
-position = Vector2(89.5, 204)
-scale = Vector2(1.42969, 3.35938)
-texture = ExtResource("1_d1vt0")
+[node name="enemy_container" type="VBoxContainer" parent="Marker2D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -209.0
+offset_bottom = 195.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="enemyP2" type="Node2D" parent="enemyP1"]
-position = Vector2(-1, 410)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyP1"]
-position = Vector2(81, 200)
-shape = SubResource("RectangleShape2D_7aek1")
-
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "enemyPoint1", "enemyPoint2")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "enemy_container")]
 script = ExtResource("1_viax6")
 wave_start = NodePath("../waveStart")
-enemyPoint1 = NodePath("../enemyP1")
-enemyPoint2 = NodePath("../enemyP1/enemyP2")
+enemy_container = NodePath("../Marker2D/enemy_container")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
