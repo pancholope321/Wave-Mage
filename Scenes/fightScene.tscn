@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=10 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
 [ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_yk4my"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
+[ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
+[ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
+[ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
 
@@ -69,5 +72,18 @@ offset_top = -31.0
 offset_right = 68.0
 grow_vertical = 0
 text = "ATTACK"
+
+[node name="audio_controller" type="Node" parent="." node_paths=PackedStringArray("start_music", "music_loop")]
+script = ExtResource("5_57ar5")
+start_music = NodePath("start music")
+music_loop = NodePath("music loop")
+
+[node name="start music" type="AudioStreamPlayer" parent="audio_controller"]
+stream = ExtResource("6_7aek1")
+bus = &"Music"
+
+[node name="music loop" type="AudioStreamPlayer" parent="audio_controller"]
+stream = ExtResource("7_jag4a")
+bus = &"Music"
 
 [connection signal="pressed" from="CanvasLayer/Control/Button" to="waveController" method="_on_button_pressed"]
