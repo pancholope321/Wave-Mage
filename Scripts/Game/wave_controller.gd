@@ -7,10 +7,12 @@ extends Node2D
 var script_instances = {}
 
 var Structures = []
+var enemyList
 var power_file_relation
 func _ready() -> void:
 	power_file_relation = await load_json_config("res://ConfigFiles/structure_file_relation.json")
 	#attack(1)
+	enemyList=[enemyPoint1]
 
 var listOfPowers=[]
 func create_list_of_powers(PowerJson,structureJson):
@@ -75,7 +77,8 @@ func attack(damage,start_position=wave_start.position):
 				"currentPos":pos,
 				"id":structure["id"],
 				"damage":damage,
-				"order_activation":order_activation
+				"order_activation":order_activation,
+				"node":structure.node
 			}
 			order.append(dictOrder)
 	
@@ -85,7 +88,21 @@ func attack(damage,start_position=wave_start.position):
 	print("final totalDamange: ",totalDamage)
 	await activate_visual_waves(list_of_shader_order)
 	clear_color_rects()
+	activate_end_round()
 
+func activate_end_round():
+	print("enemyList", enemyList)
+	for enemy in enemyList:
+		if !enemy.is_alive():
+			enemyList.erase(enemy)
+		enemy.activate_final_actions()
+	if enemyList.size()<=0:
+		fight_won()
+
+
+func fight_won():
+	print("fight_won")
+	pass
 func clear_color_rects():
 	var children = get_children()
 	for child in children:
@@ -575,7 +592,8 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage,order_act
 					"currentPos": point_data["currentPos"],  # This should now be correct
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				
 				if point_data.get("is_clipped", false):
@@ -711,7 +729,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "startPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -729,7 +748,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "endPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.top:
@@ -748,7 +768,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "startPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -767,7 +788,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "endPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.bottom:
@@ -787,7 +809,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "startPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -805,7 +828,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "endPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.center:
@@ -825,7 +849,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "startPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -844,7 +869,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"currentPos": "endPos",
 					"id": structure["id"],
 					"damage": damage,
-					"order_activation":order_activation
+					"order_activation":order_activation,
+					"node":structure.node
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
@@ -939,4 +965,9 @@ func activate_visual_waves(list_shader_order):
 		
 		current_order += 1
 		await tween.finished
+	return
+
+func remove_enemy(id):
+	Structures=Structures.filter(func(x): return x.id != id)
+	listOfPowers=listOfPowers.filter(func(x): return x.id != id)
 	return

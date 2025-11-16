@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
-[ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_gn0l3"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
+[ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_yk4my"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
@@ -20,10 +20,9 @@ position = Vector2(198, 327)
 
 [node name="enemyP1" type="Area2D" parent="." node_paths=PackedStringArray("point1", "point2")]
 position = Vector2(930, 149)
-script = ExtResource("1_gn0l3")
+script = ExtResource("1_yk4my")
 point1 = NodePath(".")
 point2 = NodePath("enemyP2")
-mobile = false
 
 [node name="Sprite2D" type="Sprite2D" parent="enemyP1"]
 material = SubResource("ShaderMaterial_yk4my")
