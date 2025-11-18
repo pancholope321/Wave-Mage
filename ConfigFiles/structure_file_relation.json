@@ -3,5 +3,6 @@
 	"wall":"res://Scripts/Powers/wall.gd",
 	"duplicatePower":"res://Scripts/Powers/duplicatePower.gd",
 	"mirror":"res://Scripts/Powers/mirror.gd",
-	"mirror_inv":"res://Scripts/Powers/mirror_inv.gd"
+	"mirror_inv":"res://Scripts/Powers/mirror_inv.gd",
+	"damageMultiplier":"res://Scripts/Powers/damageMultiplier.gd"
 }

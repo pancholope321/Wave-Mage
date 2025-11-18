@@ -3,24 +3,29 @@
 	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath"},
 	"mirror":{"structure":"res://Structures/mirror.tscn"},
 	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"},
-	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"}
+	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"},
+	"damageMultiplier":{"structure":"res://Structures/damageMultiplier.tscn"}
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
-	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png"
+	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
+	"damageMultiplier":"Damage Multiplier"
 },
 "power_name":{
 	"mirror":"Mirror",
 	"duplicatePower":"Duplicator",
-	"enemy1":"enemy"
+	"enemy1":"enemy",
+	"damageMultiplier":"Damage Multiplier"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
 	"duplicatePower":"Duplicates incoming waves",
-	"enemy1":"Enemy attacking"
+	"enemy1":"Enemy attacking",
+	"damageMultiplier": "Multiply damage by 2"
 },
 "power_costs":{
 	"mirror":3,
-	"duplicatePower":3
+	"duplicatePower":3,
+	"damageMultiplier":3
 }
 }

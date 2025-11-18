@@ -684,7 +684,7 @@ enum betweenDirectionsCase {
 	none
 	}
 
-func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted,order_activ):
+func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted,order_activ,vertical=false):
 	var start_wave_position = start["position"]
 	var end_wave_position = end["position"]
 	var angle1 = angle_ray_1
@@ -695,7 +695,7 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 	# Calculate ray directions
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
-	
+
 	for structure in Structures:
 		if structure.id == start.id:
 			continue
@@ -887,8 +887,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
 				continue
-	
-	if inverted:
+	if vertical:
+		order.sort_custom(sort_by_ray_originy)
+	elif inverted:
 		order.sort_custom(sort_by_ray_origin_inverted)
 	else:
 		order.sort_custom(sort_by_ray_origin)
@@ -906,6 +907,11 @@ func sort_by_ray_origin_inverted(a, b):
 	else:
 		return a.distance < b.distance
 
+func sort_by_ray_originy(a, b):
+	if a.start_position.y != b.start_position.y:
+		return a.start_position.y < b.start_position.y
+	else:
+		return a.distance < b.distance
 
 # More robust intersection function
 
