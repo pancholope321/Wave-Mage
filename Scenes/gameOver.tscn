@@ -36,6 +36,14 @@ offset_right = 54.0
 offset_bottom = 185.0
 text = "MAIN MENU"
 
+[node name="Coin Total" type="Label" parent="Camera2D"]
+offset_left = 400.0
+offset_top = -312.0
+offset_right = 552.0
+offset_bottom = -278.0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 2
+
 [connection signal="pressed" from="Camera2D/Retry" to="." method="replay"]
 [connection signal="pressed" from="Camera2D/Shop" to="." method="to_shop"]
 [connection signal="pressed" from="Camera2D/Main Menu" to="." method="main_menu"]
