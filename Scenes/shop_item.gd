@@ -8,7 +8,7 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void: 
 	level = Global.attrLvlDict[itemName]
-	buyBtn.text = Global.upgradePriceDict[itemName][level]
+	buyBtn.text = str(Global.upgradePriceDict[itemName][level])
 
 func updatePrice():
 	Global.attrLvlDict[itemName] += 1
