@@ -13,5 +13,9 @@
 	"mirror":{},
 	"duplicatePower":{},
 	"damageMultiplier":{}
-	}
+	},
+"player_stats":{
+	"money":0,
+	"current_day":0
+}
 }

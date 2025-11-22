@@ -11,9 +11,10 @@ extends Area2D
 var is_dragging=false
 var mouse_offset=Vector2(0,0)
 var waveStartingPoint=Vector2(576,324)
-
-func setup_wave_starting_point(point):
-	waveStartingPoint=point
+var player:Area2D
+func setup_wave_starting_point(player_set):
+	waveStartingPoint=player_set.get_wave_start().global_position
+	player=player_set
 
 func _ready() -> void:
 	mouse_offset=(point1.position+point2.position)/2.0

@@ -1,18 +1,38 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=10 format=3 uid="uid://cmwrawjnsytee"]
 
+[ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
+[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_83aax"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
+[ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
 [ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
+size = Vector2(21, 81)
 
 [node name="fight" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 
-[node name="waveStart" type="Node2D" parent="."]
+[node name="Player" type="Area2D" parent="." node_paths=PackedStringArray("waveController", "waveStart")]
 position = Vector2(198, 327)
+script = ExtResource("1_jag4a")
+waveController = NodePath("../waveController")
+waveStart = NodePath("waveStart")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(2, 6.00001)
+scale = Vector2(0.171875, 0.609375)
+texture = ExtResource("2_83aax")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_fm3o4")
+
+[node name="waveStart" type="Node2D" parent="Player"]
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(930, 330)
@@ -27,14 +47,20 @@ offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "enemy_container")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller")]
 script = ExtResource("1_viax6")
-wave_start = NodePath("../waveStart")
+player = NodePath("../Player")
 enemy_container = NodePath("../Marker2D/enemy_container")
+enemy_controller = NodePath("../enemyController")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
 waveController = NodePath("../waveController")
+
+[node name="enemyController" type="Node2D" parent="." node_paths=PackedStringArray("player_node", "wave_controller")]
+script = ExtResource("5_yqjp4")
+player_node = NodePath("../Player")
+wave_controller = NodePath("../waveController")
 
 [node name="fightController" type="Node" parent="."]
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bokpwd7wpqxvp"]
+[gd_scene load_steps=6 format=3 uid="uid://bokpwd7wpqxvp"]
 
 [ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_1ydr5"]
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_agpfj"]
+[ext_resource type="PackedScene" uid="uid://ch6qnjee2n2o2" path="res://Projectiles/projectile_template.tscn" id="2_rn0rw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
 
@@ -12,6 +13,7 @@ size = Vector2(19, 123)
 script = ExtResource("1_1ydr5")
 point1 = NodePath(".")
 point2 = NodePath("enemyP2")
+projectile = ExtResource("2_rn0rw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")

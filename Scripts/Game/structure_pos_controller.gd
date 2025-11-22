@@ -2,9 +2,9 @@ extends Node2D
 
 var test_json={
 "unlocked_powers":{
-	"mirror":2,
-	"duplicatePower":2,
-	"damageMultiplier":1
+	"mirror":0,
+	"duplicatePower":0,
+	"damageMultiplier":0
 	},
 "power_activations":{
 	"mirror":0,

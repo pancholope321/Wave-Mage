@@ -1,7 +1,8 @@
 extends Node2D
-
-@export var wave_start:Node2D
+@export var player:Area2D
+var wave_start:Node2D
 @export var enemy_container:VBoxContainer
+@export var enemy_controller:Node2D
 var script_instances = {}
 
 var Structures = []
@@ -9,6 +10,7 @@ var enemyList=[]
 var power_file_relation
 func _ready() -> void:
 	power_file_relation = await load_json_config("res://ConfigFiles/structure_file_relation.json")
+	wave_start=player.get_wave_start()
 	#attack(1)
 	
 
@@ -27,7 +29,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			
 			enemy_container.add_child(container)
 			container.add_child(instance)
-			instance.setup_wave_starting_point(wave_start.global_position)
+			instance.setup_wave_starting_point(player)
 			var newDict={
 			"id":index,
 			"powerName": "enemy",
@@ -45,7 +47,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			var pathloaded=load(path)
 			var instance=pathloaded.instantiate()
 			add_child(instance)
-			instance.setup_wave_starting_point(wave_start.global_position)
+			instance.setup_wave_starting_point(player)
 			var newDict={
 			"id":index,
 			"powerName": key,
@@ -59,7 +61,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 	
 # when attack is pressed the wave is propagating
 var list_of_shader_order=[]
-func attack(damage,start_position=wave_start.position):
+func attack(damage,start_position=wave_start.global_position):
 	Structures=[]
 	list_of_shader_order=[]
 	#get current structure position
@@ -104,13 +106,20 @@ func attack(damage,start_position=wave_start.position):
 	activate_end_round()
 
 func activate_end_round():
-	for enemy in enemyList:
+	var enemyListCopy=enemyList.duplicate()
+	for enemy in enemyListCopy:
 		if !enemy.is_alive():
 			enemyList.erase(enemy)
 		enemy.activate_final_actions()
+	await get_tree().create_timer(0).timeout
 	if enemyList.size()<=0:
 		fight_won()
+	else:
+		enemy_controller.start_attack(enemyList)
 
+func fight_lost():
+	print("fight_lost")
+	pass
 
 func fight_won():
 	print("fight_won")
@@ -950,6 +959,7 @@ func save_json_config(object, path):
 
 func _on_button_pressed() -> void:
 	attack(1)
+	$"../CanvasLayer/Control/Button".disabled=true
 
 
 func activate_visual_waves(list_shader_order):
@@ -989,3 +999,6 @@ func remove_enemy(id):
 	Structures=Structures.filter(func(x): return x.id != id)
 	listOfPowers=listOfPowers.filter(func(x): return x.id != id)
 	return
+
+func end_enemy_turn():
+	$"../CanvasLayer/Control/Button".disabled=false

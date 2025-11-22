@@ -10,6 +10,7 @@ func enemy(container,start,end,context):
 	var damageMult=(start.damage+end.damage)/200.0
 	var damage=damageMult*distance
 	start.node.recieve_damage(damage)
+	print("start.node.is_alive(): ",start.node.is_alive())
 	if !start.node.is_alive():
 		await container.remove_enemy(start.id)
 	return damage
