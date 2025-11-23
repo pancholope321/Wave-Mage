@@ -3,6 +3,7 @@ extends Node2D
 var wave_start:Node2D
 @export var enemy_container:VBoxContainer
 @export var enemy_controller:Node2D
+@export var attack_button:TextureButton
 var script_instances = {}
 
 var Structures = []
@@ -959,7 +960,7 @@ func save_json_config(object, path):
 
 func _on_button_pressed() -> void:
 	attack(1)
-	$"../CanvasLayer/Control/Button".disabled=true
+	attack_button.disabled=true
 
 
 func activate_visual_waves(list_shader_order):
@@ -1001,4 +1002,4 @@ func remove_enemy(id):
 	return
 
 func end_enemy_turn():
-	$"../CanvasLayer/Control/Button".disabled=false
+	attack_button.disabled=false

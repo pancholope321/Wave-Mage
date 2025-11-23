@@ -1,18 +1,25 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=19 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
 [ext_resource type="Texture2D" uid="uid://twxutruahf4a" path="res://Sprites/UI sprites/background_1.png" id="1_yqjp4"]
-[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_83aax"]
+[ext_resource type="Texture2D" uid="uid://c7df1fmoykba7" path="res://Sprites/UI sprites/left_panel_1.png" id="2_j3mh6"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
+[ext_resource type="Texture2D" uid="uid://x3emi134poo8" path="res://Sprites/Character sprites/mage.png" id="4_unv2f"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
 [ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
 [ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
 [ext_resource type="Texture2D" uid="uid://ctgqe0kxneb08" path="res://Sprites/UI sprites/framework_1.png" id="7_fm3o4"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
+[ext_resource type="Texture2D" uid="uid://dmn6sd4jaexs5" path="res://Sprites/UI sprites/playerHealthBarBg.png" id="10_hhgo6"]
+[ext_resource type="Texture2D" uid="uid://obhx5hfe02cj" path="res://Sprites/UI sprites/playerHealthBarPanel.png" id="11_w5y70"]
+[ext_resource type="Texture2D" uid="uid://e7xcts26dm5n" path="res://Sprites/UI sprites/playerHealthBarFILL.png" id="12_v5lmx"]
+[ext_resource type="Texture2D" uid="uid://bvx2m6yt0puey" path="res://Sprites/UI sprites/attackButtonTexture.png" id="15_7nvar"]
+[ext_resource type="Texture2D" uid="uid://dx8d2d8lpdboy" path="res://Sprites/UI sprites/attackButtonTexturePressed.png" id="16_po2lt"]
+[ext_resource type="Texture2D" uid="uid://bqj0aes7nqi5b" path="res://Sprites/UI sprites/attackButtonTextureHover.png" id="17_e8a6h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
-size = Vector2(21, 81)
+size = Vector2(21, 71)
 
 [node name="fight" type="Node2D"]
 
@@ -39,25 +46,35 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_yqjp4")
 
+[node name="TextureRect" type="TextureRect" parent="Background UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_j3mh6")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 
-[node name="Player" type="Area2D" parent="." node_paths=PackedStringArray("waveController", "waveStart")]
-position = Vector2(198, 327)
+[node name="Player" type="Area2D" parent="." node_paths=PackedStringArray("waveController", "waveStart", "player_hp_bar")]
+position = Vector2(252, 359)
 script = ExtResource("1_jag4a")
 waveController = NodePath("../waveController")
 waveStart = NodePath("waveStart")
+player_hp_bar = NodePath("../Front UI/Control/playerHP")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 position = Vector2(2, 6.00001)
-scale = Vector2(0.171875, 0.609375)
-texture = ExtResource("2_83aax")
+texture = ExtResource("4_unv2f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(-0.5, -0.5)
+position = Vector2(-0.5, 5.5)
 shape = SubResource("RectangleShape2D_fm3o4")
 
 [node name="waveStart" type="Node2D" parent="Player"]
+position = Vector2(-17, -18)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(930, 330)
@@ -72,11 +89,12 @@ offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button")]
 script = ExtResource("1_viax6")
 player = NodePath("../Player")
 enemy_container = NodePath("../Marker2D/enemy_container")
 enemy_controller = NodePath("../enemyController")
+attack_button = NodePath("../Front UI/Control/attack")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
@@ -113,6 +131,17 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="playerHP" type="TextureProgressBar" parent="Front UI/Control"]
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 355.0
+offset_bottom = 93.0
+scale = Vector2(1.25, 1.25)
+value = 95.0
+texture_under = ExtResource("10_hhgo6")
+texture_over = ExtResource("11_w5y70")
+texture_progress = ExtResource("12_v5lmx")
+
 [node name="TextureRect" type="TextureRect" parent="Front UI/Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -123,26 +152,22 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("7_fm3o4")
 
-[node name="Button" type="Button" parent="Front UI/Control"]
+[node name="attack" type="TextureButton" parent="Front UI/Control"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 68.0
-grow_vertical = 0
-text = "ATTACK"
+offset_left = 14.0
+offset_top = 567.0
+offset_right = -1024.0
+offset_bottom = -22.9999
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+keep_pressed_outside = true
+texture_normal = ExtResource("15_7nvar")
+texture_pressed = ExtResource("16_po2lt")
+texture_hover = ExtResource("17_e8a6h")
+texture_disabled = ExtResource("16_po2lt")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Front UI/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.039
-anchor_top = 0.026
-anchor_right = 0.268
-anchor_bottom = 0.105
-offset_left = 0.0719986
-offset_top = 0.152
-offset_right = 0.263977
-offset_bottom = -0.0400009
-
-[connection signal="pressed" from="Front UI/Control/Button" to="waveController" method="_on_button_pressed"]
+[connection signal="pressed" from="Front UI/Control/attack" to="waveController" method="_on_button_pressed"]
