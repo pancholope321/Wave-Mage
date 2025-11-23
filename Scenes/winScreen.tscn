@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bojlj16itkg18" path="res://Scripts/Game/win_screen.gd" id="1_6lw6h"]
 
-[node name="Win Screen" type="Node2D"]
+[node name="Win Screen" type="Node2D" node_paths=PackedStringArray("coinTotalLabel", "coinsWonLabel")]
 script = ExtResource("1_6lw6h")
+coinTotalLabel = NodePath("Camera2D/Coin Total")
+coinsWonLabel = NodePath("Camera2D/Coins Won")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

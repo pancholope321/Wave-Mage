@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_ykwx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v6w0w"]
-size = Vector2(28, 64)
+size = Vector2(28, 50)
 
 [node name="damageMultPoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
 script = ExtResource("1_ykwx6")
@@ -11,7 +11,7 @@ point1 = NodePath(".")
 point2 = NodePath("damageMultPoint2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 32)
+position = Vector2(0, 25)
 shape = SubResource("RectangleShape2D_v6w0w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -19,14 +19,16 @@ position = Vector2(3, 31.75)
 scale = Vector2(0.711, 0.711)
 
 [node name="damageMultPoint2" type="Node2D" parent="."]
-position = Vector2(0, 64)
+position = Vector2(0, 51)
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_right = 1.0
-offset_bottom = 62.0
+offset_left = -14.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 59.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)

@@ -18,9 +18,6 @@ func setup_start_end(start_set,end_set):
 	else:
 		h=(x1+x2)/2.0
 	a=(y1-k)/((x1-h)**2)
-	print("a: ",a)
-	print("h: ",h)
-	print("k: ",k)
 	self.global_position=start
 	self.visible=true
 	pass

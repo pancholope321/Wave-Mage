@@ -10,3 +10,5 @@ var attrLvlDict = {
 	"Health" : 0
 }
 var healthUpgradePrices = [100, 200, 300, 400]
+
+var coinsWon=0

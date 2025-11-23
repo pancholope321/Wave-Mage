@@ -1,23 +1,34 @@
 extends Node2D
 
-@onready var coinTotalLabel = $"Camera2D/Coin Total" 
-@onready var coinsWonLabel = $"Camera2D/Coins Won"
+@export var coinTotalLabel:Label 
+@export var coinsWonLabel :Label 
 var coinsWon : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	coinsWon = load_coins()
-	Global.totalCoins += coinsWon
-	coinTotalLabel.text = str(Global.totalCoins)
-	coinsWonLabel.text = str(coinsWon)
+	load_coins()
 
 func to_shop(): 
 	get_tree().change_scene_to_file("res://Scenes/shopScene.tscn") 
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func load_coins():
-	return 0
-	pass
+	coinsWonLabel.text = "0"
+	var coinsWon=Global.coinsWon
+	Global.totalCoins += coinsWon
+	coinTotalLabel.text = "0"
+	tween_coins_won(coinsWon)
+	
+func tween_coins_won(coinsWon):
+	var tween=create_tween()
+	tween.set_parallel(true)
+	tween.tween_method(textConverterformNumber.bind(coinsWonLabel),0,coinsWon,1.0)
+	tween.tween_method(textConverterformNumber.bind(coinTotalLabel),0,Global.totalCoins,1.0)
+	#tween.tween_property(coinsWonLabel,"text",coinsWon,1.0)
+	#tween.tween_property(coinTotalLabel,"text",Global.totalCoins,1.0)
+
+func textConverterformNumber(number,element):
+	element.text=str(round(number))

@@ -19,8 +19,10 @@ func recieve_damage(damage):
 
 func activate_final_actions():
 	if !alive:
+		Sfx.play("EnemyPlayerFaint",true)
 		self.queue_free()
 	healthBar.value=5+90*(health/max_health)
+	#Sfx.play("EnemyPlayerTakeDamage",true)
 	#animate damage taken
 
 func setup_wave_starting_point(player_set):
@@ -60,3 +62,8 @@ func animate_enemy_attack(playerNode):
 	player.take_damage(total_damage)
 	
 	return
+var id=-1
+func setup_id(index):
+	id=index
+func playSFX():
+	Sfx.play("EnemyPlayerTakeDamage",true)

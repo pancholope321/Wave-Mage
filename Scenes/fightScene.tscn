@@ -44,6 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("1_yqjp4")
 
 [node name="TextureRect" type="TextureRect" parent="Background UI/Control"]
@@ -53,6 +54,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("2_j3mh6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -77,7 +79,7 @@ shape = SubResource("RectangleShape2D_fm3o4")
 position = Vector2(-17, -18)
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(930, 330)
+position = Vector2(967, 330)
 
 [node name="enemy_container" type="VBoxContainer" parent="Marker2D"]
 anchors_preset = 15
@@ -89,12 +91,17 @@ offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button", "audioController", "topLeft", "topRight", "bottomLeft", "bottomRight")]
 script = ExtResource("1_viax6")
 player = NodePath("../Player")
 enemy_container = NodePath("../Marker2D/enemy_container")
 enemy_controller = NodePath("../enemyController")
 attack_button = NodePath("../Front UI/Control/attack")
+audioController = NodePath("../audio_controller")
+topLeft = NodePath("../bounding_area/topLeft")
+topRight = NodePath("../bounding_area/topRight")
+bottomLeft = NodePath("../bounding_area/bottomLeft")
+bottomRight = NodePath("../bounding_area/bottomRight")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
@@ -132,11 +139,13 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="playerHP" type="TextureProgressBar" parent="Front UI/Control"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 36.0
 offset_right = 355.0
 offset_bottom = 93.0
 scale = Vector2(1.25, 1.25)
+mouse_filter = 2
 value = 95.0
 texture_under = ExtResource("10_hhgo6")
 texture_over = ExtResource("11_w5y70")
@@ -169,5 +178,19 @@ texture_normal = ExtResource("15_7nvar")
 texture_pressed = ExtResource("16_po2lt")
 texture_hover = ExtResource("17_e8a6h")
 texture_disabled = ExtResource("16_po2lt")
+
+[node name="bounding_area" type="Node2D" parent="."]
+
+[node name="topLeft" type="Marker2D" parent="bounding_area"]
+position = Vector2(290, 200)
+
+[node name="topRight" type="Marker2D" parent="bounding_area"]
+position = Vector2(900, 200)
+
+[node name="bottomLeft" type="Marker2D" parent="bounding_area"]
+position = Vector2(290, 630)
+
+[node name="bottomRight" type="Marker2D" parent="bounding_area"]
+position = Vector2(900, 630)
 
 [connection signal="pressed" from="Front UI/Control/attack" to="waveController" method="_on_button_pressed"]

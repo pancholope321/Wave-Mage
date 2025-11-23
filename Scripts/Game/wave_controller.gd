@@ -4,6 +4,12 @@ var wave_start:Node2D
 @export var enemy_container:VBoxContainer
 @export var enemy_controller:Node2D
 @export var attack_button:TextureButton
+@export var audioController:Node
+@export var topLeft:Marker2D
+@export var topRight:Marker2D
+@export var bottomLeft:Marker2D
+@export var bottomRight:Marker2D
+
 var script_instances = {}
 
 var Structures = []
@@ -31,6 +37,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			enemy_container.add_child(container)
 			container.add_child(instance)
 			instance.setup_wave_starting_point(player)
+			instance.setup_id(index)
 			var newDict={
 			"id":index,
 			"powerName": "enemy",
@@ -49,6 +56,9 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			var instance=pathloaded.instantiate()
 			add_child(instance)
 			instance.setup_wave_starting_point(player)
+			instance.setup_wave_bounding_area(topLeft,topRight,bottomLeft,bottomRight)
+			instance.setup_list_of_powers(listOfPowers)
+			instance.setup_id(index)
 			var newDict={
 			"id":index,
 			"powerName": key,
@@ -101,7 +111,6 @@ func attack(damage,start_position=wave_start.global_position):
 	order.sort_custom(sort_by_angle_then_distance)
 	var firstBeam=paint_ordered_walls(order)
 	var totalDamage=await processDamage(firstBeam)
-	print("final totalDamange: ",totalDamage)
 	await activate_visual_waves(list_of_shader_order)
 	clear_color_rects()
 	activate_end_round()
@@ -120,10 +129,18 @@ func activate_end_round():
 
 func fight_lost():
 	print("fight_lost")
+	
 	pass
 
 func fight_won():
 	print("fight_won")
+	var coinsWon = 10
+	
+	# Store coins in global or pass through other means
+	Global.coinsWon = coinsWon
+	
+	# Change scene directly
+	get_tree().change_scene_to_file("res://Scenes/winScreen.tscn")
 	pass
 func clear_color_rects():
 	var children = get_children()
@@ -135,12 +152,13 @@ func paint_ordered_walls(order):
 	var currentStructures=[]
 	var activePower={"distance"=99999999}
 	var currentLines=[]
-	for element in order:
+	var copyOrder=order.duplicate()
+	for element in copyOrder:
 		if element["currentPos"]=="startPos":
 			currentStructures.append(element)
 			if element.distance<activePower.distance:
 				if activePower.has("position"):
-					var newElements=order.filter(func(x): return x.id == activePower.id)
+					var newElements=copyOrder.filter(func(x): return x.id == activePower.id)
 					var nepos1=newElements[0].position
 					var nepos2=newElements[1].position
 					var neposang1=newElements[0].angle
@@ -158,13 +176,16 @@ func paint_ordered_walls(order):
 				continue
 		elif element["currentPos"]=="endPos":
 			currentStructures = currentStructures.filter(func(x): return x.id != element.id)
+			if !activePower.has("id"):
+				copyOrder== copyOrder.filter(func(x): return x.id != element.id)
+				continue
 			if activePower.id==element.id:
 				linesDrawn.append(element)
 				currentLines.append(element)
 				if currentStructures.size()>0:
 					currentStructures.sort_custom(sort_by_distance)
 					activePower=currentStructures[0]
-					var newElements=order.filter(func(x): return x.id == activePower.id)
+					var newElements=copyOrder.filter(func(x): return x.id == activePower.id)
 					var nepos1=newElements[0].position
 					var nepos2=newElements[1].position
 					var neposang1=newElements[0].angle
@@ -356,7 +377,8 @@ func setupWaves(lines):
 		
 		color_rect.material = shader_material
 		var act_order = lines[i * 2].order_activation
-		var dict={"shader":shader_material,"activation_order":act_order}
+		var node_line=lines[i * 2].node
+		var dict={"shader":shader_material,"activation_order":act_order,"node":node_line}
 		list_of_shader_order.append(dict)
 
 func setupWavesSquare(lines):
@@ -412,7 +434,8 @@ func setupWavesSquare(lines):
 		
 		color_rect.material = shader_material
 		var act_order = lines[i * 2].order_activation
-		var dict={"shader":shader_material,"activation_order":act_order}
+		var node_line=lines[i * 2].node
+		var dict={"shader":shader_material,"activation_order":act_order,"node":node_line}
 		list_of_shader_order.append(dict)
 	pass
 
@@ -705,11 +728,19 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 	# Calculate ray directions
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
-
+	var forward_dir = ((ray1_dir + ray2_dir) * 0.5).normalized()
+	
 	for structure in Structures:
 		if structure.id == start.id:
 			continue
+		
 		var struct_pos=structure.startPos
+		var to_structure = (struct_pos - start_wave_position).normalized()
+		var dot_product = to_structure.dot(forward_dir)
+		
+		# Skip structures in the negative direction (behind the rays)
+		if dot_product < 0:
+			continue
 		var ypos=start_wave_position.y+ray1_dir.y*(struct_pos.x-start_wave_position.x)/ray1_dir.x
 		var ypos2=end_wave_position.y+ray2_dir.y*(struct_pos.x-end_wave_position.x)/ray2_dir.x
 		var topypos=struct_pos.y>ypos
@@ -959,7 +990,10 @@ func save_json_config(object, path):
 
 
 func _on_button_pressed() -> void:
+	Sfx.play("StartAttack",true)
 	attack(1)
+	audioController.attacking()
+	
 	attack_button.disabled=true
 
 
@@ -969,11 +1003,13 @@ func activate_visual_waves(list_shader_order):
 	var elements_counted = 0
 	while elements_counted < total_elements:
 		var listActivation = []
+		var listNodes=[]
 		for element in list_shader_order:
 			var act_order = element.activation_order
 			if act_order == current_order:
 				elements_counted += 1
 				listActivation.append(element.shader)
+				listNodes.append(element.node)
 		var tween = create_tween()
 		tween.set_parallel(true)  # This makes all tween properties animate simultaneously
 		for i in range(listActivation.size()):
@@ -994,6 +1030,11 @@ func activate_visual_waves(list_shader_order):
 		
 		current_order += 1
 		await tween.finished
+		for i in range(listNodes.size()):
+			var nodeAct=listNodes[i]
+			if nodeAct.has_method("playSFX"):
+				nodeAct.playSFX()
+		
 	return
 
 func remove_enemy(id):
@@ -1003,3 +1044,4 @@ func remove_enemy(id):
 
 func end_enemy_turn():
 	attack_button.disabled=false
+	audioController.stopAttacking()

@@ -12,9 +12,10 @@ func _ready() -> void:
 func take_damage(damage):
 	health-=damage
 	if health<=0:
+		Sfx.play("EnemyPlayerFaint",true)
 		waveController.fight_lost()
 		print("death")
-	print("2.0+93.0*(health/max_health): ",2.0+93.0*(health/max_health))
+	Sfx.play("EnemyPlayerTakeDamage",true)
 	player_hp_bar.value=2.0+93.0*(health/max_health)
 
 func get_wave_start():

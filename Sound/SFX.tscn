@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=3 uid="uid://bscwke1fguoba"]
+
+[ext_resource type="Script" uid="uid://doqh5q63m8cg0" path="res://Sound/sfx.gd" id="1_l1k0v"]
+[ext_resource type="AudioStream" uid="uid://cu31t0nij506r" path="res://Sound/SFX/Duplicator.wav" id="2_wj0b4"]
+[ext_resource type="AudioStream" uid="uid://djqwnie475k0l" path="res://Sound/SFX/EnemyPlayerFaint.wav" id="3_4m6fx"]
+[ext_resource type="AudioStream" uid="uid://v6fe4pomtiqr" path="res://Sound/SFX/EnemyPlayerTakeDamage.wav" id="4_dcq6e"]
+[ext_resource type="AudioStream" uid="uid://bnrykye8nea2m" path="res://Sound/SFX/NegativeButtonPress.wav" id="5_j3rmh"]
+[ext_resource type="AudioStream" uid="uid://b1v3phibbmxf" path="res://Sound/SFX/NeutralButtonPress.wav" id="6_d3r5o"]
+[ext_resource type="AudioStream" uid="uid://iacbly52nyxw" path="res://Sound/SFX/PositiveButtonPress.wav" id="7_q74ba"]
+[ext_resource type="AudioStream" uid="uid://dbkif2osdoujs" path="res://Sound/SFX/mirror.wav" id="8_gl7ft"]
+[ext_resource type="AudioStream" uid="uid://bybqf1r2gpmt0" path="res://Sound/SFX/StartAttack.wav" id="9_wj0b4"]
+
+[node name="Sfx" type="Node"]
+script = ExtResource("1_l1k0v")
+
+[node name="Duplicator" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_wj0b4")
+bus = &"SFX"
+
+[node name="EnemyPlayerFaint" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4m6fx")
+bus = &"SFX"
+
+[node name="EnemyPlayerTakeDamage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_dcq6e")
+volume_db = -10.0
+pitch_scale = 4.0
+bus = &"SFX"
+
+[node name="NegativeButtonPress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_j3rmh")
+bus = &"SFX"
+
+[node name="NeutralButtonPress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_d3r5o")
+bus = &"SFX"
+
+[node name="PositiveButtonPress" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_q74ba")
+bus = &"SFX"
+
+[node name="Mirror" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_gl7ft")
+bus = &"SFX"
+
+[node name="StartAttack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_wj0b4")
+bus = &"SFX"

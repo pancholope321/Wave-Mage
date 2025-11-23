@@ -18,7 +18,7 @@ point1 = NodePath(".")
 point2 = NodePath("enemyP2")
 projectile = ExtResource("2_rn0rw")
 healthBar = NodePath("TextureProgressBar")
-health = 10.0
+health = 200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")

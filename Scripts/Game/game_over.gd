@@ -5,21 +5,17 @@ var coins = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	coinTotalLabel.text = str(Global.totalCoins)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass 
-
-"""func add_up_coins():
-	pass""" 
-
-
-
-func replay():
-	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn") 
-
+	coinTotalLabel.text = "0"
+	tween_coins_won()
 
 
 func main_menu():
 	get_tree().change_scene_to_file("res://Scenes/mainMenu.tscn")
+
+
+func tween_coins_won():
+	var tween=create_tween()
+	tween.tween_method(textConverterformNumber.bind(coinTotalLabel),0,Global.totalCoins,1.0)
+
+func textConverterformNumber(number,element):
+	element.text=str(round(number))

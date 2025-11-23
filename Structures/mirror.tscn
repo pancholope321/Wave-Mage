@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://co765vsy1ce3v" path="res://Sprites/Structure Sprites/silver_mirror.png" id="2_o055h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y1olj"]
-size = Vector2(152, 28)
+size = Vector2(131, 17)
 
 [node name="mirrorPoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
 script = ExtResource("1_b2u6c")
@@ -22,5 +22,5 @@ texture = ExtResource("2_o055h")
 position = Vector2(130, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(65, 0)
+position = Vector2(65.5, -0.5)
 shape = SubResource("RectangleShape2D_y1olj")
