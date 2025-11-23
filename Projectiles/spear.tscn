@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2le50ifa3b5i"]
+
+[ext_resource type="Texture2D" uid="uid://eboq77kiyukf" path="res://Sprites/Projectiles Sprites/goblin_spear.png" id="1_bh3mn"]
+[ext_resource type="Script" uid="uid://p38ilw8w4ujy" path="res://Scripts/projectile_scritp.gd" id="2_r43yr"]
+
+[node name="spear" type="Sprite2D"]
+texture = ExtResource("1_bh3mn")
+script = ExtResource("2_r43yr")
+rotate_offset_deg = 270

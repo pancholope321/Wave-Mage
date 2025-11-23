@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://p38ilw8w4ujy" path="res://Scripts/projectile_scritp.gd" id="2_dn2pt"]
 
 [node name="ProjectileTemplate" type="Sprite2D"]
-visible = false
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_vscv7")
 script = ExtResource("2_dn2pt")
