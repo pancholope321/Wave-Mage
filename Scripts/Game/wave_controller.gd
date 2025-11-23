@@ -995,6 +995,8 @@ func _on_button_pressed() -> void:
 	audioController.attacking()
 	
 	attack_button.disabled=true
+	attack_button.texture_disabled.set_current_frame(0)
+	
 
 
 func activate_visual_waves(list_shader_order):
@@ -1044,4 +1046,5 @@ func remove_enemy(id):
 
 func end_enemy_turn():
 	attack_button.disabled=false
+	attack_button.texture_normal.set_current_frame(0)
 	audioController.stopAttacking()

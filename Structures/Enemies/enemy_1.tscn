@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://bokpwd7wpqxvp"]
 
 [ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_1ydr5"]
-[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_agpfj"]
 [ext_resource type="PackedScene" uid="uid://ch6qnjee2n2o2" path="res://Projectiles/projectile_template.tscn" id="2_rn0rw"]
+[ext_resource type="Texture2D" uid="uid://d4fn01djmagem" path="res://Sprites/Character sprites/goblin 1.png" id="3_jjgde"]
 [ext_resource type="Texture2D" uid="uid://c3xgyskdsr46h" path="res://Sprites/UI sprites/enemyBGHealthbar.png" id="4_jjgde"]
 [ext_resource type="Texture2D" uid="uid://c214y064d6ffk" path="res://Sprites/UI sprites/enemyPanel.png" id="5_0xmii"]
 [ext_resource type="Texture2D" uid="uid://dppkktqfk4pb7" path="res://Sprites/UI sprites/enemyFILLHealth.png" id="6_x5w4j"]
@@ -22,9 +22,8 @@ health = 200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")
-position = Vector2(2, 60.9999)
-scale = Vector2(0.15625, 0.953126)
-texture = ExtResource("2_agpfj")
+position = Vector2(-40, 55)
+texture = ExtResource("3_jjgde")
 
 [node name="enemyP2" type="Node2D" parent="."]
 position = Vector2(0, 122)

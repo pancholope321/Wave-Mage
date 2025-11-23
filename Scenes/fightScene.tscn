@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=40 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
@@ -14,12 +14,81 @@
 [ext_resource type="Texture2D" uid="uid://dmn6sd4jaexs5" path="res://Sprites/UI sprites/playerHealthBarBg.png" id="10_hhgo6"]
 [ext_resource type="Texture2D" uid="uid://obhx5hfe02cj" path="res://Sprites/UI sprites/playerHealthBarPanel.png" id="11_w5y70"]
 [ext_resource type="Texture2D" uid="uid://e7xcts26dm5n" path="res://Sprites/UI sprites/playerHealthBarFILL.png" id="12_v5lmx"]
-[ext_resource type="Texture2D" uid="uid://bvx2m6yt0puey" path="res://Sprites/UI sprites/attackButtonTexture.png" id="15_7nvar"]
-[ext_resource type="Texture2D" uid="uid://dx8d2d8lpdboy" path="res://Sprites/UI sprites/attackButtonTexturePressed.png" id="16_po2lt"]
 [ext_resource type="Texture2D" uid="uid://bqj0aes7nqi5b" path="res://Sprites/UI sprites/attackButtonTextureHover.png" id="17_e8a6h"]
+[ext_resource type="Texture2D" uid="uid://1vrgtq3yyhh7" path="res://Sprites/UI sprites/button animation sprites/image0000.png" id="18_8xmf6"]
+[ext_resource type="Texture2D" uid="uid://75p6npi8msl3" path="res://Sprites/UI sprites/button animation sprites/image0001.png" id="19_vlvhn"]
+[ext_resource type="Texture2D" uid="uid://bm25g6gabcgcd" path="res://Sprites/UI sprites/button animation sprites/image0010.png" id="20_coesg"]
+[ext_resource type="Texture2D" uid="uid://dnxyd4nq7il31" path="res://Sprites/UI sprites/button animation sprites/image0011.png" id="21_q0myi"]
+[ext_resource type="Texture2D" uid="uid://b1ftxbd5pyiys" path="res://Sprites/UI sprites/button animation sprites/image0012.png" id="22_mj7wt"]
+[ext_resource type="Texture2D" uid="uid://cbmymfousrbry" path="res://Sprites/UI sprites/button animation sprites/image0013.png" id="23_7vw23"]
+[ext_resource type="Texture2D" uid="uid://cpgrtusgmjguj" path="res://Sprites/UI sprites/button animation sprites/image0014.png" id="24_6jvuv"]
+[ext_resource type="Texture2D" uid="uid://cjiad3n886vos" path="res://Sprites/UI sprites/button animation sprites/image0015.png" id="25_3qpwt"]
+[ext_resource type="Texture2D" uid="uid://cphin8wugj8vw" path="res://Sprites/UI sprites/button animation sprites/image0016.png" id="26_6f71t"]
+[ext_resource type="Texture2D" uid="uid://dseupb3ghh52e" path="res://Sprites/UI sprites/button animation sprites/image0017.png" id="27_vatcr"]
+[ext_resource type="Texture2D" uid="uid://3esupvj0qiwy" path="res://Sprites/UI sprites/button animation sprites/image0018.png" id="28_gtxvn"]
+[ext_resource type="Texture2D" uid="uid://1xt73qps2yt7" path="res://Sprites/UI sprites/button animation sprites/image0019.png" id="29_lm8ee"]
+[ext_resource type="Texture2D" uid="uid://b4w217dm6jnbj" path="res://Sprites/UI sprites/button animation sprites/image0002.png" id="30_x34o6"]
+[ext_resource type="Texture2D" uid="uid://cacqgb20vfdso" path="res://Sprites/UI sprites/button animation sprites/image0020.png" id="31_1co6m"]
+[ext_resource type="Texture2D" uid="uid://i6vcbxb2s47h" path="res://Sprites/UI sprites/button animation sprites/image0003.png" id="32_15xif"]
+[ext_resource type="Texture2D" uid="uid://ghyg2hylerhr" path="res://Sprites/UI sprites/button animation sprites/image0004.png" id="33_vgbev"]
+[ext_resource type="Texture2D" uid="uid://bpq1wnuyohgff" path="res://Sprites/UI sprites/button animation sprites/image0005.png" id="34_pdia0"]
+[ext_resource type="Texture2D" uid="uid://do3kv0ug3vrln" path="res://Sprites/UI sprites/button animation sprites/image0006.png" id="35_g4oyw"]
+[ext_resource type="Texture2D" uid="uid://cmydkfynnu7oc" path="res://Sprites/UI sprites/button animation sprites/image0007.png" id="36_1a7uk"]
+[ext_resource type="Texture2D" uid="uid://bf0j8f3o0bvuq" path="res://Sprites/UI sprites/button animation sprites/image0008.png" id="37_bkjvu"]
+[ext_resource type="Texture2D" uid="uid://wkpw4k2vhkes" path="res://Sprites/UI sprites/button animation sprites/image0009.png" id="38_fbtmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
 size = Vector2(21, 71)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_4ja3e"]
+frames = 11
+one_shot = true
+speed_scale = 15.0
+frame_0/texture = ExtResource("20_coesg")
+frame_1/texture = ExtResource("21_q0myi")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("22_mj7wt")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("23_7vw23")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("24_6jvuv")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("25_3qpwt")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("26_6f71t")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("27_vatcr")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("28_gtxvn")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("29_lm8ee")
+frame_9/duration = 1.0
+frame_10/texture = ExtResource("31_1co6m")
+frame_10/duration = 1.0
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_ibq60"]
+frames = 10
+one_shot = true
+speed_scale = 15.0
+frame_0/texture = ExtResource("18_8xmf6")
+frame_1/texture = ExtResource("19_vlvhn")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("30_x34o6")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("32_15xif")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("33_vgbev")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("34_pdia0")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("35_g4oyw")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("36_1a7uk")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("37_bkjvu")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("38_fbtmy")
+frame_9/duration = 1.0
 
 [node name="fight" type="Node2D"]
 
@@ -166,18 +235,19 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 14.0
-offset_top = 567.0
-offset_right = -1024.0
-offset_bottom = -22.9999
+offset_left = -18.0
+offset_top = 542.0
+offset_right = -1006.0
+offset_bottom = -11.9999
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.25, 1.25)
+mouse_default_cursor_shape = 2
 keep_pressed_outside = true
-texture_normal = ExtResource("15_7nvar")
-texture_pressed = ExtResource("16_po2lt")
+texture_normal = SubResource("AnimatedTexture_4ja3e")
 texture_hover = ExtResource("17_e8a6h")
-texture_disabled = ExtResource("16_po2lt")
+texture_disabled = SubResource("AnimatedTexture_ibq60")
+stretch_mode = 3
 
 [node name="bounding_area" type="Node2D" parent="."]
 
