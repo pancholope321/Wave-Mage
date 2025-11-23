@@ -30,7 +30,8 @@ func setup_wave_bounding_area(topLeft_set,topRight_set,bottomLeft_set,bottomRigh
 	bottomLeft=bottomLeft_set.global_position
 	bottomRight=bottomRight_set.global_position
 	var overlapping=true
-	while overlapping:
+	var tries=6
+	while overlapping and tries>0:
 		var randX=randf()
 		var randY=randf()
 		var set_position=randY*(randX*topLeft+(1-randX)*topRight)+(1-randY)*(randX*bottomLeft+(1-randX)*bottomRight)
@@ -38,6 +39,7 @@ func setup_wave_bounding_area(topLeft_set,topRight_set,bottomLeft_set,bottomRigh
 		print(global_position)
 		overlapping=check_power_overlaps()
 		print("overlapping: ",overlapping)
+		tries-=1
 
 var listOfPowers=[]
 func setup_list_of_powers(listOfPowers_set):
