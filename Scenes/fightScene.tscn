@@ -1,18 +1,43 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=12 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
+[ext_resource type="Texture2D" uid="uid://twxutruahf4a" path="res://Sprites/UI sprites/background_1.png" id="1_yqjp4"]
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="2_83aax"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
 [ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
 [ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
+[ext_resource type="Texture2D" uid="uid://ctgqe0kxneb08" path="res://Sprites/UI sprites/framework_1.png" id="7_fm3o4"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
 size = Vector2(21, 81)
 
 [node name="fight" type="Node2D"]
+
+[node name="Background UI" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Control" type="Control" parent="Background UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Background UI/Control"]
+light_mask = 0
+visibility_layer = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_yqjp4")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -64,27 +89,6 @@ wave_controller = NodePath("../waveController")
 
 [node name="fightController" type="Node" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 68.0
-grow_vertical = 0
-text = "ATTACK"
-
 [node name="audio_controller" type="Node" parent="." node_paths=PackedStringArray("start_music", "music_loop")]
 script = ExtResource("5_57ar5")
 start_music = NodePath("start music")
@@ -98,4 +102,47 @@ bus = &"Music"
 stream = ExtResource("7_jag4a")
 bus = &"Music"
 
-[connection signal="pressed" from="CanvasLayer/Control/Button" to="waveController" method="_on_button_pressed"]
+[node name="Front UI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="Front UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_fm3o4")
+
+[node name="Button" type="Button" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 68.0
+grow_vertical = 0
+text = "ATTACK"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.039
+anchor_top = 0.026
+anchor_right = 0.268
+anchor_bottom = 0.105
+offset_left = 0.0719986
+offset_top = 0.152
+offset_right = 0.263977
+offset_bottom = -0.0400009
+
+[connection signal="pressed" from="Front UI/Control/Button" to="waveController" method="_on_button_pressed"]

@@ -4,10 +4,12 @@ extends Area2D
 @export var point2:Node2D
 @export var projectile:PackedScene
 @onready var my_sprite = $Sprite2D
+@export var healthBar:TextureProgressBar
 @export var damage=1
 var mouse_offset=Vector2(0,0)
 var waveStartingPoint=Vector2(576,324)
-var health=2.0
+@export var health=2.0
+var max_health=2.0
 var alive=true
 var player:Area2D
 func recieve_damage(damage):
@@ -18,6 +20,8 @@ func recieve_damage(damage):
 func activate_final_actions():
 	if !alive:
 		self.queue_free()
+	healthBar.value=5+90*(health/max_health)
+	#animate damage taken
 
 func setup_wave_starting_point(player_set):
 	waveStartingPoint=player_set.get_wave_start().global_position
@@ -25,6 +29,7 @@ func setup_wave_starting_point(player_set):
 
 func _ready() -> void:
 	mouse_offset=(point1.position+point2.position)/2.0
+	max_health=health
 	
 func get_two_points():
 	return [point1,point2]
