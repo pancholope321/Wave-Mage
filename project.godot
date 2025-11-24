@@ -23,6 +23,10 @@ Sfx="*res://Sound/SFX.tscn"
 
 project/assembly_name="Wave Mage"
 
+[gui]
+
+theme/custom_font="uid://chlag3glr1ni0"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
