@@ -8,12 +8,14 @@ var totalCoins = 0
 
 var attrLvlDict : Dictionary
 var inforPowerDict: Dictionary
-var healthUpgradePrices = [100, 200, 300, 400]
+var healthUpgradePrices = [100, 200, 300, 400] 
+var musicVolumeSettings : float
 
 var coinsWon=0 
 
 #Ready function
-func _ready() -> void:
+func _ready() -> void: 
+	musicVolumeSettings = load_game_data()["settings"]["music_volume"]
 	print("load_game_data:", load_game_data())
 	totalCoins = load_game_data()["player_stats"]["money"]
 	attrLvlDict = load_game_data()
