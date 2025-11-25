@@ -37,7 +37,7 @@ text = "BACK
 [node name="Health Upgrade" type="Node2D" parent="Camera2D"]
 position = Vector2(-438, 121)
 script = ExtResource("2_egqbd")
-itemName = "Health"
+itemName = "health_upg"
 isUpgrade = true
 
 [node name="Background" type="ColorRect" parent="Camera2D/Health Upgrade"]

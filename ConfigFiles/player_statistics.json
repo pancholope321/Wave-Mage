@@ -2,7 +2,8 @@
 "unlocked_powers":{
 	"mirror":0,
 	"duplicatePower":0,
-	"damageMultiplier":0
+	"damageMultiplier":0,
+	"health_upg":0
 	},
 "power_activations":{
 	"mirror":0,
@@ -16,7 +17,6 @@
 	},
 "player_stats":{
 	"money":0,
-	"current_day":0, 
-	"health_lvl":0
+	"current_day":0
 }
 }

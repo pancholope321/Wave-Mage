@@ -6,29 +6,34 @@
 	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"},
 	"damageMultiplier":{"structure":"res://Structures/damageMultiplier.tscn"},
 	"enemy2":{"structure":"res://Structures/Enemies/enemy_2.tscn"},
+	"health_upg":{"start_function_path":"functionPath","start_function":"functionName"}
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
-	"damageMultiplier":"Damage Multiplier"
+	"damageMultiplier":"Damage Multiplier",
+	"health_upg":""
 },
 "power_name":{
 	"mirror":"Mirror",
 	"duplicatePower":"Duplicator",
 	"enemy1":"enemy",
 	"damageMultiplier":"Damage Multiplier",
-	"enemy2":"enemy"
+	"enemy2":"enemy",
+	"health_upg":"Health Upgrade"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
 	"duplicatePower":"Duplicates incoming waves",
 	"enemy1":"Enemy attacking",
 	"damageMultiplier": "Multiply damage by 2",
-	"enemy2":"Enemy attacking"
+	"enemy2":"Enemy attacking",
+	"health_upg":"Add 100 extra HP"
 },
 "power_costs":{
-	"mirror":3,
-	"duplicatePower":3,
-	"damageMultiplier":3
+	"mirror":{"price":3,"growth_per_level":3},
+	"duplicatePower":{"price":3,"growth_per_level":3},
+	"damageMultiplier":{"price":3,"growth_per_level":3},
+	"health_upg":{"price":3,"growth_per_level":3}
 }
 }

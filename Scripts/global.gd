@@ -9,24 +9,27 @@ var upgradePriceDict = {
 	"Health" : [100, 200, 300, 400]
 } 
 var attrLvlDict : Dictionary
+var inforPowerDict: Dictionary
 var healthUpgradePrices = [100, 200, 300, 400]
 
 var coinsWon=0 
 
 #Ready function
 func _ready() -> void:
+	print("load_game_data:", load_game_data())
 	totalCoins = load_game_data()["player_stats"]["money"]
-	attrLvlDict = {
-		"Health" : load_game_data()["player_stats"]["health_lvl"]
-	}
+	attrLvlDict = load_game_data()["unlocked_powers"]
+	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
+	
 
 #Other functions
 
 func load_game_data(): 
 	if (check_file_exists("user://wmsave.json")):
-		load_json_config("user://wmsave.json") 
+		return load_json_config("user://wmsave.json") 
 	else:
-		load_json_config(defaultData)
+		print("default data loading")
+		return load_json_config(defaultData)
 
 func check_file_exists(file_path: String) -> bool:
 	return FileAccess.file_exists(file_path)
@@ -40,6 +43,7 @@ func load_json_config(file_path: String):
 		push_error("Failed to open JSON file: " + file_path)
 		return null
 	var json_string = file.get_as_text()
+	print("json string: ", json_string)
 	file.close()
 	var json = JSON.new()
 	var parse_result = json.parse(json_string)

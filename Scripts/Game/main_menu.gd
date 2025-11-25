@@ -10,5 +10,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func start_game(): 
+func start_game():
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")
