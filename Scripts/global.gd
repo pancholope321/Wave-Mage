@@ -1,7 +1,9 @@
 extends Node
 # we need to add functions to have data permanence, 
 # lets use the json on the config files
-# ConfigFiles>player_statistics>json
+# ConfigFiles>player_statistics>json 
+var defaultData = "res://ConfigFiles/player_statistics.json" 
+ 
 var totalCoins = 0
 var upgradePriceDict = {
 	"Health" : [100, 200, 300, 400]
@@ -13,12 +15,18 @@ var coinsWon=0
 
 #Ready function
 func _ready() -> void:
-	totalCoins = load_json_config("res://ConfigFiles/player_statistics.json")["player_stats"]["money"]
+	totalCoins = load_game_data()["player_stats"]["money"]
 	attrLvlDict = {
-		"Health" : load_json_config("res://ConfigFiles/player_statistics.json")["player_stats"]["health_lvl"]
+		"Health" : load_game_data()["player_stats"]["health_lvl"]
 	}
 
 #Other functions
+
+func load_game_data(): 
+	if (check_file_exists("user://wmsave.json")):
+		load_json_config("user://wmsave.json") 
+	else:
+		load_json_config(defaultData)
 
 func check_file_exists(file_path: String) -> bool:
 	return FileAccess.file_exists(file_path)
@@ -40,10 +48,11 @@ func load_json_config(file_path: String):
 		return null
 	return json.data
 
-func save_json_config(object, path): 
-	var user_dir = OS.get_user_data_dir()
-	var file_path = user_dir + path+ "/buffs.json"
-	# Create a FileAccess object for writing
+func save_json_config(object):
+	#var user_dir = OS.get_user_data_dir()
+	#var file_path = user_dir + path+ "/buffs.json"
+	# Create a FileAccess object for writing 
+	var file_path = "user://wmsave.json"
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
 		# Convert your data to JSON string
