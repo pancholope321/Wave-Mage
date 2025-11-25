@@ -4,7 +4,8 @@
 	"mirror":{"structure":"res://Structures/mirror.tscn"},
 	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"},
 	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"},
-	"damageMultiplier":{"structure":"res://Structures/damageMultiplier.tscn"}
+	"damageMultiplier":{"structure":"res://Structures/damageMultiplier.tscn"},
+	"enemy2":{"structure":"res://Structures/Enemies/enemy_2.tscn"},
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
@@ -15,13 +16,15 @@
 	"mirror":"Mirror",
 	"duplicatePower":"Duplicator",
 	"enemy1":"enemy",
-	"damageMultiplier":"Damage Multiplier"
+	"damageMultiplier":"Damage Multiplier",
+	"enemy2":"enemy"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
 	"duplicatePower":"Duplicates incoming waves",
 	"enemy1":"Enemy attacking",
-	"damageMultiplier": "Multiply damage by 2"
+	"damageMultiplier": "Multiply damage by 2",
+	"enemy2":"Enemy attacking"
 },
 "power_costs":{
 	"mirror":3,

@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://bo4ph1dyfdkbb"]
+
+[ext_resource type="Script" uid="uid://c6bo20mmlploh" path="res://Scripts/enemyOrganizator.gd" id="1_ipgb7"]
+[ext_resource type="PackedScene" uid="uid://bro8xxygb3vx1" path="res://Projectiles/arrow.tscn" id="2_ipgb7"]
+[ext_resource type="Texture2D" uid="uid://dxw3caaypjomw" path="res://Sprites/Character sprites/goblin 2.png" id="3_8oato"]
+[ext_resource type="Texture2D" uid="uid://c3xgyskdsr46h" path="res://Sprites/UI sprites/enemyBGHealthbar.png" id="4_dunp2"]
+[ext_resource type="Texture2D" uid="uid://c214y064d6ffk" path="res://Sprites/UI sprites/enemyPanel.png" id="5_8mo2g"]
+[ext_resource type="Texture2D" uid="uid://dppkktqfk4pb7" path="res://Sprites/UI sprites/enemyFILLHealth.png" id="6_1ra46"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yk4my"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7aek1"]
+size = Vector2(19, 123)
+
+[node name="enemyP1" type="Area2D" node_paths=PackedStringArray("point1", "point2", "healthBar")]
+script = ExtResource("1_ipgb7")
+point1 = NodePath(".")
+point2 = NodePath("enemyP2")
+projectile = ExtResource("2_ipgb7")
+healthBar = NodePath("TextureProgressBar")
+health = 200.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_yk4my")
+position = Vector2(-93, 57)
+texture = ExtResource("3_8oato")
+
+[node name="enemyP2" type="Node2D" parent="."]
+position = Vector2(0, 122)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 61.5)
+shape = SubResource("RectangleShape2D_7aek1")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 58.0
+offset_top = 6.0
+offset_right = 154.0
+offset_bottom = 104.0
+value = 95.0
+texture_under = ExtResource("4_dunp2")
+texture_over = ExtResource("5_8mo2g")
+texture_progress = ExtResource("6_1ra46")

@@ -19,7 +19,8 @@ var test_json={
 }
 var enemy_json={
 "enemy_count":{
-	"enemy1":3
+	"enemy1":1,
+	"enemy2":1
 	}
 }
 @export var debug=false

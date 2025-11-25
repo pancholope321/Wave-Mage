@@ -33,7 +33,6 @@ func launch_projectile(regulator):
 	var direction=atan(yderiv)
 	self.global_position=Vector2(x,y)
 	self.rotation=direction + PI*rotate_offset_deg/180.0
-	print("rotation: ",rotation)
 
 func end_action():
 	#explotion and then queuefree, for example

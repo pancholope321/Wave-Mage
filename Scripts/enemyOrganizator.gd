@@ -50,7 +50,7 @@ func animate_enemy_attack(playerNode):
 	var instance=projectile.instantiate()
 	if player==null:
 		player=playerNode
-	var start_set=self.global_position
+	var start_set=(self.global_position+point2.global_position)/2.0
 	var end_set=player.global_position
 	instance.setup_start_end(start_set,end_set)
 	self.add_child(instance)
