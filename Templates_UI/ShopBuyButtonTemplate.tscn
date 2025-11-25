@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://4gkagmup2nk4"]
+
+[ext_resource type="Script" uid="uid://dadqb1biflc0c" path="res://Scenes/shop_item.gd" id="1_h3u0o"]
+
+[node name="Buy" type="Button" node_paths=PackedStringArray("labelPrice", "texture")]
+offset_left = -463.0
+offset_top = 169.0
+offset_right = -332.0
+offset_bottom = 277.0
+theme_override_font_sizes/font_size = 20
+script = ExtResource("1_h3u0o")
+labelPrice = NodePath("price")
+texture = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="price" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

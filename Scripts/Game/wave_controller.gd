@@ -48,25 +48,31 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			index+=1
 			listOfPowers.append(newDict)
 	var keys=PowerJson.keys()
-	
+	var context={"enemies":enemyList,"player":player}
 	for key in keys:
 		for i in range(PowerJson[key]):
-			var path=structureJson[key].structure
-			var pathloaded=load(path)
-			var instance=pathloaded.instantiate()
-			add_child(instance)
-			instance.setup_wave_starting_point(player)
-			instance.setup_wave_bounding_area(topLeft,topRight,bottomLeft,bottomRight)
-			instance.setup_list_of_powers(listOfPowers)
-			instance.setup_id(index)
-			var newDict={
-			"id":index,
-			"powerName": key,
-			"startPos": instance.get_two_points()[0], 
-			"endPos": instance.get_two_points()[1],
-			"node":instance}
-			index+=1
-			listOfPowers.append(newDict)
+			if structureJson[key].has("start_function_path"):
+				var functionFile = load(structureJson[key].start_function_path)
+				if functionFile:
+					var instance = functionFile.new()  # Create an instance
+					instance.call(structureJson[key].start_function, context)
+			if structureJson[key].has("structure"):
+				var path=structureJson[key].structure
+				var pathloaded=load(path)
+				var instance=pathloaded.instantiate()
+				add_child(instance)
+				instance.setup_wave_starting_point(player)
+				instance.setup_wave_bounding_area(topLeft,topRight,bottomLeft,bottomRight)
+				instance.setup_list_of_powers(listOfPowers)
+				instance.setup_id(index)
+				var newDict={
+				"id":index,
+				"powerName": key,
+				"startPos": instance.get_two_points()[0], 
+				"endPos": instance.get_two_points()[1],
+				"node":instance}
+				index+=1
+				listOfPowers.append(newDict)
 	pass
 	
 	

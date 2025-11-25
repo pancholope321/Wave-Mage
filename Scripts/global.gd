@@ -5,9 +5,7 @@ extends Node
 var defaultData = "res://ConfigFiles/player_statistics.json" 
  
 var totalCoins = 0
-var upgradePriceDict = {
-	"Health" : [100, 200, 300, 400]
-} 
+
 var attrLvlDict : Dictionary
 var inforPowerDict: Dictionary
 var healthUpgradePrices = [100, 200, 300, 400]
@@ -18,7 +16,7 @@ var coinsWon=0
 func _ready() -> void:
 	print("load_game_data:", load_game_data())
 	totalCoins = load_game_data()["player_stats"]["money"]
-	attrLvlDict = load_game_data()["unlocked_powers"]
+	attrLvlDict = load_game_data()
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
 	
 
