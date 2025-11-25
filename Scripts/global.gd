@@ -40,7 +40,7 @@ func load_json_config(file_path: String):
 		return null
 	return json.data
 
-func save_json_config(object, path):
+func save_json_config(object, path): 
 	var user_dir = OS.get_user_data_dir()
 	var file_path = user_dir + path+ "/buffs.json"
 	# Create a FileAccess object for writing
