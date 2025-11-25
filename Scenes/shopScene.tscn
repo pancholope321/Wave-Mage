@@ -54,5 +54,8 @@ scale = Vector2(2.24324, 2.96667)
 texture = ExtResource("3_htbse")
 
 [node name="Buy" type="Button" parent="Camera2D/Health Upgrade"]
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = -25.0
+offset_top = 64.0
+offset_right = 23.0
+offset_bottom = 86.0
+theme_override_font_sizes/font_size = 20

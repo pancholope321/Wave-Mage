@@ -2,18 +2,23 @@ extends Node
 # we need to add functions to have data permanence, 
 # lets use the json on the config files
 # ConfigFiles>player_statistics>json
-var totalCoins = 0 
+var totalCoins = 0
 var upgradePriceDict = {
 	"Health" : [100, 200, 300, 400]
 } 
-var attrLvlDict = {
-	"Health" : 0
-}
+var attrLvlDict : Dictionary
 var healthUpgradePrices = [100, 200, 300, 400]
 
 var coinsWon=0 
 
-#Functions
+#Ready function
+func _ready() -> void:
+	totalCoins = load_json_config("res://ConfigFiles/player_statistics.json")["player_stats"]["money"]
+	attrLvlDict = {
+		"Health" : load_json_config("res://ConfigFiles/player_statistics.json")["player_stats"]["health_lvl"]
+	}
+
+#Other functions
 
 func check_file_exists(file_path: String) -> bool:
 	return FileAccess.file_exists(file_path)
