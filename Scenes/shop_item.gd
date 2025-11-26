@@ -29,3 +29,6 @@ func updatePrice():
 
 func _on_pressed() -> void:
 	updatePrice()
+
+func get_price():
+	return roundi(self.price)

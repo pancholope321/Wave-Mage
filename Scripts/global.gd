@@ -4,21 +4,21 @@ extends Node
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
  
-var totalCoins = 0
+var totalCoins :Dictionary
 
 var attrLvlDict : Dictionary
 var inforPowerDict: Dictionary
-var healthUpgradePrices = [100, 200, 300, 400] 
-var musicVolumeSettings : float
+var musicVolumeSettings : Dictionary
 
 var coinsWon=0 
 
 #Ready function
 func _ready() -> void: 
-	musicVolumeSettings = load_game_data()["settings"]["music_volume"]
-	print("load_game_data:", load_game_data())
-	totalCoins = load_game_data()["player_stats"]["money"]
 	attrLvlDict = load_game_data()
+	musicVolumeSettings = attrLvlDict["settings"]
+	
+	totalCoins = attrLvlDict["player_stats"]
+	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
 	
 
@@ -52,15 +52,19 @@ func load_json_config(file_path: String):
 		return null
 	return json.data
 
-func save_json_config(object):
+func save_json_config():
+	print("saving json...")
+	print(attrLvlDict)
+	print(musicVolumeSettings)
 	#var user_dir = OS.get_user_data_dir()
 	#var file_path = user_dir + path+ "/buffs.json"
 	# Create a FileAccess object for writing 
+	
 	var file_path = "user://wmsave.json"
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
 		# Convert your data to JSON string
-		var json_string = JSON.stringify(object)
+		var json_string = JSON.stringify(attrLvlDict)
 		# Write the JSON string to file
 		file.store_string(json_string)
 		file.close()

@@ -50,7 +50,6 @@ offset_bottom = -269.0
 text = "SETTINGS"
 
 [node name="Settings Popup" type="Control" parent="."]
-visible = false
 z_index = 18
 layout_mode = 3
 anchors_preset = 0
