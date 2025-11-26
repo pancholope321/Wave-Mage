@@ -18,6 +18,7 @@ script = ExtResource("4_yl13b")
 
 [node name="ColorRect" type="ColorRect" parent="Settings Popup"]
 z_index = -2
+layout_mode = 0
 offset_left = -178.0
 offset_top = -99.0
 offset_right = 185.0
@@ -30,6 +31,7 @@ anchors_preset = 0
 script = ExtResource("5_3uny1")
 
 [node name="Label" type="Label" parent="Settings Popup/Music Volume"]
+layout_mode = 0
 offset_left = -163.0
 offset_right = -72.0
 offset_bottom = 23.0
@@ -37,6 +39,7 @@ theme_override_fonts/font = ExtResource("3_b7htb")
 text = "MUSIC VOL."
 
 [node name="Minus Button" type="Button" parent="Settings Popup/Music Volume"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("3_b7htb")
@@ -44,6 +47,7 @@ theme_override_font_sizes/font_size = 18
 text = "-"
 
 [node name="Plus Button" type="Button" parent="Settings Popup/Music Volume"]
+layout_mode = 0
 offset_left = 90.0
 offset_right = 108.0
 offset_bottom = 31.0
@@ -52,6 +56,7 @@ theme_override_font_sizes/font_size = 18
 text = "+"
 
 [node name="Volume Display" type="Label" parent="Settings Popup/Music Volume"]
+layout_mode = 0
 offset_left = 32.0
 offset_right = 72.0
 offset_bottom = 28.0
@@ -61,6 +66,7 @@ theme_override_font_sizes/font_size = 20
 text = "100"
 
 [node name="Save Settings" type="Button" parent="Settings Popup"]
+layout_mode = 0
 offset_left = -30.0
 offset_top = 54.0
 offset_right = 20.0
@@ -70,6 +76,7 @@ text = "SAVE"
 
 [node name="Transparent BG" type="ColorRect" parent="Settings Popup"]
 z_index = -7
+layout_mode = 0
 offset_left = -591.0
 offset_top = -339.0
 offset_right = 595.0

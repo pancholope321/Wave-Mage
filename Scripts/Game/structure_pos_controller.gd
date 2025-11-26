@@ -19,8 +19,11 @@ var test_json={
 }
 var enemy_json={
 "enemy_count":{
-	"enemy1":1,
-	"enemy2":1
+	"goblin_spear":0,
+	"goblin_arrow":0,
+	"goblin_mage":1,
+	"skeleton_spear":1,
+	"skeleton_dagger":1
 	}
 }
 @export var debug=false

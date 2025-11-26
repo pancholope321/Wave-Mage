@@ -3,9 +3,12 @@
 	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath"},
 	"mirror":{"structure":"res://Structures/mirror.tscn"},
 	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"},
-	"enemy1":{"structure":"res://Structures/Enemies/enemy_1.tscn"},
+	"goblin_spear":{"structure":"res://Structures/Enemies/goblin_spear.tscn"},
 	"damageMultiplier":{"structure":"res://Structures/damageMultiplier.tscn"},
-	"enemy2":{"structure":"res://Structures/Enemies/enemy_2.tscn"},
+	"goblin_arrow":{"structure":"res://Structures/Enemies/goblin_arrow.tscn"},
+	"goblin_mage":{"structure":"res://Structures/Enemies/goblin_mage.tscn"},
+	"skeleton_dagger":{"structure":"res://Structures/Enemies/skeleton_dagger.tscn"},
+	"skeleton_spear":{"structure":"res://Structures/Enemies/skeleton_spear.tscn"},
 	"health_upg":{"start_function_path":"res://Scripts/Powers/health_upg.gd","start_function":"add_more_health"}
 },
 "power_image":{
@@ -17,18 +20,24 @@
 "power_name":{
 	"mirror":"Mirror",
 	"duplicatePower":"Duplicator",
-	"enemy1":"enemy",
+	"goblin_spear":"enemy",
 	"damageMultiplier":"Damage Multiplier",
-	"enemy2":"enemy",
-	"health_upg":"Health Upgrade"
+	"goblin_arrow":"enemy",
+	"health_upg":"Health Upgrade",
+	"goblin_mage":"enemy",
+	"skeleton_spear":"enemy",
+	"skeleton_dagger":"enemy"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
 	"duplicatePower":"Duplicates incoming waves",
-	"enemy1":"Enemy attacking",
+	"goblin_spear":"Enemy attacking",
 	"damageMultiplier": "Multiply damage by 2",
-	"enemy2":"Enemy attacking",
-	"health_upg":"Add 100 extra HP"
+	"goblin_arrow":"Enemy attacking",
+	"health_upg":"Add 100 extra HP",
+	"goblin_mage":"Enemy attacking",
+	"skeleton_spear":"Enemy attacking",
+	"skeleton_dagger":"Enemy attacking"
 },
 "power_costs":{
 	"mirror":{"price":3,"growth_per_level":3},
