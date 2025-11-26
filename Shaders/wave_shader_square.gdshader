@@ -58,7 +58,7 @@ void fragment() {
     if (point_in_quadrilateral(uv, square_points)) {
         // Inside square - calculate distance from origin
         float dist = distance(uv, origin);
-        
+
         // Check if distance is within the adjustable band
         if (dist >= inner_radius && dist <= outer_radius) {
             // Within the band - apply wave effect

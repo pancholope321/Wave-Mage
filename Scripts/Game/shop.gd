@@ -35,6 +35,7 @@ func update_power_buttons():
 			#powersContainer.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 
 func add_element_to_list(elementName):
+	Sfx.play("PositiveButtonPress")
 	Global.attrLvlDict["unlocked_powers"][elementName]=(Global.attrLvlDict["unlocked_powers"][elementName])+1
 
 

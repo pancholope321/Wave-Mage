@@ -42,9 +42,6 @@ offset_right = -345.0
 offset_bottom = -253.0
 text = "PLAY"
 
-[node name="Buy" parent="Camera2D" instance=ExtResource("2_e1g4l")]
-visible = false
-
 [node name="allpowers" type="VBoxContainer" parent="Camera2D"]
 offset_left = -474.0
 offset_right = -100.0

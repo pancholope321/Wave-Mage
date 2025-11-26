@@ -243,7 +243,11 @@ func paint_ordered_walls_square(order):
 				var nepos2 = newElements[1].position
 				var dir1=nepos1-nepos2
 				var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
-				activePowerDistance=(newElementPosition-ray_source_pos).length()
+				if newElementPosition==null:
+					activePowerDistance=0
+				else:
+					activePowerDistance=(newElementPosition-ray_source_pos).length()
+				
 			if rayDirection.length() < activePowerDistance:
 				# If there was an active power, create an intermediate end point for it
 				if activePower.has("position"):
@@ -523,6 +527,8 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage,order_act
 	var max_angle = deg_to_rad(angle_struct)   # positive angle
 	var order = []
 	var order_activation=1+order_activ
+	if order_activation>20:
+		return []
 	for structure in Structures:
 		var valid_points = []
 		
@@ -730,7 +736,8 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 	var angle2 = angle_ray_2
 	var order_activation=order_activ+1
 	var order = []
-	
+	if order_activation>20:
+		return []
 	# Calculate ray directions
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
