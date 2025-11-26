@@ -4,20 +4,20 @@ extends Node
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
  
-var totalCoins :Dictionary
+var totalCoins : int
 
-var attrLvlDict : Dictionary
+var gameDataDict : Dictionary
 var inforPowerDict: Dictionary
-var musicVolumeSettings : Dictionary
+var settings : Dictionary
 
 var coinsWon=0 
 
 #Ready function
 func _ready() -> void: 
-	attrLvlDict = load_game_data()
-	musicVolumeSettings = attrLvlDict["settings"]
+	gameDataDict = load_game_data()
+	settings = gameDataDict["settings"]
 	
-	totalCoins = attrLvlDict["player_stats"]
+	totalCoins = gameDataDict["player_stats"]["money"]
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
 	
