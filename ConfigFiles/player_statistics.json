@@ -20,6 +20,7 @@
 		"current_day":0
 	}, 
 	"settings":{
-		"music_volume":100.0
+		"Music":100.0, 
+		"SFX":100.0
 	}
 }
