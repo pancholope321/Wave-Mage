@@ -77,7 +77,7 @@ func load_json_config(file_path: String):
 
 func save_json_config():
 	print("saving json...")
-	print(totalCoins)
+	print(playerStats)
 	#var user_dir = OS.get_user_data_dir()
 	#var file_path = user_dir + path+ "/buffs.json"
 	# Create a FileAccess object for writing 
