@@ -36,10 +36,13 @@ func update_power_buttons():
 
 func add_element_to_list(elementName,button):
 	var button_price=button.get_price()
-	if button_price>=Global.totalCoins["money"]:
+	print("trying to buy")
+	if button_price<=Global.totalCoins["money"]:
 		Sfx.play("PositiveButtonPress")
 		Global.attrLvlDict["unlocked_powers"][elementName]=(Global.attrLvlDict["unlocked_powers"][elementName])+1
 		Global.totalCoins["money"]-=button_price
+		print("actually buying")
+		button.updatePrice()
 
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")

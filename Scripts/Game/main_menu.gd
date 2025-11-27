@@ -18,6 +18,7 @@ func _process(delta: float) -> void:
 	player.volume_db = (Global.musicVolumeSettings["music_volume"]/100)*12
 
 func start_game():
+	Global.load_new_game()
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")
 
 func display_settings(): 

@@ -19,7 +19,6 @@ func set_item(nameItem):
 	texture.texture=loaded_image
 
 func updatePrice():
-	Global.attrLvlDict["unlocked_powers"][itemName] += 1
 	level = Global.attrLvlDict["unlocked_powers"][itemName] 
 	var priceDict=Global.inforPowerDict["power_costs"][itemName]
 	price=priceDict["price"]+level*priceDict["growth_per_level"]
@@ -27,8 +26,7 @@ func updatePrice():
 
 
 
-func _on_pressed() -> void:
-	updatePrice()
+	
 
 func get_price():
 	return roundi(self.price)

@@ -67,3 +67,7 @@ func setup_id(index):
 	id=index
 func playSFX():
 	Sfx.play("EnemyPlayerTakeDamage",true)
+
+func setup_health(health_set):
+	health=health_set
+	max_health=health_set

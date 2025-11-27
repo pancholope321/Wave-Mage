@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://p38ilw8w4ujy" path="res://Scripts/projectile_scritp.gd" id="2_e1tst"]
 
 [node name="arrow" type="Sprite2D"]
+z_index = 4
 texture = ExtResource("1_fhjge")
 script = ExtResource("2_e1tst")
 rotate_offset_deg = 270

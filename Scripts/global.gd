@@ -23,6 +23,15 @@ func _ready() -> void:
 	
 
 #Other functions
+func load_new_game():
+	var def_data=load_json_config(defaultData)
+	var copy_settings=musicVolumeSettings.duplicate()
+	attrLvlDict=def_data
+	attrLvlDict["settings"]=copy_settings
+	musicVolumeSettings = attrLvlDict["settings"]
+	totalCoins = attrLvlDict["player_stats"]
+	save_json_config()
+
 
 func load_game_data(): 
 	if (check_file_exists("user://wmsave.json")):
@@ -56,6 +65,7 @@ func save_json_config():
 	print("saving json...")
 	print(attrLvlDict)
 	print(musicVolumeSettings)
+	print(totalCoins)
 	#var user_dir = OS.get_user_data_dir()
 	#var file_path = user_dir + path+ "/buffs.json"
 	# Create a FileAccess object for writing 

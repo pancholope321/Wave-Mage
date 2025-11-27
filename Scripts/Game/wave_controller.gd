@@ -25,9 +25,10 @@ var listOfPowers=[]
 func create_list_of_powers(enemyJson,PowerJson,structureJson):
 	listOfPowers=[]
 	var index=0
-	var keys_enemy=enemyJson.keys()
+	var keys_enemy=enemyJson["enemy_count"].keys()
+	var enemies=enemyJson["enemy_count"]
 	for key in keys_enemy:
-		for i in range(enemyJson[key]):
+		for i in range(enemies[key]):
 			var path=structureJson[key].structure
 			var pathloaded=load(path)
 			var instance=pathloaded.instantiate()
@@ -38,6 +39,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			container.add_child(instance)
 			instance.setup_wave_starting_point(player)
 			instance.setup_id(index)
+			instance.setup_health(enemyJson["health"])
 			var newDict={
 			"id":index,
 			"powerName": "enemy",
@@ -137,10 +139,10 @@ func fight_lost():
 	print("fight_lost")
 	
 	pass
-
+var coinsWon = 0
 func fight_won():
 	print("fight_won")
-	var coinsWon = 10
+	coinsWon=2
 	
 	# Store coins in global or pass through other means
 	Global.coinsWon = coinsWon

@@ -17,7 +17,8 @@
 	},
 	"player_stats":{
 		"money":0,
-		"current_day":0
+		"current_day":0,
+		"playing":true
 	}, 
 	"settings":{
 		"music_volume":100.0
