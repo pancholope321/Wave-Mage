@@ -2,20 +2,20 @@ extends Control
 
 @onready var raiseButton = $"Plus Button" 
 @onready var lowerButton = $"Minus Button" 
-@onready var volDisplay = $"Volume Display" 
+@onready var volDisplay = $Volume
 @onready var audPlayer = $"../../Music Player"
 
 var volume : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	volume = Global.settings["music_volume"]
+	volume = Global.settings["Music"]
 	volDisplay.text = str(floor(volume)) 
 
 func update_volume(): 
-	Global.settings["music_volume"] = volume
+	Global.settings["Music"] = volume
 	volDisplay.text = str(floor(volume)) 
-	audPlayer.volume_db = (Global.settings["music_volume"]/100)*12
+	audPlayer.volume_db = (Global.settings["Music"]/100)*12
 
 func volume_up(): 
 	if (volume<100):

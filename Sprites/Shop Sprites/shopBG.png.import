@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3r7da2hlgcjf"
-path="res://.godot/imported/Health Up - Placeholder.png-9b370b1fa20cc267b9d66ab496ad70ba.ctex"
+uid="uid://di752r73pkrjm"
+path="res://.godot/imported/shopBG.png-a819255a86bde1403619a12d1271c519.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop Sprites/Health Up - Placeholder.png"
-dest_files=["res://.godot/imported/Health Up - Placeholder.png-9b370b1fa20cc267b9d66ab496ad70ba.ctex"]
+source_file="res://Sprites/Shop Sprites/shopBG.png"
+dest_files=["res://.godot/imported/shopBG.png-a819255a86bde1403619a12d1271c519.ctex"]
 
 [params]
 

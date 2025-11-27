@@ -24,9 +24,9 @@ func updatePrice():
 	price=priceDict["price"]+level*priceDict["growth_per_level"]
 	labelPrice.text = str(roundi(price))
 
-
-
-	
-
 func get_price():
 	return roundi(self.price)
+var value=10
+
+func _ready() -> void:
+	$AnimationPlayer.seek(randf_range(0,8))

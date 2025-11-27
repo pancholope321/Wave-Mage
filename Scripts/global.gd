@@ -18,12 +18,14 @@ var coinsWon=0
 #Ready function
 func _ready() -> void: 
 	gameDataDict = load_game_data()
+	print("gameDataDict: ",gameDataDict)
 	settings = gameDataDict["settings"]
 	
 	playerStats = gameDataDict["player_stats"]
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
-
+	musicIdx = AudioServer.get_bus_index("Music")
+	sfxIdx = AudioServer.get_bus_index("SFX")
 	AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"])) 
 	AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"]))
 	

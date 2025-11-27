@@ -15,7 +15,7 @@
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
 	"damageMultiplier":"res://icon.svg",
-	"health_upg":"res://Sprites/Shop Sprites/Health Up - Placeholder.png"
+	"health_upg":"res://Sprites/Structure Sprites/Health Up - Placeholder.png"
 },
 "power_name":{
 	"mirror":"Mirror",
@@ -34,7 +34,7 @@
 	"goblin_spear":"Enemy attacking",
 	"damageMultiplier": "Multiply damage by 2",
 	"goblin_arrow":"Enemy attacking",
-	"health_upg":"Add 100 extra HP",
+	"health_upg":"Add 5 extra HP",
 	"goblin_mage":"Enemy attacking",
 	"skeleton_spear":"Enemy attacking",
 	"skeleton_dagger":"Enemy attacking"
