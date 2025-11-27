@@ -3,6 +3,7 @@ extends Node
 # lets use the json on the config files
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
+var buttonSFX = "res://Sound/SFX/button_sfx_placeholder.wav"
  
 var playerStats : Dictionary
 
