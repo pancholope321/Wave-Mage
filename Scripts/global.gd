@@ -4,11 +4,14 @@ extends Node
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
  
-var totalCoins : Dictionary
+var playerStats : Dictionary
 
 var gameDataDict : Dictionary
 var inforPowerDict: Dictionary
-var settings : Dictionary
+var settings : Dictionary 
+
+var musicIdx = AudioServer.get_bus_index("Music")
+var sfxIdx = AudioServer.get_bus_index("SFX")
 
 var coinsWon=0 
 
@@ -17,19 +20,30 @@ func _ready() -> void:
 	gameDataDict = load_game_data()
 	settings = gameDataDict["settings"]
 	
-	totalCoins = gameDataDict["player_stats"]
+	playerStats = gameDataDict["player_stats"]
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
+
+	AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"])) 
+	AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"]))
 	
 
-#Other functions
+#Other functions 
+
+"""
+This function performs calculations on the input volume percentage and converts it to a reasonable 
+decibel value. E.g. At 100% volume, the music will be 6db.
+"""
+func db_converter(input):
+	return (input/100)*10-4
+
 func load_new_game():
 	var def_data=load_json_config(defaultData)
 	var copy_settings=settings.duplicate()
 	gameDataDict=def_data
 	gameDataDict["settings"]=copy_settings
 	settings = gameDataDict["settings"]
-	totalCoins = gameDataDict["player_stats"]
+	playerStats = gameDataDict["player_stats"]
 	save_json_config()
 
 
