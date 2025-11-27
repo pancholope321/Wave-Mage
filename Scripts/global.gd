@@ -3,7 +3,9 @@ extends Node
 # lets use the json on the config files
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
-var buttonSFX = "res://Sound/SFX/button_sfx_placeholder.wav"
+var buttonSFX = preload("res://Sound/SFX/NeutralButtonPress.wav")
+var buttonSFXPos = preload("res://Sound/SFX/PositiveButtonPress.wav") 
+var buttonSFXNeg = preload("res://Sound/SFX/NegativeButtonPress.wav")
  
 var playerStats : Dictionary
 
@@ -26,9 +28,17 @@ func _ready() -> void:
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
 	musicIdx = AudioServer.get_bus_index("Music")
-	sfxIdx = AudioServer.get_bus_index("SFX")
-	AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"])) 
-	AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"]))
+	sfxIdx = AudioServer.get_bus_index("SFX") 
+	
+	if (gameDataDict["settings"]["Music"] > 0):
+		AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"])) 
+	else: 
+		AudioServer.set_bus_mute(musicIdx,true) 
+	
+	if (gameDataDict["settings"]["SFX"] > 0):
+		AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"])) 
+	else: 
+		AudioServer.set_bus_mute(sfxIdx,true)
 	
 
 #Other functions 
@@ -38,7 +48,11 @@ This function performs calculations on the input volume percentage and converts 
 decibel value. E.g. At 100% volume, the music will be 6db.
 """
 func db_converter(input):
-	return (input/100)*10-4
+	return (input/100)*10-4 
+
+func positive_button_press(audioPlayer):
+	audioPlayer.stream = buttonSFXPos 
+	audioPlayer.play
 
 func load_new_game():
 	var def_data=load_json_config(defaultData)

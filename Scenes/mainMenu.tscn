@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_60k44"]
 [ext_resource type="FontFile" uid="uid://chlag3glr1ni0" path="res://Fonts/alagard-12px-unicode.ttf" id="3_b7htb"]
 [ext_resource type="Script" uid="uid://brfbvr1s5fcw" path="res://Scripts/Game/settings.gd" id="4_yl13b"]
-[ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/music_volume.gd" id="5_3uny1"]
+[ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/volume_settings.gd" id="5_3uny1"]
 
 [sub_resource type="Theme" id="Theme_3uny1"]
 
@@ -41,6 +41,7 @@ layout_mode = 2
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_3uny1")
 script = ExtResource("5_3uny1")
+bus = "Music"
 
 [node name="Slider" type="HSlider" parent="Settings Popup/PanelContainer/VBoxContainer/Music Volume"]
 layout_mode = 0
@@ -73,6 +74,7 @@ theme_override_fonts/font = ExtResource("3_b7htb")
 [node name="SFX Volume" type="Control" parent="Settings Popup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("5_3uny1")
+bus = "SFX"
 
 [node name="Slider" type="HSlider" parent="Settings Popup/PanelContainer/VBoxContainer/SFX Volume"]
 layout_mode = 0
@@ -147,9 +149,19 @@ text = "WAVE MAGE"
 offset_left = -28.0
 offset_right = 40.0
 offset_bottom = 36.0
+theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 20
 text = "START"
 metadata/_edit_use_anchors_ = true
+
+[node name="Shop Button" type="Button" parent="Camera2D"]
+offset_left = -24.0
+offset_top = 80.0
+offset_right = 28.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("3_b7htb")
+theme_override_font_sizes/font_size = 20
+text = "SHOP"
 
 [node name="Credits" type="Label" parent="Camera2D"]
 offset_left = -187.0
