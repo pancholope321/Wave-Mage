@@ -9,13 +9,13 @@ var volume : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	volume = Global.musicVolumeSettings["music_volume"]
+	volume = Global.settings["music_volume"]
 	volDisplay.text = str(floor(volume)) 
 
 func update_volume(): 
-	Global.musicVolumeSettings["music_volume"] = volume
+	Global.settings["music_volume"] = volume
 	volDisplay.text = str(floor(volume)) 
-	audPlayer.volume_db = (Global.musicVolumeSettings["music_volume"]/100)*12
+	audPlayer.volume_db = (Global.settings["music_volume"]/100)*12
 
 func volume_up(): 
 	if (volume<100):

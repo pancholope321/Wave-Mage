@@ -4,7 +4,7 @@ extends Node
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
  
-var totalCoins : int
+var totalCoins : Dictionary
 
 var gameDataDict : Dictionary
 var inforPowerDict: Dictionary
@@ -17,7 +17,7 @@ func _ready() -> void:
 	gameDataDict = load_game_data()
 	settings = gameDataDict["settings"]
 	
-	totalCoins = gameDataDict["player_stats"]["money"]
+	totalCoins = gameDataDict["player_stats"]
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
 	
@@ -25,11 +25,11 @@ func _ready() -> void:
 #Other functions
 func load_new_game():
 	var def_data=load_json_config(defaultData)
-	var copy_settings=musicVolumeSettings.duplicate()
-	attrLvlDict=def_data
-	attrLvlDict["settings"]=copy_settings
-	musicVolumeSettings = attrLvlDict["settings"]
-	totalCoins = attrLvlDict["player_stats"]
+	var copy_settings=settings.duplicate()
+	gameDataDict=def_data
+	gameDataDict["settings"]=copy_settings
+	settings = gameDataDict["settings"]
+	totalCoins = gameDataDict["player_stats"]
 	save_json_config()
 
 
@@ -63,8 +63,6 @@ func load_json_config(file_path: String):
 
 func save_json_config():
 	print("saving json...")
-	print(attrLvlDict)
-	print(musicVolumeSettings)
 	print(totalCoins)
 	#var user_dir = OS.get_user_data_dir()
 	#var file_path = user_dir + path+ "/buffs.json"
@@ -74,7 +72,7 @@ func save_json_config():
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	if file:
 		# Convert your data to JSON string
-		var json_string = JSON.stringify(attrLvlDict)
+		var json_string = JSON.stringify(gameDataDict)
 		# Write the JSON string to file
 		file.store_string(json_string)
 		file.close()

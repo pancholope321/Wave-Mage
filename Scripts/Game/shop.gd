@@ -18,7 +18,7 @@ func spend(cost):
 	coinDisplay.text = Global.totalCoins["money"]
 
 func update_power_buttons():
-	var list_of_buyable_elements=Global.attrLvlDict["unlocked_powers"].keys()
+	var list_of_buyable_elements=Global.gameDataDict["unlocked_powers"].keys()
 	for child in powersContainer.get_children():
 		for button in child.get_children():
 			button.queue_free()
@@ -39,7 +39,7 @@ func add_element_to_list(elementName,button):
 	print("trying to buy")
 	if button_price<=Global.totalCoins["money"]:
 		Sfx.play("PositiveButtonPress")
-		Global.attrLvlDict["unlocked_powers"][elementName]=(Global.attrLvlDict["unlocked_powers"][elementName])+1
+		Global.gameDataDict["unlocked_powers"][elementName]=(Global.gameDataDict["unlocked_powers"][elementName])+1
 		Global.totalCoins["money"]-=button_price
 		print("actually buying")
 		button.updatePrice()

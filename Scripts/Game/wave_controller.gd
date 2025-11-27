@@ -137,7 +137,7 @@ func activate_end_round():
 
 func fight_lost():
 	print("fight_lost")
-	
+	get_tree().change_scene_to_file("res://Scenes/gameOver.tscn")
 	pass
 var coinsWon = 0
 func fight_won():

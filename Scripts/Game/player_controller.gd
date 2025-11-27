@@ -1,10 +1,10 @@
 extends Area2D
 
 
-@export var health=100.0
+@export var health=10.0
 @export var waveController:Node2D
 @export var waveStart:Node2D
-@export var max_health=100.0
+@export var max_health=10.0
 @export var player_hp_bar:TextureProgressBar
 func _ready() -> void:
 	max_health=health

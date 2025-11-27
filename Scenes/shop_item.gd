@@ -9,7 +9,7 @@ var price=3
 # Called when the node enters the scene tree for the first time.
 func set_item(nameItem):
 	itemName=nameItem 
-	level = Global.attrLvlDict["unlocked_powers"][itemName]
+	level = Global.gameDataDict["unlocked_powers"][itemName]
 	var priceDict=Global.inforPowerDict["power_costs"][itemName]
 	print("priceDict: ",priceDict)
 	price=priceDict["price"]+level*priceDict["growth_per_level"]
@@ -19,7 +19,7 @@ func set_item(nameItem):
 	texture.texture=loaded_image
 
 func updatePrice():
-	level = Global.attrLvlDict["unlocked_powers"][itemName] 
+	level = Global.gameDataDict["unlocked_powers"][itemName] 
 	var priceDict=Global.inforPowerDict["power_costs"][itemName]
 	price=priceDict["price"]+level*priceDict["growth_per_level"]
 	labelPrice.text = str(roundi(price))

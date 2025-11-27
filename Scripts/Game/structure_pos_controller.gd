@@ -34,14 +34,14 @@ var enemy_json={
 func _ready() -> void:
 	var file_path = "user://wmsave.json"
 	var structure_path="res://ConfigFiles/structure_information_relation.json"
-	var final_json=Global.attrLvlDict
+	var final_json=Global.gameDataDict
 	var structureJson=Global.load_json_config(structure_path)
 	print("final_json: ",final_json)
 	#waveController.create_list_of_powers(enemy_json.enemy_count,final_json.unlocked_powers,structureJson.power_player_functions)
 	
 	if Global.check_file_exists(file_path) and !debug:
 		print("File exists!")
-		var final_json2=Global.attrLvlDict
+		var final_json2=Global.gameDataDict
 		enemy_json=generate_enemy_json()
 		waveController.create_list_of_powers(enemy_json,final_json2.unlocked_powers,structureJson.power_player_functions)
 	else:
@@ -54,7 +54,7 @@ func _ready() -> void:
 
 func generate_enemy_json():
 	
-	var current_day=Global.attrLvlDict["player_stats"]["current_day"]
+	var current_day=Global.gameDataDict["player_stats"]["current_day"]
 	var enemy_json_set={
 	"enemy_count":{
 	"goblin_spear":0,
