@@ -26,6 +26,7 @@ grow_vertical = 2
 texture = ExtResource("3_egqbd")
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_left = 360.0
 offset_top = 23.0
 offset_right = 787.0
@@ -34,6 +35,7 @@ theme_override_font_sizes/font_size = 51
 text = "YE OLDE SHOPPE"
 
 [node name="Coins" type="Label" parent="."]
+layout_mode = 0
 offset_left = 872.0
 offset_top = 156.0
 offset_right = 1085.0

@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://4gkagmup2nk4"]
+[gd_scene load_steps=12 format=3 uid="uid://4gkagmup2nk4"]
 
 [ext_resource type="Script" uid="uid://dadqb1biflc0c" path="res://Scenes/shop_item.gd" id="1_h3u0o"]
+[ext_resource type="Texture2D" uid="uid://bvq1nfsxh25xl" path="res://Sprites/Shop Sprites/price_paper_x4.png" id="2_dqhft"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h3u0o"]
 
@@ -18,6 +19,21 @@ Button/styles/focus = SubResource("StyleBoxEmpty_dqhft")
 Button/styles/hover = SubResource("StyleBoxEmpty_keg5d")
 Button/styles/normal = SubResource("StyleBoxEmpty_635w0")
 Button/styles/pressed = SubResource("StyleBoxEmpty_s6vge")
+
+[sub_resource type="Animation" id="Animation_dqhft"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_h3u0o"]
 resource_name = "bubble"
@@ -37,36 +53,22 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, 20), Vector2(0, 0), Vector2(0, -20), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_dqhft"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_keg5d"]
 _data = {
 &"RESET": SubResource("Animation_dqhft"),
 &"bubble": SubResource("Animation_h3u0o")
 }
 
-[node name="Buy" type="Button" node_paths=PackedStringArray("labelPrice", "texture")]
+[node name="Buy" type="Button" node_paths=PackedStringArray("labelPrice", "texture", "texture_price_cont")]
 offset_right = 131.0
 offset_bottom = 108.0
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_h3u0o")
 theme_override_font_sizes/font_size = 20
 script = ExtResource("1_h3u0o")
-labelPrice = NodePath("price")
+labelPrice = NodePath("TextureRect2/Control/price")
 texture = NodePath("TextureRect")
+texture_price_cont = NodePath("TextureRect2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -77,18 +79,36 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 5
 
-[node name="price" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_alignment = 2
-vertical_alignment = 2
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_keg5d")
 }
 autoplay = "bubble"
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_right = 35.0
+offset_bottom = 26.0
+grow_vertical = 0
+texture = ExtResource("2_dqhft")
+
+[node name="Control" type="Node2D" parent="TextureRect2"]
+position = Vector2(21, 10)
+skew = -0.282743
+
+[node name="price" type="Label" parent="TextureRect2/Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+text = "23"
+horizontal_alignment = 1
+vertical_alignment = 1

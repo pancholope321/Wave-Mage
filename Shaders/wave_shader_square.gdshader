@@ -8,7 +8,7 @@ uniform float max_alpha = 1.0;
 uniform vec2 square_points[4];
 uniform float inner_radius = -0.1;
 uniform float outer_radius = 0.0;
-
+uniform vec4 color = vec4(1,1,1,1);
 // Function to check if a point is inside a quadrilateral using triangle decomposition
 bool point_in_quadrilateral(vec2 p, vec2[4] quad) {
     // Split quadrilateral into two triangles and check if point is in either
@@ -66,7 +66,7 @@ void fragment() {
             float alpha_wave = (wave + 1.0) * 0.5;
             float alpha = mix(min_alpha, max_alpha, alpha_wave);
 
-            COLOR = vec4(COLOR.rgb, alpha);
+            COLOR = vec4(color.rgb, alpha);
         } else {
             // Outside the band - transparent
             COLOR = vec4(0.0);

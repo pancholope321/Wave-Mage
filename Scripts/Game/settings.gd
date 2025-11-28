@@ -3,7 +3,7 @@ extends Control
 @onready var musicVol = $"PanelContainer/VBoxContainer/Music Volume" 
 @onready var sfxVol = $"PanelContainer/VBoxContainer/SFX Volume" 
 @onready var startBtn = $"../Camera2D/Start Button" 
-@onready var shopBtn = $"../Camera2D/Shop Button"
+@onready var shopBtn = $"../Camera2D/continue Button"
 
 func _ready() -> void:
 	#get_tree().paused = true 

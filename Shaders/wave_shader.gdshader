@@ -8,6 +8,7 @@ uniform float max_alpha = 1.0;
 uniform vec2 triangle_points[3];
 uniform float inner_radius = -0.1;
 uniform float outer_radius = 0.0;
+uniform vec4 color = vec4(1,1,1,1);
 
 void fragment() {
     vec2 uv = UV;
@@ -39,7 +40,7 @@ void fragment() {
             float alpha_wave = (wave + 1.0) * 0.5;
             float alpha = mix(min_alpha, max_alpha, alpha_wave);
 
-            COLOR = vec4(COLOR.rgb, alpha);
+            COLOR = vec4(color.rgb, alpha);
         } else {
             // Outside the band - transparent
             COLOR = vec4(0.0);

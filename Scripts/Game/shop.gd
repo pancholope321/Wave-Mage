@@ -41,7 +41,8 @@ func add_element_to_list(elementName,button):
 		Global.gameDataDict["unlocked_powers"][elementName]=(Global.gameDataDict["unlocked_powers"][elementName])+1
 		Global.playerStats["money"]-=button_price
 		print("actually buying")
-		button.updatePrice()
+		button.disable_button()
+		coinDisplay.text = str(int(Global.playerStats["money"]))
 
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6qcen12x0kl7"]
+[gd_scene load_steps=10 format=3 uid="uid://c6qcen12x0kl7"]
 
 [ext_resource type="Script" uid="uid://bt2b4nicvgu64" path="res://Scripts/Game/main_menu.gd" id="1_5pknu"]
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_60k44"]
 [ext_resource type="FontFile" uid="uid://chlag3glr1ni0" path="res://Fonts/alagard-12px-unicode.ttf" id="3_b7htb"]
 [ext_resource type="Script" uid="uid://brfbvr1s5fcw" path="res://Scripts/Game/settings.gd" id="4_yl13b"]
 [ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/volume_settings.gd" id="5_3uny1"]
+[ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="6_v10og"]
 
 [sub_resource type="Theme" id="Theme_3uny1"]
 
@@ -146,22 +147,30 @@ theme_override_font_sizes/font_size = 50
 text = "WAVE MAGE"
 
 [node name="Start Button" type="Button" parent="Camera2D"]
-offset_left = -28.0
-offset_right = 40.0
-offset_bottom = 36.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.0
+offset_top = -18.0
+offset_right = 94.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 20
-text = "START"
+text = "START NEW GAME"
 metadata/_edit_use_anchors_ = true
 
-[node name="Shop Button" type="Button" parent="Camera2D"]
-offset_left = -24.0
-offset_top = 80.0
-offset_right = 28.0
+[node name="continue Button" type="Button" parent="Camera2D"]
+offset_left = -87.0
+offset_top = 75.0
+offset_right = 88.0
 offset_bottom = 111.0
 theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 20
-text = "SHOP"
+text = "CONTINUE GAME"
 
 [node name="Credits" type="Label" parent="Camera2D"]
 offset_left = -187.0
@@ -182,11 +191,14 @@ offset_right = -461.0
 offset_bottom = -269.0
 text = "SETTINGS"
 
-[node name="Music Player" type="AudioStreamPlayer2D" parent="."]
+[node name="WavemageBattleThemeMainLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_v10og")
+autoplay = true
 bus = &"Music"
 
 [connection signal="value_changed" from="Settings Popup/PanelContainer/VBoxContainer/Music Volume/Slider" to="Settings Popup/PanelContainer/VBoxContainer/Music Volume" method="change_volume"]
 [connection signal="value_changed" from="Settings Popup/PanelContainer/VBoxContainer/SFX Volume/Slider" to="Settings Popup/PanelContainer/VBoxContainer/SFX Volume" method="change_volume"]
 [connection signal="button_down" from="Settings Popup/PanelContainer/VBoxContainer/Save Settings" to="Settings Popup" method="save_settings"]
 [connection signal="pressed" from="Camera2D/Start Button" to="." method="start_game"]
+[connection signal="pressed" from="Camera2D/continue Button" to="." method="continue_game"]
 [connection signal="button_down" from="Camera2D/Settings" to="." method="display_settings"]

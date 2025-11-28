@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5jfml7l1dpa2"]
+[gd_scene load_steps=4 format=3 uid="uid://b5jfml7l1dpa2"]
 
 [ext_resource type="Script" uid="uid://c24gih0xbu7c2" path="res://Scripts/structureOrganizator.gd" id="1_ykwx6"]
+[ext_resource type="Texture2D" uid="uid://ccps3x0qt4k2q" path="res://Sprites/Structure Sprites/little_prism.png" id="2_ykwx6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v6w0w"]
 size = Vector2(28, 50)
@@ -15,8 +16,9 @@ position = Vector2(0, 25)
 shape = SubResource("RectangleShape2D_v6w0w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(3, 31.75)
-scale = Vector2(0.711, 0.711)
+position = Vector2(0, 25)
+scale = Vector2(1.01175, 1.00976)
+texture = ExtResource("2_ykwx6")
 
 [node name="damageMultPoint2" type="Node2D" parent="."]
 position = Vector2(0, 51)
@@ -26,14 +28,13 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -14.0
-offset_top = -10.0
+offset_top = -19.0
 offset_right = 15.0
-offset_bottom = 59.0
+offset_bottom = 3.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 50
-text = "2"
+text = "x2"
 horizontal_alignment = 1
 vertical_alignment = 1

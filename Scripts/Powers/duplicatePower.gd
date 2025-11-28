@@ -9,7 +9,8 @@ func duplicatePower(container,start,end,context):
 	var angle=20
 	var damage=(start.damage+end.damage)/2.0
 	var order_activation=start.order_activation
-	var order=container.get_structures_in_angle(start_wave_position,angle,damage,order_activation)
+	var color=start.color
+	var order=container.get_structures_in_angle(start_wave_position,angle,damage,order_activation,color)
 	
 	var beam= await container.paint_ordered_walls(order)
 	var total_damage=await container.processDamage(beam)

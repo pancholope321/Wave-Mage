@@ -5,6 +5,7 @@ var itemName=null
 @export var isUpgrade : bool
 @export var labelPrice :Label
 @export var texture: TextureRect
+@export var texture_price_cont=TextureRect
 var price=3
 # Called when the node enters the scene tree for the first time.
 func set_item(nameItem):
@@ -26,7 +27,14 @@ func updatePrice():
 
 func get_price():
 	return roundi(self.price)
-var value=10
+
 
 func _ready() -> void:
 	$AnimationPlayer.seek(randf_range(0,8))
+	
+
+func disable_button():
+	self.disabled=true
+	texture.texture=null
+	texture_price_cont.texture=load("res://Sprites/Shop Sprites/sold.png")
+	labelPrice.text = ""

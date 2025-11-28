@@ -14,7 +14,7 @@
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
-	"damageMultiplier":"res://icon.svg",
+	"damageMultiplier":"res://Sprites/Structure Sprites/little_prism.png",
 	"health_upg":"res://Sprites/Structure Sprites/Health Up - Placeholder.png"
 },
 "power_name":{

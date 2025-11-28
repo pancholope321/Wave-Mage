@@ -13,7 +13,8 @@ func damageMultiplier(container,start,end,context):
 	var end_position=end.position
 	var inverted=false
 	var vertical=true
-	var order=container.get_structures_between_directions(start,start.angle,end,end.angle,damage,inverted,order_activation,vertical)
+	var color=Color(0.5,0.5,1)
+	var order=container.get_structures_between_directions(start,start.angle,end,end.angle,damage,inverted,order_activation,color,vertical)
 	var beam= await container.paint_ordered_walls_square(order)
 	var total_damage=await container.processDamage(beam)
 	return total_damage
