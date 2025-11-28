@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bro8xxygb3vx1"]
+
+[ext_resource type="Texture2D" uid="uid://d30f1hfem4ckf" path="res://Sprites/Projectiles Sprites/goblin_arrow.png" id="1_fhjge"]
+[ext_resource type="Script" uid="uid://p38ilw8w4ujy" path="res://Scripts/projectile_scritp.gd" id="2_e1tst"]
+
+[node name="arrow" type="Sprite2D"]
+z_index = 4
+texture = ExtResource("1_fhjge")
+script = ExtResource("2_e1tst")
+rotate_offset_deg = 270

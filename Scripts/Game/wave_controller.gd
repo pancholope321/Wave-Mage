@@ -1,65 +1,100 @@
 extends Node2D
+@export var player:Area2D
+var wave_start:Node2D
+@export var enemy_container:VBoxContainer
+@export var enemy_controller:Node2D
+@export var attack_button:TextureButton
+@export var audioController:Node
+@export var topLeft:Marker2D
+@export var topRight:Marker2D
+@export var bottomLeft:Marker2D
+@export var bottomRight:Marker2D
 
-@export var wave_start:Node2D
-@export var wave_end1:Node2D
-@export var wave_end2:Node2D
-@export var duplicator:Area2D
-@export var wall_point_3:Node2D
-@export var wall_point_4:Node2D
-@export var wall_point_5:Node2D
-@export var wall_point_6:Node2D
-
-@export var mirror_point_1:Node2D
-@export var mirror_point_2:Node2D
-
-@export var mirror_point_3:Node2D
-@export var mirror_point_4:Node2D
 var script_instances = {}
 
 var Structures = []
+var enemyList=[]
 var power_file_relation
 func _ready() -> void:
-	power_file_relation = await load_json_config("res://ConfigFiles/power_file_relation.json")
+	power_file_relation = await load_json_config("res://ConfigFiles/structure_file_relation.json")
+	wave_start=player.get_wave_start()
 	#attack(1)
-
-# when attack is pressed the wave is propagating
-func attack(damage,start_position=wave_start.position):
-	# this are the structures that are placed on the canvas (example)
-	# the powerName is the actual function name, so wall calls func wall
-	var listOfPowers=[{"id":1,"powerName": "duplicatePower",
-		"startPos": duplicator.get_two_points()[0].global_position, 
-		"endPos": duplicator.get_two_points()[1].global_position,
-		"node":duplicator},
-		{"id":2,"powerName": "wall",
-		"startPos": wall_point_3.global_position, 
-		"endPos": wall_point_4.global_position,
-		"node":wall_point_3},
-		{"id":3,"powerName": "wall",
-		"startPos": wall_point_5.global_position, 
-		"endPos": wall_point_6.global_position,
-		"node":wall_point_5},
-		{"id":4,"powerName":"mirror",
-		"startPos": mirror_point_2.global_position, 
-		"endPos": mirror_point_1.global_position,
-		"node":mirror_point_1},
-		{"id":5,"powerName":"mirror",
-		"startPos": mirror_point_4.global_position, 
-		"endPos": mirror_point_3.global_position,
-		"node":mirror_point_3}]
-	var dict = {"id":0,
-		"powerName": "enemy",
-		"startPos": wave_end1.global_position, 
-		"endPos": wave_end2.global_position,
-		"node":wave_end1
-	}
 	
-	Structures.append(dict)
+
+var listOfPowers=[]
+func create_list_of_powers(enemyJson,PowerJson,structureJson):
+	listOfPowers=[]
+	var index=0
+	var keys_enemy=enemyJson["enemy_count"].keys()
+	var enemies=enemyJson["enemy_count"]
+	for key in keys_enemy:
+		for i in range(enemies[key]):
+			var path=structureJson[key].structure
+			var pathloaded=load(path)
+			var instance=pathloaded.instantiate()
+			var container=MarginContainer.new()
+			container.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+			
+			enemy_container.add_child(container)
+			container.add_child(instance)
+			instance.setup_wave_starting_point(player)
+			instance.setup_id(index)
+			instance.setup_health(enemyJson["health"])
+			var newDict={
+			"id":index,
+			"powerName": "enemy",
+			"startPos": instance.get_two_points()[0], 
+			"endPos": instance.get_two_points()[1],
+			"node":instance}
+			enemyList.append(instance)
+			index+=1
+			listOfPowers.append(newDict)
+	var keys=PowerJson.keys()
+	var context={"enemies":enemyList,"player":player}
+	for key in keys:
+		for i in range(PowerJson[key]):
+			if structureJson[key].has("start_function_path"):
+				var functionFile = load(structureJson[key].start_function_path)
+				if functionFile:
+					var instance = functionFile.new()  # Create an instance
+					instance.call(structureJson[key].start_function, context)
+			if structureJson[key].has("structure"):
+				var path=structureJson[key].structure
+				var pathloaded=load(path)
+				var instance=pathloaded.instantiate()
+				add_child(instance)
+				instance.setup_wave_starting_point(player)
+				instance.setup_wave_bounding_area(topLeft,topRight,bottomLeft,bottomRight)
+				instance.setup_list_of_powers(listOfPowers)
+				instance.setup_id(index)
+				var newDict={
+				"id":index,
+				"powerName": key,
+				"startPos": instance.get_two_points()[0], 
+				"endPos": instance.get_two_points()[1],
+				"node":instance}
+				index+=1
+				listOfPowers.append(newDict)
+	pass
+	
+	
+# when attack is pressed the wave is propagating
+var list_of_shader_order=[]
+func attack(damage,start_position=wave_start.global_position):
+	Structures=[]
+	list_of_shader_order=[]
+	#get current structure position
 	for i in range(listOfPowers.size()):
+		var powerAdded=listOfPowers[i]
+		powerAdded.startPos=powerAdded.node.get_two_points()[0].global_position
+		powerAdded.endPos=powerAdded.node.get_two_points()[1].global_position
 		Structures.append(listOfPowers[i])
+		
+			
 	
 	var start_wave_position = wave_start.global_position
 	var order = []
-	
+	var order_activation=0
 	for structure in Structures:
 		for pos in ["startPos","endPos"]:
 			var vector_to_pos = structure[pos] - start_wave_position
@@ -75,27 +110,64 @@ func attack(damage,start_position=wave_start.position):
 				"powerName": structure.get("powerName", "unknown"),
 				"currentPos":pos,
 				"id":structure["id"],
-				"damage":damage
+				"damage":damage,
+				"order_activation":order_activation,
+				"node":structure.node,
+				"color":Color(1,1,1)
 			}
 			order.append(dictOrder)
 	
 	order.sort_custom(sort_by_angle_then_distance)
 	var firstBeam=paint_ordered_walls(order)
-	var totalDamage=processDamage(firstBeam)
+	var totalDamage=await processDamage(firstBeam)
+	await activate_visual_waves(list_of_shader_order)
+	clear_color_rects()
+	activate_end_round()
+
+func activate_end_round():
+	var enemyListCopy=enemyList.duplicate()
+	for enemy in enemyListCopy:
+		if !enemy.is_alive():
+			enemyList.erase(enemy)
+		enemy.activate_final_actions()
+	await get_tree().create_timer(0).timeout
+	if enemyList.size()<=0:
+		fight_won()
+	else:
+		enemy_controller.start_attack(enemyList)
+
+func fight_lost():
+	print("fight_lost")
+	get_tree().change_scene_to_file("res://Scenes/gameOver.tscn")
+	pass
+var coinsWon = 0
+func fight_won():
+	print("fight_won")
+	coinsWon=2
 	
-	print("final totalDamange: ",totalDamage)
+	# Store coins in global or pass through other means
+	Global.coinsWon = coinsWon
 	
+	# Change scene directly
+	get_tree().change_scene_to_file("res://Scenes/winScreen.tscn")
+	pass
+func clear_color_rects():
+	var children = get_children()
+	for child in children:
+		if child.is_class("ColorRect"):
+			child.queue_free()
 # with this function we visualize the borders of the waves
 func paint_ordered_walls(order):
 	var currentStructures=[]
 	var activePower={"distance"=99999999}
 	var currentLines=[]
-	for element in order:
+	var copyOrder=order.duplicate()
+	for element in copyOrder:
 		if element["currentPos"]=="startPos":
 			currentStructures.append(element)
 			if element.distance<activePower.distance:
 				if activePower.has("position"):
-					var newElements=order.filter(func(x): return x.id == activePower.id)
+					var newElements=copyOrder.filter(func(x): return x.id == activePower.id)
 					var nepos1=newElements[0].position
 					var nepos2=newElements[1].position
 					var neposang1=newElements[0].angle
@@ -113,13 +185,16 @@ func paint_ordered_walls(order):
 				continue
 		elif element["currentPos"]=="endPos":
 			currentStructures = currentStructures.filter(func(x): return x.id != element.id)
+			if !activePower.has("id"):
+				copyOrder== copyOrder.filter(func(x): return x.id != element.id)
+				continue
 			if activePower.id==element.id:
 				linesDrawn.append(element)
 				currentLines.append(element)
 				if currentStructures.size()>0:
 					currentStructures.sort_custom(sort_by_distance)
 					activePower=currentStructures[0]
-					var newElements=order.filter(func(x): return x.id == activePower.id)
+					var newElements=copyOrder.filter(func(x): return x.id == activePower.id)
 					var nepos1=newElements[0].position
 					var nepos2=newElements[1].position
 					var neposang1=newElements[0].angle
@@ -148,7 +223,7 @@ func get_structure_context(id):
 	for structure in Structures:
 		if structure.id == id:
 			if structure.node.has_method("get_context"):
-				return structure.get_context()
+				return structure.node.get_context()
 			break
 	return {}
 
@@ -171,7 +246,11 @@ func paint_ordered_walls_square(order):
 				var nepos2 = newElements[1].position
 				var dir1=nepos1-nepos2
 				var newElementPosition=instersection_pos_dir_pos_dir(ray_source_pos,rayDirection,nepos1,dir1)
-				activePowerDistance=(newElementPosition-ray_source_pos).length()
+				if newElementPosition==null:
+					activePowerDistance=0
+				else:
+					activePowerDistance=(newElementPosition-ray_source_pos).length()
+				
 			if rayDirection.length() < activePowerDistance:
 				# If there was an active power, create an intermediate end point for it
 				if activePower.has("position"):
@@ -301,7 +380,7 @@ func setupWaves(lines):
 		# Calculate frequency based on the square size (consistent across all triangles)
 		var base_frequency = 12.0
 		#var normalized_frequency = base_frequency / (max_size / 200.0)
-		
+		shader_material.set_shader_parameter("color",lines[i * 2].color)
 		shader_material.set_shader_parameter("triangle_points", points_relative)
 		shader_material.set_shader_parameter("origin", (start_position - square_bounds.position) / square_bounds.size)
 		shader_material.set_shader_parameter("wave_speed", 20.0)
@@ -310,6 +389,10 @@ func setupWaves(lines):
 		shader_material.set_shader_parameter("max_alpha", 1.0)
 		
 		color_rect.material = shader_material
+		var act_order = lines[i * 2].order_activation
+		var node_line=lines[i * 2].node
+		var dict={"shader":shader_material,"activation_order":act_order,"node":node_line}
+		list_of_shader_order.append(dict)
 
 func setupWavesSquare(lines):
 	for i in range(lines.size() / 2):
@@ -354,7 +437,7 @@ func setupWavesSquare(lines):
 		
 		# ORIGIN: Point between both start positions (ray origins)
 		var origin_between_starts = (line1.start_position + line2.start_position) / 2.0
-		
+		shader_material.set_shader_parameter("color",lines[i * 2].color)
 		shader_material.set_shader_parameter("square_points", points_relative)
 		shader_material.set_shader_parameter("origin", (origin_between_starts - square_bounds.position) / square_bounds.size)
 		shader_material.set_shader_parameter("wave_speed", 20.0)
@@ -363,7 +446,10 @@ func setupWavesSquare(lines):
 		shader_material.set_shader_parameter("max_alpha", 1.0)
 		
 		color_rect.material = shader_material
-	
+		var act_order = lines[i * 2].order_activation
+		var node_line=lines[i * 2].node
+		var dict={"shader":shader_material,"activation_order":act_order,"node":node_line}
+		list_of_shader_order.append(dict)
 	pass
 
 # Helper function to calculate bounds for four points
@@ -439,11 +525,13 @@ func sort_by_distance(a, b):
 		return a.angle < b.angle
 
 
-func get_structures_in_angle(start_wave_position, angle_struct, damage):
+func get_structures_in_angle(start_wave_position, angle_struct, damage,order_activ,color):
 	var min_angle = deg_to_rad(-angle_struct)  # negative angle
 	var max_angle = deg_to_rad(angle_struct)   # positive angle
 	var order = []
-	
+	var order_activation=1+order_activ
+	if order_activation>20:
+		return []
 	for structure in Structures:
 		var valid_points = []
 		
@@ -563,7 +651,10 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage):
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": point_data["currentPos"],  # This should now be correct
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				
 				if point_data.get("is_clipped", false):
@@ -642,22 +733,31 @@ enum betweenDirectionsCase {
 	none
 	}
 
-func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted=false):
+func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, damage, inverted,order_activ,color,vertical=false):
 	var start_wave_position = start["position"]
 	var end_wave_position = end["position"]
 	var angle1 = angle_ray_1
 	var angle2 = angle_ray_2
-	
+	var order_activation=order_activ+1
 	var order = []
-	
+	if order_activation>20:
+		return []
 	# Calculate ray directions
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
+	var forward_dir = ((ray1_dir + ray2_dir) * 0.5).normalized()
 	
 	for structure in Structures:
 		if structure.id == start.id:
 			continue
+		
 		var struct_pos=structure.startPos
+		var to_structure = (struct_pos - start_wave_position).normalized()
+		var dot_product = to_structure.dot(forward_dir)
+		
+		# Skip structures in the negative direction (behind the rays)
+		if dot_product < 0:
+			continue
 		var ypos=start_wave_position.y+ray1_dir.y*(struct_pos.x-start_wave_position.x)/ray1_dir.x
 		var ypos2=end_wave_position.y+ray2_dir.y*(struct_pos.x-end_wave_position.x)/ray2_dir.x
 		var topypos=struct_pos.y>ypos
@@ -698,7 +798,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -715,7 +818,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.top:
@@ -733,7 +839,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -751,7 +860,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.bottom:
@@ -770,7 +882,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -787,7 +902,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.center:
@@ -806,7 +924,10 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "startPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -824,13 +945,17 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"powerName": structure.get("powerName", "unknown"),
 					"currentPos": "endPos",
 					"id": structure["id"],
-					"damage": damage
+					"damage": damage,
+					"order_activation":order_activation,
+					"node":structure.node,
+					"color":color
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
 				continue
-	
-	if inverted:
+	if vertical:
+		order.sort_custom(sort_by_ray_originy)
+	elif inverted:
 		order.sort_custom(sort_by_ray_origin_inverted)
 	else:
 		order.sort_custom(sort_by_ray_origin)
@@ -848,6 +973,11 @@ func sort_by_ray_origin_inverted(a, b):
 	else:
 		return a.distance < b.distance
 
+func sort_by_ray_originy(a, b):
+	if a.start_position.y != b.start_position.y:
+		return a.start_position.y < b.start_position.y
+	else:
+		return a.distance < b.distance
 
 # More robust intersection function
 
@@ -885,4 +1015,61 @@ func save_json_config(object, path):
 
 
 func _on_button_pressed() -> void:
+	Sfx.play("StartAttack",true)
 	attack(1)
+	audioController.attacking()
+	
+	attack_button.disabled=true
+	attack_button.texture_disabled.set_current_frame(0)
+	
+
+
+func activate_visual_waves(list_shader_order):
+	var current_order = 0
+	var total_elements = list_of_shader_order.size()
+	var elements_counted = 0
+	while elements_counted < total_elements:
+		var listActivation = []
+		var listNodes=[]
+		for element in list_shader_order:
+			var act_order = element.activation_order
+			if act_order == current_order:
+				elements_counted += 1
+				listActivation.append(element.shader)
+				listNodes.append(element.node)
+		var tween = create_tween()
+		tween.set_parallel(true)  # This makes all tween properties animate simultaneously
+		for i in range(listActivation.size()):
+			var shader_act = listActivation[i]
+			# Set initial values using set_shader_parameter
+			shader_act.set_shader_parameter("inner_radius", -0.1)
+			shader_act.set_shader_parameter("outer_radius", 0.0)
+			
+			# Tween the shader parameters
+			tween.tween_method(
+				func(value): shader_act.set_shader_parameter("inner_radius", value), 
+				-0.3, 1.0, 1.3
+			)
+			tween.tween_method(
+				func(value): shader_act.set_shader_parameter("outer_radius", value), 
+				0.0, 1.0, 1.0
+			)
+		
+		current_order += 1
+		await tween.finished
+		for i in range(listNodes.size()):
+			var nodeAct=listNodes[i]
+			if nodeAct.has_method("playSFX"):
+				nodeAct.playSFX()
+		
+	return
+
+func remove_enemy(id):
+	Structures=Structures.filter(func(x): return x.id != id)
+	listOfPowers=listOfPowers.filter(func(x): return x.id != id)
+	return
+
+func end_enemy_turn():
+	attack_button.disabled=false
+	attack_button.texture_normal.set_current_frame(0)
+	audioController.stopAttacking()

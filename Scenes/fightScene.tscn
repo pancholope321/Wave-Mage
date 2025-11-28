@@ -1,130 +1,266 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=40 format=3 uid="uid://cmwrawjnsytee"]
 
-[ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_d1vt0"]
+[ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
-[ext_resource type="PackedScene" uid="uid://c4meincvq4xs" path="res://Structures/duplicator.tscn" id="2_yk4my"]
+[ext_resource type="Texture2D" uid="uid://twxutruahf4a" path="res://Sprites/UI sprites/background_1.png" id="1_yqjp4"]
+[ext_resource type="Texture2D" uid="uid://c7df1fmoykba7" path="res://Sprites/UI sprites/left_panel_1.png" id="2_j3mh6"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
+[ext_resource type="Texture2D" uid="uid://x3emi134poo8" path="res://Sprites/Character sprites/mage.png" id="4_unv2f"]
+[ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
+[ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
+[ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
+[ext_resource type="Texture2D" uid="uid://ctgqe0kxneb08" path="res://Sprites/UI sprites/framework_1.png" id="7_fm3o4"]
+[ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
+[ext_resource type="Texture2D" uid="uid://dmn6sd4jaexs5" path="res://Sprites/UI sprites/playerHealthBarBg.png" id="10_hhgo6"]
+[ext_resource type="Texture2D" uid="uid://obhx5hfe02cj" path="res://Sprites/UI sprites/playerHealthBarPanel.png" id="11_w5y70"]
+[ext_resource type="Texture2D" uid="uid://e7xcts26dm5n" path="res://Sprites/UI sprites/playerHealthBarFILL.png" id="12_v5lmx"]
+[ext_resource type="Texture2D" uid="uid://bqj0aes7nqi5b" path="res://Sprites/UI sprites/attackButtonTextureHover.png" id="17_e8a6h"]
+[ext_resource type="Texture2D" uid="uid://1vrgtq3yyhh7" path="res://Sprites/UI sprites/button animation sprites/image0000.png" id="18_8xmf6"]
+[ext_resource type="Texture2D" uid="uid://75p6npi8msl3" path="res://Sprites/UI sprites/button animation sprites/image0001.png" id="19_vlvhn"]
+[ext_resource type="Texture2D" uid="uid://bm25g6gabcgcd" path="res://Sprites/UI sprites/button animation sprites/image0010.png" id="20_coesg"]
+[ext_resource type="Texture2D" uid="uid://dnxyd4nq7il31" path="res://Sprites/UI sprites/button animation sprites/image0011.png" id="21_q0myi"]
+[ext_resource type="Texture2D" uid="uid://b1ftxbd5pyiys" path="res://Sprites/UI sprites/button animation sprites/image0012.png" id="22_mj7wt"]
+[ext_resource type="Texture2D" uid="uid://cbmymfousrbry" path="res://Sprites/UI sprites/button animation sprites/image0013.png" id="23_7vw23"]
+[ext_resource type="Texture2D" uid="uid://cpgrtusgmjguj" path="res://Sprites/UI sprites/button animation sprites/image0014.png" id="24_6jvuv"]
+[ext_resource type="Texture2D" uid="uid://cjiad3n886vos" path="res://Sprites/UI sprites/button animation sprites/image0015.png" id="25_3qpwt"]
+[ext_resource type="Texture2D" uid="uid://cphin8wugj8vw" path="res://Sprites/UI sprites/button animation sprites/image0016.png" id="26_6f71t"]
+[ext_resource type="Texture2D" uid="uid://dseupb3ghh52e" path="res://Sprites/UI sprites/button animation sprites/image0017.png" id="27_vatcr"]
+[ext_resource type="Texture2D" uid="uid://3esupvj0qiwy" path="res://Sprites/UI sprites/button animation sprites/image0018.png" id="28_gtxvn"]
+[ext_resource type="Texture2D" uid="uid://1xt73qps2yt7" path="res://Sprites/UI sprites/button animation sprites/image0019.png" id="29_lm8ee"]
+[ext_resource type="Texture2D" uid="uid://b4w217dm6jnbj" path="res://Sprites/UI sprites/button animation sprites/image0002.png" id="30_x34o6"]
+[ext_resource type="Texture2D" uid="uid://cacqgb20vfdso" path="res://Sprites/UI sprites/button animation sprites/image0020.png" id="31_1co6m"]
+[ext_resource type="Texture2D" uid="uid://i6vcbxb2s47h" path="res://Sprites/UI sprites/button animation sprites/image0003.png" id="32_15xif"]
+[ext_resource type="Texture2D" uid="uid://ghyg2hylerhr" path="res://Sprites/UI sprites/button animation sprites/image0004.png" id="33_vgbev"]
+[ext_resource type="Texture2D" uid="uid://bpq1wnuyohgff" path="res://Sprites/UI sprites/button animation sprites/image0005.png" id="34_pdia0"]
+[ext_resource type="Texture2D" uid="uid://do3kv0ug3vrln" path="res://Sprites/UI sprites/button animation sprites/image0006.png" id="35_g4oyw"]
+[ext_resource type="Texture2D" uid="uid://cmydkfynnu7oc" path="res://Sprites/UI sprites/button animation sprites/image0007.png" id="36_1a7uk"]
+[ext_resource type="Texture2D" uid="uid://bf0j8f3o0bvuq" path="res://Sprites/UI sprites/button animation sprites/image0008.png" id="37_bkjvu"]
+[ext_resource type="Texture2D" uid="uid://wkpw4k2vhkes" path="res://Sprites/UI sprites/button animation sprites/image0009.png" id="38_fbtmy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
+size = Vector2(21, 71)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_4ja3e"]
+frames = 11
+one_shot = true
+speed_scale = 15.0
+frame_0/texture = ExtResource("20_coesg")
+frame_1/texture = ExtResource("21_q0myi")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("22_mj7wt")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("23_7vw23")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("24_6jvuv")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("25_3qpwt")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("26_6f71t")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("27_vatcr")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("28_gtxvn")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("29_lm8ee")
+frame_9/duration = 1.0
+frame_10/texture = ExtResource("31_1co6m")
+frame_10/duration = 1.0
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_ibq60"]
+frames = 10
+one_shot = true
+speed_scale = 15.0
+frame_0/texture = ExtResource("18_8xmf6")
+frame_1/texture = ExtResource("19_vlvhn")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("30_x34o6")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("32_15xif")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("33_vgbev")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("34_pdia0")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("35_g4oyw")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("36_1a7uk")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("37_bkjvu")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("38_fbtmy")
+frame_9/duration = 1.0
 
 [node name="fight" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
+[node name="Background UI" type="CanvasLayer" parent="."]
+layer = -1
 
-[node name="waveStart" type="Node2D" parent="."]
-position = Vector2(198, 327)
-
-[node name="waveEnd1" type="Node2D" parent="."]
-position = Vector2(930, 149)
-
-[node name="Sprite2D" type="Sprite2D" parent="waveEnd1"]
-position = Vector2(89.5, 204)
-scale = Vector2(1.42969, 3.35938)
-texture = ExtResource("1_d1vt0")
-
-[node name="waveEnd2" type="Node2D" parent="."]
-position = Vector2(929, 559)
-
-[node name="duplicatePoint1" parent="." instance=ExtResource("2_yk4my")]
-position = Vector2(545, 488)
-
-[node name="wallPoint3" type="Node2D" parent="."]
-position = Vector2(259, 253)
-
-[node name="Sprite2D" type="Sprite2D" parent="wallPoint3"]
-position = Vector2(1.25001, 50)
-scale = Vector2(0.0664061, 0.765625)
-texture = ExtResource("1_d1vt0")
-
-[node name="wallPoint4" type="Node2D" parent="wallPoint3"]
-position = Vector2(-1, 99)
-
-[node name="wallPoint5" type="Node2D" parent="."]
-position = Vector2(367, 143)
-
-[node name="Sprite2D" type="Sprite2D" parent="wallPoint5"]
-position = Vector2(-2.86102e-06, 22)
-scale = Vector2(0.0625042, 0.335937)
-texture = ExtResource("1_d1vt0")
-
-[node name="wallPoint6" type="Node2D" parent="wallPoint5"]
-position = Vector2(0, 44)
-
-[node name="mirrorPoint1" type="Node2D" parent="."]
-position = Vector2(310, 642)
-
-[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1"]
-position = Vector2(79.25, 3.00001)
-scale = Vector2(1.26172, 0.0390626)
-texture = ExtResource("1_d1vt0")
-
-[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1/Sprite2D"]
-position = Vector2(1.25001, 27)
-scale = Vector2(0.0664061, 0.40625)
-texture = ExtResource("1_d1vt0")
-
-[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint1/Sprite2D/Sprite2D"]
-position = Vector2(1.25001, 27)
-scale = Vector2(0.0664061, 0.40625)
-texture = ExtResource("1_d1vt0")
-
-[node name="mirrorPoint2" type="Node2D" parent="mirrorPoint1"]
-position = Vector2(163, 1)
-
-[node name="mirrorPoint3" type="Node2D" parent="."]
-position = Vector2(447, 132)
-
-[node name="Sprite2D" type="Sprite2D" parent="mirrorPoint3"]
-position = Vector2(-51, 0)
-scale = Vector2(0.822174, 0.0273437)
-texture = ExtResource("1_d1vt0")
-
-[node name="mirrorPoint4" type="Node2D" parent="mirrorPoint3"]
-position = Vector2(-101, 1)
-
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("wave_start", "wave_end1", "wave_end2", "duplicator", "wall_point_3", "wall_point_4", "wall_point_5", "wall_point_6", "mirror_point_1", "mirror_point_2", "mirror_point_3", "mirror_point_4")]
-script = ExtResource("1_viax6")
-wave_start = NodePath("../waveStart")
-wave_end1 = NodePath("../waveEnd1")
-wave_end2 = NodePath("../waveEnd2")
-duplicator = NodePath("../duplicatePoint1")
-wall_point_3 = NodePath("../wallPoint3")
-wall_point_4 = NodePath("../wallPoint3/wallPoint4")
-wall_point_5 = NodePath("../wallPoint5")
-wall_point_6 = NodePath("../wallPoint5/wallPoint6")
-mirror_point_1 = NodePath("../mirrorPoint1")
-mirror_point_2 = NodePath("../mirrorPoint1/mirrorPoint2")
-mirror_point_3 = NodePath("../mirrorPoint3")
-mirror_point_4 = NodePath("../mirrorPoint3/mirrorPoint4")
-
-[node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("listStructures")]
-script = ExtResource("4_57ar5")
-listStructures = [NodePath("../duplicatePoint1")]
-
-[node name="fightController" type="Node" parent="."]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="Background UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -14.0
-offset_right = -8.0
-offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/Control"]
+[node name="TextureRect2" type="TextureRect" parent="Background UI/Control"]
+light_mask = 0
+visibility_layer = 2
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 68.0
-grow_vertical = 0
-text = "ATTACK"
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_yqjp4")
 
-[connection signal="pressed" from="CanvasLayer/Control/Button" to="waveController" method="_on_button_pressed"]
+[node name="TextureRect" type="TextureRect" parent="Background UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_j3mh6")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="Player" type="Area2D" parent="." node_paths=PackedStringArray("waveController", "waveStart", "player_hp_bar")]
+position = Vector2(252, 359)
+script = ExtResource("1_jag4a")
+waveController = NodePath("../waveController")
+waveStart = NodePath("waveStart")
+player_hp_bar = NodePath("../Front UI/Control/playerHP")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+position = Vector2(2, 6.00001)
+texture = ExtResource("4_unv2f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.5, 5.5)
+shape = SubResource("RectangleShape2D_fm3o4")
+
+[node name="waveStart" type="Node2D" parent="Player"]
+position = Vector2(-17, -18)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(967, 330)
+
+[node name="enemy_container" type="VBoxContainer" parent="Marker2D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -209.0
+offset_bottom = 195.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button", "audioController", "topLeft", "topRight", "bottomLeft", "bottomRight")]
+script = ExtResource("1_viax6")
+player = NodePath("../Player")
+enemy_container = NodePath("../Marker2D/enemy_container")
+enemy_controller = NodePath("../enemyController")
+attack_button = NodePath("../Front UI/Control/attack")
+audioController = NodePath("../audio_controller")
+topLeft = NodePath("../bounding_area/topLeft")
+topRight = NodePath("../bounding_area/topRight")
+bottomLeft = NodePath("../bounding_area/bottomLeft")
+bottomRight = NodePath("../bounding_area/bottomRight")
+
+[node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
+script = ExtResource("4_57ar5")
+waveController = NodePath("../waveController")
+
+[node name="enemyController" type="Node2D" parent="." node_paths=PackedStringArray("player_node", "wave_controller")]
+script = ExtResource("5_yqjp4")
+player_node = NodePath("../Player")
+wave_controller = NodePath("../waveController")
+
+[node name="fightController" type="Node" parent="."]
+
+[node name="audio_controller" type="Node" parent="." node_paths=PackedStringArray("start_music", "music_loop")]
+script = ExtResource("5_57ar5")
+start_music = NodePath("start music")
+music_loop = NodePath("music loop")
+
+[node name="start music" type="AudioStreamPlayer" parent="audio_controller"]
+stream = ExtResource("6_7aek1")
+bus = &"Music"
+
+[node name="music loop" type="AudioStreamPlayer" parent="audio_controller"]
+stream = ExtResource("7_jag4a")
+bus = &"Music"
+
+[node name="Front UI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="Front UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="playerHP" type="TextureProgressBar" parent="Front UI/Control"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 355.0
+offset_bottom = 93.0
+scale = Vector2(1.25, 1.25)
+mouse_filter = 2
+value = 95.0
+texture_under = ExtResource("10_hhgo6")
+texture_over = ExtResource("11_w5y70")
+texture_progress = ExtResource("12_v5lmx")
+
+[node name="TextureRect" type="TextureRect" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_fm3o4")
+
+[node name="attack" type="TextureButton" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = 542.0
+offset_right = -1006.0
+offset_bottom = -11.9999
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+mouse_default_cursor_shape = 2
+keep_pressed_outside = true
+texture_normal = SubResource("AnimatedTexture_4ja3e")
+texture_hover = ExtResource("17_e8a6h")
+texture_disabled = SubResource("AnimatedTexture_ibq60")
+stretch_mode = 3
+
+[node name="bounding_area" type="Node2D" parent="."]
+
+[node name="topLeft" type="Marker2D" parent="bounding_area"]
+position = Vector2(290, 200)
+
+[node name="topRight" type="Marker2D" parent="bounding_area"]
+position = Vector2(900, 200)
+
+[node name="bottomLeft" type="Marker2D" parent="bounding_area"]
+position = Vector2(290, 630)
+
+[node name="bottomRight" type="Marker2D" parent="bounding_area"]
+position = Vector2(900, 630)
+
+[connection signal="pressed" from="Front UI/Control/attack" to="waveController" method="_on_button_pressed"]

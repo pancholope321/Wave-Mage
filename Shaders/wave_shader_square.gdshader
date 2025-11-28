@@ -6,7 +6,9 @@ uniform float wave_frequency = 120.0;
 uniform float min_alpha = 0.2;
 uniform float max_alpha = 1.0;
 uniform vec2 square_points[4];
-
+uniform float inner_radius = -0.1;
+uniform float outer_radius = 0.0;
+uniform vec4 color = vec4(1,1,1,1);
 // Function to check if a point is inside a quadrilateral using triangle decomposition
 bool point_in_quadrilateral(vec2 p, vec2[4] quad) {
     // Split quadrilateral into two triangles and check if point is in either
@@ -54,13 +56,21 @@ void fragment() {
 
     // Check if point is in quadrilateral
     if (point_in_quadrilateral(uv, square_points)) {
-        // Inside square - apply wave effect
+        // Inside square - calculate distance from origin
         float dist = distance(uv, origin);
-        float wave = sin(dist * wave_frequency - TIME * wave_speed);
-        float alpha_wave = (wave + 1.0) * 0.5;
-        float alpha = mix(min_alpha, max_alpha, alpha_wave);
 
-        COLOR = vec4(COLOR.rgb, alpha);
+        // Check if distance is within the adjustable band
+        if (dist >= inner_radius && dist <= outer_radius) {
+            // Within the band - apply wave effect
+            float wave = sin(dist * wave_frequency - TIME * wave_speed);
+            float alpha_wave = (wave + 1.0) * 0.5;
+            float alpha = mix(min_alpha, max_alpha, alpha_wave);
+
+            COLOR = vec4(color.rgb, alpha);
+        } else {
+            // Outside the band - transparent
+            COLOR = vec4(0.0);
+        }
     } else {
         // Outside square - transparent
         COLOR = vec4(0.0);

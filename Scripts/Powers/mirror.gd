@@ -11,13 +11,20 @@ func mirror(container,start,end,context):
 	print("end: ",end)
 	if start.position.y<start.start_position.y:
 		return 0
+	var order_activation=start.order_activation
 	var start_wave_position=(start.position + end.position)/2.0
 	var damage=(start.damage+end.damage)/2.0
 	var start_position=start.position
 	var end_position=end.position
 	var angle_ray_1= reflect_angle_in_mirror(start_position, end_position, start.angle)
 	var angle_ray_2= reflect_angle_in_mirror(start_position, end_position, end.angle)
-	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage)
+	var inverted=false
+	var color=start.color
+	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted,order_activation,color)
+	print("mirrror order ----------------")
+	print(order)
+	print("mirrror order ----------------")
+	
 	var beam= await container.paint_ordered_walls_square(order)
 	
 	var total_damage=await container.processDamage(beam)
@@ -37,7 +44,9 @@ func mirror_inv(container,start,end):
 	var angle_ray_1= reflect_angle_in_mirror(start_position, end_position, start.angle)
 	var angle_ray_2= reflect_angle_in_mirror(start_position, end_position, end.angle)
 	var inverted=true
-	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted)
+	var order_activation=start.order_activation
+	var color=start.color
+	var order=container.get_structures_between_directions(end,angle_ray_2,start,angle_ray_1,damage,inverted,order_activation,color)
 	var beam= await container.paint_ordered_walls_square(order)
 	
 	var total_damage=await container.processDamage(beam)
@@ -46,27 +55,20 @@ func mirror_inv(container,start,end):
 
 
 func reflect_angle_in_mirror(start_pos: Vector2, end_pos: Vector2, incident_angle: float) -> float:
-	# Calculate mirror's normal vector (perpendicular to mirror surface)
+	# Calculate mirror angle
 	var mirror_vector = end_pos - start_pos
 	var mirror_angle = mirror_vector.angle()
 	
-	# Calculate mirror's normal angle (perpendicular to mirror surface)
-	var normal_angle = mirror_angle + PI/2  # 90 degrees counterclockwise
+	# Calculate angle between incident ray and mirror surface
+	var angle_to_mirror = incident_angle - mirror_angle
 	
-	# Calculate angle of incidence relative to mirror normal
-	var incident_relative = incident_angle - normal_angle
+	# Reflect across mirror surface
+	var reflected_angle_relative = -angle_to_mirror
 	
-	# Reflect the angle (law of reflection: angle of incidence = angle of reflection)
-	var reflected_relative = -incident_relative
+	# Convert back to global coordinates
+	var reflected_angle = reflected_angle_relative + mirror_angle
 	
-	# Convert back to global angle
-	var reflected_angle = reflected_relative + normal_angle
-	
-	# Normalize the angle to be between -PI and PI
-	reflected_angle = fmod(reflected_angle, 2 * PI)
-	if reflected_angle > PI:
-		reflected_angle -= 2 * PI
-	elif reflected_angle < -PI:
-		reflected_angle += 2 * PI
+	# Normalize angle
+	reflected_angle = atan2(sin(reflected_angle), cos(reflected_angle))
 	
 	return reflected_angle

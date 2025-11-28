@@ -14,9 +14,18 @@ config/name="Wave Mage"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://Scripts/global.gd"
+Sfx="*res://Sound/SFX.tscn"
+
 [dotnet]
 
 project/assembly_name="Wave Mage"
+
+[gui]
+
+theme/custom_font="uid://chlag3glr1ni0"
 
 [rendering]
 
