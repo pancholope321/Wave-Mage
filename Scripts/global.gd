@@ -31,12 +31,12 @@ func _ready() -> void:
 	sfxIdx = AudioServer.get_bus_index("SFX") 
 	
 	if (gameDataDict["settings"]["Music"] > 0):
-		AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"])) 
+		AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"], "Music")) 
 	else: 
 		AudioServer.set_bus_mute(musicIdx,true) 
 	
 	if (gameDataDict["settings"]["SFX"] > 0):
-		AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"])) 
+		AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"], "SFX")) 
 	else: 
 		AudioServer.set_bus_mute(sfxIdx,true)
 	
@@ -45,10 +45,14 @@ func _ready() -> void:
 
 """
 This function performs calculations on the input volume percentage and converts it to a reasonable 
-decibel value. E.g. At 100% volume, the music will be 6db.
+decibel value. E.g. At 100% volume, the music will be 6db, whereas SFX will be 3db.
 """
-func db_converter(input):
-	return (input/100)*10-4 
+func db_converter(input, bus): 
+	match bus:
+		"Music":
+			return (input/100)*10-4 
+		"SFX":
+			return (input/100)*10-14 
 
 func positive_button_press(audioPlayer):
 	audioPlayer.stream = buttonSFXPos 

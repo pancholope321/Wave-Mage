@@ -21,7 +21,7 @@ func update_volume():
 	volDisplay.text = str(floori(volume)) 
 	if (Global.gameDataDict["settings"][bus]>0): 
 		AudioServer.set_bus_mute(busIndex, false)
-		AudioServer.set_bus_volume_db(busIndex, Global.db_converter(Global.gameDataDict["settings"][bus]))
+		AudioServer.set_bus_volume_db(busIndex, Global.db_converter(Global.gameDataDict["settings"][bus], bus))
 	else: 
 		AudioServer.set_bus_mute(busIndex, true)
 	#audPlayer.volume_db = (Global.musicVolumeSettings/100)*12

@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6qcen12x0kl7"]
+[gd_scene load_steps=19 format=3 uid="uid://c6qcen12x0kl7"]
 
 [ext_resource type="Script" uid="uid://bt2b4nicvgu64" path="res://Scripts/Game/main_menu.gd" id="1_5pknu"]
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_60k44"]
 [ext_resource type="FontFile" uid="uid://chlag3glr1ni0" path="res://Fonts/alagard-12px-unicode.ttf" id="3_b7htb"]
 [ext_resource type="Script" uid="uid://brfbvr1s5fcw" path="res://Scripts/Game/settings.gd" id="4_yl13b"]
 [ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/volume_settings.gd" id="5_3uny1"]
+[ext_resource type="Texture2D" uid="uid://hln34c0rn5qu" path="res://Sprites/UI sprites/settings_icon.png" id="6_kqm77"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="6_v10og"]
 
 [sub_resource type="Theme" id="Theme_3uny1"]
@@ -14,6 +15,32 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v10og"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o8ral"]
+bg_color = Color(0.721569, 0.152941, 0.0862745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urxp8"]
+bg_color = Color(0.180392, 0.0196078, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rn1t7"]
+bg_color = Color(0.721569, 0.152941, 0.0862745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snj4n"]
+bg_color = Color(0.180392, 0.0196078, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yij4q"]
+bg_color = Color(0.721569, 0.152941, 0.0862745, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kqm77"]
+bg_color = Color(0.17867, 0.0200316, 0, 1)
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmf6k"]
+bg_color = Color(0.721763, 0.154725, 0.0855738, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wofhc"]
+bg_color = Color(0.180392, 0.0196078, 0, 1)
+shadow_color = Color(0.17867, 0, 0, 0.921569)
 
 [node name="Main Menu" type="Node2D"]
 script = ExtResource("1_5pknu")
@@ -108,6 +135,8 @@ theme_override_fonts/font = ExtResource("3_b7htb")
 [node name="Save Settings" type="Button" parent="Settings Popup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_b7htb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_o8ral")
+theme_override_styles/normal = SubResource("StyleBoxFlat_urxp8")
 text = "SAVE"
 
 [node name="ColorRect" type="ColorRect" parent="Settings Popup"]
@@ -142,6 +171,8 @@ offset_left = -140.0
 offset_top = -209.0
 offset_right = 157.0
 offset_bottom = -139.0
+theme_override_colors/font_color = Color(1, 0.0747188, 0.0747188, 1)
+theme_override_colors/font_shadow_color = Color(0.495474, 0.323769, 0.384146, 1)
 theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 50
 text = "WAVE MAGE"
@@ -160,6 +191,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 20
+theme_override_styles/hover = SubResource("StyleBoxFlat_rn1t7")
+theme_override_styles/normal = SubResource("StyleBoxFlat_snj4n")
 text = "START NEW GAME"
 metadata/_edit_use_anchors_ = true
 
@@ -170,6 +203,8 @@ offset_right = 88.0
 offset_bottom = 111.0
 theme_override_fonts/font = ExtResource("3_b7htb")
 theme_override_font_sizes/font_size = 20
+theme_override_styles/hover = SubResource("StyleBoxFlat_yij4q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kqm77")
 text = "CONTINUE GAME"
 
 [node name="Credits" type="Label" parent="Camera2D"]
@@ -185,11 +220,23 @@ MUSIC: Lukas Pfeiffer
 SFX: Jaime54321"
 
 [node name="Settings" type="Button" parent="Camera2D"]
-offset_left = -543.0
-offset_top = -300.0
-offset_right = -461.0
-offset_bottom = -269.0
-text = "SETTINGS"
+offset_left = 499.0
+offset_top = 252.0
+offset_right = 542.0
+offset_bottom = 292.0
+theme_override_icons/icon = ExtResource("6_kqm77")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qmf6k")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wofhc")
+icon_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D"]
+z_index = -1096
+offset_left = -597.0
+offset_top = -337.0
+offset_right = 602.0
+offset_bottom = 363.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="WavemageBattleThemeMainLoop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_v10og")
