@@ -44,6 +44,7 @@ func get_context():
 func get_attack_damage():
 	return damage
 @export var animator:AnimationPlayer
+@export var animate_time:float=1.0
 func animate_enemy_attack(playerNode):
 	if !alive:
 		return
@@ -57,7 +58,7 @@ func animate_enemy_attack(playerNode):
 		animator.play("Attack")
 	self.add_child(instance)
 	var tween=create_tween()
-	tween.tween_method(instance.launch_projectile,0.0,1.0,1.0)
+	tween.tween_method(instance.launch_projectile,0.0,1.0,animate_time)
 	await tween.finished
 	instance.end_action()
 	var total_damage=get_attack_damage()
