@@ -160,7 +160,7 @@ offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button", "audioController", "topLeft", "topRight", "bottomLeft", "bottomRight")]
+[node name="waveController" type="Node2D" parent="." node_paths=PackedStringArray("player", "enemy_container", "enemy_controller", "attack_button", "audioController", "topLeft", "topRight", "bottomLeft", "bottomRight", "consumable_list")]
 script = ExtResource("1_viax6")
 player = NodePath("../Player")
 enemy_container = NodePath("../Marker2D/enemy_container")
@@ -171,6 +171,7 @@ topLeft = NodePath("../bounding_area/topLeft")
 topRight = NodePath("../bounding_area/topRight")
 bottomLeft = NodePath("../bounding_area/bottomLeft")
 bottomRight = NodePath("../bounding_area/bottomRight")
+consumable_list = NodePath("../Front UI/Control/ScrollContainer/consumables")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
@@ -248,6 +249,24 @@ texture_normal = SubResource("AnimatedTexture_4ja3e")
 texture_hover = ExtResource("17_e8a6h")
 texture_disabled = SubResource("AnimatedTexture_ibq60")
 stretch_mode = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 287.0
+offset_right = -1010.0
+offset_bottom = -108.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 3
+
+[node name="consumables" type="VBoxContainer" parent="Front UI/Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="bounding_area" type="Node2D" parent="."]
 

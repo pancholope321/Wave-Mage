@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://7vb2ia3cflf1"]
+
+[ext_resource type="Script" uid="uid://d4ffa50w2dnu8" path="res://Scripts/Store/power_template.gd" id="1_254xo"]
+[ext_resource type="Texture2D" uid="uid://ccps3x0qt4k2q" path="res://Sprites/Structure Sprites/little_prism.png" id="1_ylesc"]
+[ext_resource type="PackedScene" uid="uid://bn8frjxpb3o8v" path="res://Templates_UI/tooltip.tscn" id="2_tm7j4"]
+
+[node name="power_template" type="HBoxContainer"]
+script = ExtResource("1_254xo")
+tooltip_scene = ExtResource("2_tm7j4")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_ylesc")
+expand_mode = 3
+stretch_mode = 5

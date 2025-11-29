@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://6f6ioda8c07n"
+path="res://.godot/imported/Wavemage_epic update1 fadeout.wav-5ef280277d1f14b979271a6b6fc5e32a.sample"
+
+[deps]
+
+source_file="res://Sound/Music/Wavemage_epic update1 fadeout.wav"
+dest_files=["res://.godot/imported/Wavemage_epic update1 fadeout.wav-5ef280277d1f14b979271a6b6fc5e32a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

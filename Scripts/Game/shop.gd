@@ -3,15 +3,15 @@ extends Control
 @onready var coinDisplay = $Coins 
 @export var powersContainer: HBoxContainer
 @export var powerButtonTemplate:PackedScene
-
+@export var powerList:VBoxContainer
+@export var powerUITemplate:PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	coinDisplay.text = str(int(Global.playerStats["money"]))
 	update_power_buttons()
+	actualize_power_list()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func spend(cost):
 	Global.playerStats["money"] -= cost 
@@ -43,6 +43,7 @@ func add_element_to_list(elementName,button):
 		print("actually buying")
 		button.disable_button()
 		coinDisplay.text = str(int(Global.playerStats["money"]))
+		actualize_power_list()
 
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")
@@ -50,3 +51,32 @@ func _on_play_pressed() -> void:
 func _on_menu_pressed() -> void:
 	Global.save_json_config()
 	get_tree().change_scene_to_file("res://Scenes/mainMenu.tscn")
+
+
+func _on_refresh_pressed() -> void:
+	if 1<=Global.playerStats["money"]:
+		Sfx.play("PositiveButtonPress")
+		Global.playerStats["money"]-=1
+		coinDisplay.text = str(int(Global.playerStats["money"]))
+		update_power_buttons()
+
+
+func actualize_power_list():
+	var children=powerList.get_children()
+	for child in children:
+		child.queue_free()
+	var power_dict=Global.gameDataDict["unlocked_powers"]
+	var power_relations= Global.inforPowerDict
+	var key_powers=power_dict.keys()
+	for key in key_powers:
+		var curr_power=power_dict[key]
+		if curr_power>0:
+			var instance=powerUITemplate.instantiate()
+			var texture_path=power_relations["power_image"][key]
+			var power_name=power_relations["power_name"][key]
+			var power_description=power_relations["power_description"][key]
+			instance.set_texture(load(texture_path))
+			instance.set_quantity_label(curr_power)
+			instance.set_name_label(power_name)
+			instance.set_description(power_description)
+			powerList.add_child(instance)

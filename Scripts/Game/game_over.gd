@@ -7,7 +7,7 @@ var coins = 0
 func _ready() -> void:
 	coinTotalLabel.text = "0"
 	tween_coins_won()
-	Global.totalCoins["playing"]=false
+	Global.playerStats["playing"]=false
 	Global.save_json_config()
 
 
@@ -17,7 +17,7 @@ func main_menu():
 
 func tween_coins_won():
 	var tween=create_tween()
-	tween.tween_method(textConverterformNumber.bind(coinTotalLabel),0,Global.totalCoins["money"],1.0)
+	tween.tween_method(textConverterformNumber.bind(coinTotalLabel),0,Global.playerStats["money"],1.0)
 
 func textConverterformNumber(number,element):
 	element.text=str(round(number))

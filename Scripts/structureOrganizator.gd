@@ -40,12 +40,13 @@ func setup_wave_bounding_area(topLeft_set,topRight_set,bottomLeft_set,bottomRigh
 		overlapping=check_power_overlaps()
 		print("overlapping: ",overlapping)
 		tries-=1
-	if self.global_position.y > waveStartingPoint.y:
-		inverted = false
-		my_sprite.flip_v = false
-	else:
-		inverted = true
-		my_sprite.flip_v = true
+	if horizontal:
+		if self.global_position.y > waveStartingPoint.y:
+			inverted = false
+			my_sprite.flip_v = false
+		else:
+			inverted = true
+			my_sprite.flip_v = true
 	
 var listOfPowers=[]
 func setup_list_of_powers(listOfPowers_set):

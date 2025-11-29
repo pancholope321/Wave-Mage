@@ -7,7 +7,9 @@ extends Area2D
 @export var max_health=10.0
 @export var player_hp_bar:TextureProgressBar
 func _ready() -> void:
-	max_health=health
+	max_health=Global.playerStats["max_health"]
+	health=clamp(Global.playerStats["health"]+2,1,max_health)
+	healing()
 
 func take_damage(damage):
 	health-=damage
@@ -20,3 +22,10 @@ func take_damage(damage):
 
 func get_wave_start():
 	return waveStart
+
+func healing():
+	player_hp_bar.value=2.0+93.0*(health/max_health)
+
+func update_global_health():
+	Global.playerStats["health"]=health
+	Global.playerStats["max_health"]=max_health

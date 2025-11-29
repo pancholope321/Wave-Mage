@@ -1,6 +1,6 @@
 {
 "power_player_functions":{
-	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath"},
+	"power_template":{"start_function_path":"functionPath","start_function":"functionName","structure":"structurePath","consumable":"consumablePath"},
 	"mirror":{"structure":"res://Structures/mirror.tscn"},
 	"duplicatePower":{"structure":"res://Structures/duplicator.tscn"},
 	"goblin_spear":{"structure":"res://Structures/Enemies/goblin_spear.tscn"},
@@ -9,13 +9,15 @@
 	"goblin_mage":{"structure":"res://Structures/Enemies/goblin_mage.tscn"},
 	"skeleton_dagger":{"structure":"res://Structures/Enemies/skeleton_dagger.tscn"},
 	"skeleton_spear":{"structure":"res://Structures/Enemies/skeleton_spear.tscn"},
-	"health_upg":{"start_function_path":"res://Scripts/Powers/health_upg.gd","start_function":"add_more_health"}
+	"health_upg":{"start_function_path":"res://Scripts/Powers/health_upg.gd","start_function":"add_more_health"},
+	"health_potion":{"consumable":"res://Consumables/consumable_template.tscn"}
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
 	"damageMultiplier":"res://Sprites/Structure Sprites/little_prism.png",
-	"health_upg":"res://Sprites/Structure Sprites/Health Up - Placeholder.png"
+	"health_upg":"res://Sprites/Structure Sprites/Health Up - Placeholder.png",
+	"health_potion":"res://icon.svg"
 },
 "power_name":{
 	"mirror":"Mirror",
@@ -26,7 +28,8 @@
 	"health_upg":"Health Upgrade",
 	"goblin_mage":"enemy",
 	"skeleton_spear":"enemy",
-	"skeleton_dagger":"enemy"
+	"skeleton_dagger":"enemy",
+	"health_potion":"Health Potion"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
@@ -34,15 +37,17 @@
 	"goblin_spear":"Enemy attacking",
 	"damageMultiplier": "Multiply damage by 2",
 	"goblin_arrow":"Enemy attacking",
-	"health_upg":"Add 5 extra HP",
+	"health_upg":"Add 10 extra HP",
 	"goblin_mage":"Enemy attacking",
 	"skeleton_spear":"Enemy attacking",
-	"skeleton_dagger":"Enemy attacking"
+	"skeleton_dagger":"Enemy attacking",
+	"health_potion": "Heals by 15, has only one use"
 },
 "power_costs":{
 	"mirror":{"price":3,"growth_per_level":3},
 	"duplicatePower":{"price":3,"growth_per_level":3},
 	"damageMultiplier":{"price":3,"growth_per_level":3},
-	"health_upg":{"price":3,"growth_per_level":3}
+	"health_upg":{"price":3,"growth_per_level":3},
+	"health_potion":{"price":4,"growth_per_level":0}
 }
 }

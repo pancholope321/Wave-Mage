@@ -20,7 +20,7 @@ func _ready() -> void:
 	wave_start=player.get_wave_start()
 	#attack(1)
 	
-
+@export var consumable_list:VBoxContainer
 var listOfPowers=[]
 func create_list_of_powers(enemyJson,PowerJson,structureJson):
 	listOfPowers=[]
@@ -75,6 +75,14 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 				"node":instance}
 				index+=1
 				listOfPowers.append(newDict)
+			if structureJson[key].has("consumable"):
+				var path=structureJson[key].consumable
+				var pathloaded=load(path)
+				var instance=pathloaded.instantiate()
+				consumable_list.add_child(instance)
+				instance.add_context(context,key,self)
+				continue
+				
 	pass
 	
 	
@@ -147,7 +155,7 @@ func fight_won():
 	
 	# Store coins in global or pass through other means
 	Global.coinsWon = coinsWon
-	
+	await player.update_global_health()
 	# Change scene directly
 	get_tree().change_scene_to_file("res://Scenes/winScreen.tscn")
 	pass

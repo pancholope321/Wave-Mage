@@ -27,16 +27,19 @@ func _ready() -> void:
 	playerStats = gameDataDict["player_stats"]
 	
 	inforPowerDict=load_json_config("res://ConfigFiles/structure_information_relation.json")
+	await get_tree().create_timer(0).timeout
 	musicIdx = AudioServer.get_bus_index("Music")
 	sfxIdx = AudioServer.get_bus_index("SFX") 
 	
 	if (gameDataDict["settings"]["Music"] > 0):
 		AudioServer.set_bus_volume_db(musicIdx, db_converter(gameDataDict["settings"]["Music"], "Music")) 
-	else: 
+		AudioServer.set_bus_mute(musicIdx,false)
+	else:
 		AudioServer.set_bus_mute(musicIdx,true) 
 	
 	if (gameDataDict["settings"]["SFX"] > 0):
 		AudioServer.set_bus_volume_db(sfxIdx, db_converter(gameDataDict["settings"]["SFX"], "SFX")) 
+		AudioServer.set_bus_mute(sfxIdx,false)
 	else: 
 		AudioServer.set_bus_mute(sfxIdx,true)
 	

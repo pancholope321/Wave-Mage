@@ -37,7 +37,6 @@ func _ready() -> void:
 	var final_json=Global.gameDataDict
 	var structureJson=Global.load_json_config(structure_path)
 	print("final_json: ",final_json)
-	#waveController.create_list_of_powers(enemy_json.enemy_count,final_json.unlocked_powers,structureJson.power_player_functions)
 	
 	if Global.check_file_exists(file_path) and !debug:
 		print("File exists!")

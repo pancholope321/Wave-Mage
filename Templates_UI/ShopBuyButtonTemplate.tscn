@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://4gkagmup2nk4"]
+[gd_scene load_steps=13 format=3 uid="uid://4gkagmup2nk4"]
 
 [ext_resource type="Script" uid="uid://dadqb1biflc0c" path="res://Scenes/shop_item.gd" id="1_h3u0o"]
 [ext_resource type="Texture2D" uid="uid://bvq1nfsxh25xl" path="res://Sprites/Shop Sprites/price_paper_x4.png" id="2_dqhft"]
+[ext_resource type="PackedScene" uid="uid://bn8frjxpb3o8v" path="res://Templates_UI/tooltip.tscn" id="2_keg5d"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h3u0o"]
 
@@ -69,6 +70,7 @@ script = ExtResource("1_h3u0o")
 labelPrice = NodePath("TextureRect2/Control/price")
 texture = NodePath("TextureRect")
 texture_price_cont = NodePath("TextureRect2")
+tooltip_scene = ExtResource("2_keg5d")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
