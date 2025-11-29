@@ -1,6 +1,6 @@
-extends Node2D
+extends Control
 
-@onready var coinTotalLabel = $"Camera2D/Coin Total" 
+@onready var coinTotalLabel = $"Coin Total" 
 var coins = 0
 
 # Called when the node enters the scene tree for the first time.
@@ -12,6 +12,7 @@ func _ready() -> void:
 
 
 func main_menu():
+	Sfx.play("NegativeButtonPress")
 	get_tree().change_scene_to_file("res://Scenes/mainMenu.tscn")
 
 
@@ -21,3 +22,23 @@ func tween_coins_won():
 
 func textConverterformNumber(number,element):
 	element.text=str(round(number))
+
+
+var full_text = "GAME OVER"
+var visible_count = 0
+var speed = 0.5 # characters per second
+
+@export var character_label:Label
+var forward=true
+var time=0.5
+func _process(delta):
+	if forward:
+		character_label.visible_characters_behavior=TextServer.VC_GLYPHS_LTR
+		character_label.visible_ratio+=delta*time
+		if character_label.visible_ratio>=0.99:
+			forward=false
+	else:
+		character_label.visible_characters_behavior=TextServer.VC_GLYPHS_RTL
+		character_label.visible_ratio-=delta*time
+		if character_label.visible_ratio<=0.01:
+			forward=true

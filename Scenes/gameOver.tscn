@@ -1,33 +1,85 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh0nh55lqhgl2"]
+[gd_scene load_steps=4 format=3 uid="uid://dh0nh55lqhgl2"]
 
 [ext_resource type="Script" uid="uid://cwsjr7tsfjhc" path="res://Scripts/Game/game_over.gd" id="1_houp4"]
+[ext_resource type="Texture2D" uid="uid://bgrd5h6grrrqt" path="res://Sprites/Fight_screen sprites/lose.png" id="2_jnb8n"]
+[ext_resource type="Texture2D" uid="uid://baaoj3tf6xeak" path="res://Sprites/Shop Sprites/button_actions.png" id="3_bwgl3"]
 
-[node name="Game Over" type="Node2D"]
+[node name="Control" type="Control" node_paths=PackedStringArray("character_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_houp4")
+character_label = NodePath("Game Over")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jnb8n")
+expand_mode = 1
 
-[node name="Label" type="Label" parent="Camera2D"]
-offset_left = -155.0
-offset_top = -223.0
-offset_right = 143.0
-offset_bottom = -151.0
-theme_override_font_sizes/font_size = 52
+[node name="Game Over" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.39
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.279984
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 11
+theme_override_font_sizes/font_size = 50
 text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_characters_behavior = 3
+visible_ratio = 0.0
 
-[node name="Main Menu" type="Button" parent="Camera2D"]
-offset_left = -50.0
-offset_top = 154.0
-offset_right = 54.0
-offset_bottom = 185.0
-text = "MAIN MENU"
-
-[node name="Coin Total" type="Label" parent="Camera2D"]
-offset_left = 400.0
-offset_top = -312.0
-offset_right = 552.0
-offset_bottom = -278.0
+[node name="Coin Total" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 44.0
+offset_bottom = 78.0
+grow_horizontal = 0
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
-[connection signal="pressed" from="Camera2D/Main Menu" to="." method="main_menu"]
+[node name="Main Menu" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 453.0
+offset_top = 517.0
+offset_right = -494.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.25, 1.25)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_bwgl3")
+
+[node name="Label" type="Label" parent="Main Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Main Menu" to="." method="main_menu"]

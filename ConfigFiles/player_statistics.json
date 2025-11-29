@@ -10,6 +10,7 @@
 		"mirror":0,
 		"duplicatePower":0,
 		"damageMultiplier":0,
+		"health_upg":0,
 		"health_potion":0
 	},
 	"power_utilities":{

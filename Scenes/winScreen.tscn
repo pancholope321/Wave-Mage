@@ -1,49 +1,124 @@
-[gd_scene load_steps=2 format=3 uid="uid://b67l41l8c8xmm"]
+[gd_scene load_steps=4 format=3 uid="uid://b67l41l8c8xmm"]
 
 [ext_resource type="Script" uid="uid://bojlj16itkg18" path="res://Scripts/Game/win_screen.gd" id="1_6lw6h"]
+[ext_resource type="Texture2D" uid="uid://co8vyyf5l87ww" path="res://Sprites/Fight_screen sprites/win.png" id="2_1lape"]
+[ext_resource type="Texture2D" uid="uid://baaoj3tf6xeak" path="res://Sprites/Shop Sprites/button_actions.png" id="3_o76b5"]
 
-[node name="Win Screen" type="Node2D" node_paths=PackedStringArray("coinTotalLabel", "coinsWonLabel")]
+[node name="Win Screen" type="Control" node_paths=PackedStringArray("coinTotalLabel", "coinsWonLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6lw6h")
-coinTotalLabel = NodePath("Camera2D/Coin Total")
-coinsWonLabel = NodePath("Camera2D/Coins Won")
+coinTotalLabel = NodePath("Coin Total")
+coinsWonLabel = NodePath("Coins Won")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1lape")
+expand_mode = 1
 
-[node name="Label" type="Label" parent="Camera2D"]
-offset_left = -97.0
-offset_top = -262.0
-offset_right = 102.0
-offset_bottom = -199.0
-theme_override_font_sizes/font_size = 45
-text = "VICTORY!"
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 309.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 11
+bbcode_enabled = true
+text = "[font_size=40][wave amp=8.0 freq=4.0 connected=1]ENEMIES SLAIN[/wave][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Camera2D"]
-offset_left = -142.0
-offset_top = -124.0
-offset_right = -21.0
-offset_bottom = -101.0
-text = "COINS EARNED:"
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -270.0
+offset_top = 465.0
+offset_right = -12.0
+offset_bottom = 514.0
+grow_horizontal = 0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
+text = "COINS EARNED"
 
-[node name="Coins Won" type="Label" parent="Camera2D"]
-offset_left = 42.0
-offset_top = -120.0
-offset_right = 82.0
-offset_bottom = -97.0
+[node name="Label3" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -236.0
+offset_top = 548.0
+offset_right = -13.0
+offset_bottom = 597.0
+grow_horizontal = 0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
+text = "TOTAL COINS"
+
+[node name="Coins Won" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_top = 509.0
+offset_right = -15.0
+offset_bottom = 558.0
+grow_horizontal = 0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
 text = "0"
-
-[node name="Coin Total" type="Label" parent="Camera2D"]
-offset_left = 373.0
-offset_top = -305.0
-offset_right = 556.0
-offset_bottom = -271.0
-theme_override_font_sizes/font_size = 24
 horizontal_alignment = 2
 
-[node name="Shop" type="Button" parent="Camera2D"]
-offset_left = -25.0
-offset_top = 80.0
-offset_right = 27.0
-offset_bottom = 111.0
-text = "SHOP"
+[node name="Coin Total" type="Label" parent="."]
+offset_left = 954.0
+offset_top = 588.0
+offset_right = 1137.0
+offset_bottom = 622.0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
+text = "0"
+horizontal_alignment = 2
 
-[connection signal="pressed" from="Camera2D/Shop" to="." method="to_shop"]
+[node name="Shop" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -121.0
+offset_right = 78.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.25, 1.25)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_o76b5")
+
+[node name="Label" type="Label" parent="Shop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Go to shop"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Shop" to="." method="to_shop"]

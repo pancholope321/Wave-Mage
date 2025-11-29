@@ -222,7 +222,6 @@ consumable_list = NodePath("../Front UI/Control/ScrollContainer/consumables")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
-debug = true
 waveController = NodePath("../waveController")
 
 [node name="enemyController" type="Node2D" parent="." node_paths=PackedStringArray("player_node", "wave_controller")]

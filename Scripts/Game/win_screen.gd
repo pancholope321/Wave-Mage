@@ -1,5 +1,4 @@
-extends Node2D
-
+extends Control
 @export var coinTotalLabel:Label 
 @export var coinsWonLabel :Label 
 var coinsWon : int
@@ -9,6 +8,7 @@ func _ready() -> void:
 	load_coins()
 
 func to_shop():
+	Sfx.play("PositiveButtonPress")
 	Global.playerStats["current_day"]+=1
 	Global.save_json_config()
 	get_tree().change_scene_to_file("res://Scenes/shopScene.tscn") 
