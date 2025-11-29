@@ -5,10 +5,6 @@ extends Node2D
 @onready var shopBtn = $"Camera2D/continue Button"
 
 
-
-
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#player.volume_db = (Global.musicVolumeSettings/100)*12

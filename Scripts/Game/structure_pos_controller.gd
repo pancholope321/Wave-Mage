@@ -2,9 +2,9 @@ extends Node2D
 
 var test_json={
 "unlocked_powers":{
-	"mirror":1,
-	"duplicatePower":1,
-	"damageMultiplier":1
+	"mirror":0,
+	"duplicatePower":0,
+	"damageMultiplier":0
 	},
 "power_activations":{
 	"mirror":0,
@@ -44,7 +44,7 @@ func _ready() -> void:
 		enemy_json=generate_enemy_json()
 		waveController.create_list_of_powers(enemy_json,final_json2.unlocked_powers,structureJson.power_player_functions)
 	else:
-		enemy_json=generate_enemy_json()
+		enemy_json=enemy_json
 		waveController.create_list_of_powers(enemy_json,test_json.unlocked_powers,structureJson.power_player_functions)
 		print("File does not exist!")
 		

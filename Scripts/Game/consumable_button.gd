@@ -16,6 +16,14 @@ func _on_pressed() -> void:
 	script.call(functionName,context)
 	if Global.gameDataDict["unlocked_powers"][key]<=0:
 		self.queue_free()
+	load_label_text()
+
+@export var quant_consumable:Label
+@export var texture_rect:TextureRect
+func load_label_text():
+	var quantity=Global.gameDataDict["unlocked_powers"][key]
+	quant_consumable.text=str(roundi(quantity))
+	texture_rect.texture=load(image_path)
 
 @export var tooltip_scene: PackedScene
 
@@ -23,10 +31,13 @@ var tooltip_instance: Control
 var is_mouse_over: bool = false
 var name_power=""
 var description=""
+var image_path=""
 func setup_names_and_description(key):
 	var dict_info=Global.inforPowerDict
 	name_power=dict_info["power_name"][key]
 	description=dict_info["power_description"][key]
+	image_path=dict_info["power_image"][key]
+	load_label_text()
 
 func _ready():
 	# Connect mouse signals

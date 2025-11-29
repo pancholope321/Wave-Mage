@@ -1,11 +1,11 @@
-[gd_scene load_steps=40 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=43 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
 [ext_resource type="Texture2D" uid="uid://twxutruahf4a" path="res://Sprites/UI sprites/background_1.png" id="1_yqjp4"]
 [ext_resource type="Texture2D" uid="uid://c7df1fmoykba7" path="res://Sprites/UI sprites/left_panel_1.png" id="2_j3mh6"]
 [ext_resource type="Script" uid="uid://dtvjko8dykvcr" path="res://Scripts/Game/structure_pos_controller.gd" id="4_57ar5"]
-[ext_resource type="Texture2D" uid="uid://x3emi134poo8" path="res://Sprites/Character sprites/mage.png" id="4_unv2f"]
+[ext_resource type="Texture2D" uid="uid://bh5o3peejumfv" path="res://Sprites/Character sprites/mage_idle.png" id="4_q4axd"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
 [ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
 [ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
@@ -39,6 +39,45 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
 size = Vector2(21, 71)
+
+[sub_resource type="Animation" id="Animation_4ja3e"]
+resource_name = "Idle"
+length = 1.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_8xmf6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vlvhn"]
+_data = {
+&"Idle": SubResource("Animation_4ja3e"),
+&"RESET": SubResource("Animation_8xmf6")
+}
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_4ja3e"]
 frames = 11
@@ -138,7 +177,9 @@ player_hp_bar = NodePath("../Front UI/Control/playerHP")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 position = Vector2(2, 6.00001)
-texture = ExtResource("4_unv2f")
+texture = ExtResource("4_q4axd")
+hframes = 4
+vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 5.5)
@@ -146,6 +187,12 @@ shape = SubResource("RectangleShape2D_fm3o4")
 
 [node name="waveStart" type="Node2D" parent="Player"]
 position = Vector2(-17, -18)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+&"": SubResource("AnimationLibrary_vlvhn")
+}
+autoplay = "Idle"
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(967, 330)
@@ -175,6 +222,7 @@ consumable_list = NodePath("../Front UI/Control/ScrollContainer/consumables")
 
 [node name="structurePosController" type="Node2D" parent="." node_paths=PackedStringArray("waveController")]
 script = ExtResource("4_57ar5")
+debug = true
 waveController = NodePath("../waveController")
 
 [node name="enemyController" type="Node2D" parent="." node_paths=PackedStringArray("player_node", "wave_controller")]

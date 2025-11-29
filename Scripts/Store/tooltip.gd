@@ -4,7 +4,7 @@ func show_tooltip(name_power, description,mouse_position):
 	$VBoxContainer/name.text=name_power
 	$VBoxContainer/description.text=description
 	self.visible=true
-	
+	self.size.y=$VBoxContainer.size.y
 	# Wait for next frame to ensure proper sizing
 	call_deferred("update_position", mouse_position)
 
@@ -18,10 +18,10 @@ func update_position(mouse_position):
 	var tooltip_size = self.size
 	
 	# Configuration
-	var tooltip_offset = Vector2(20, 20)  # Offset from mouse
+	var tooltip_offset = Vector2(0, 20)  # Offset from mouse
 	var screen_margin = 10                # Margin from screen edges
 	# Calculate desired position (offset from mouse)
-	var desired_position = mouse_position + tooltip_offset
+	var desired_position = mouse_position - Vector2(tooltip_size.x/2.0,0)  + tooltip_offset
 	var final_position = desired_position
 	# Check right edge
 	if desired_position.x + tooltip_size.x > screen_size.x - screen_margin:

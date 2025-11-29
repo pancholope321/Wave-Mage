@@ -43,7 +43,7 @@ func get_context():
 
 func get_attack_damage():
 	return damage
-
+@export var animator:AnimationPlayer
 func animate_enemy_attack(playerNode):
 	if !alive:
 		return
@@ -53,6 +53,8 @@ func animate_enemy_attack(playerNode):
 	var start_set=(self.global_position+point2.global_position)/2.0
 	var end_set=player.global_position
 	instance.setup_start_end(start_set,end_set)
+	if animator!=null and animator.has_animation("Attack"):
+		animator.play("Attack")
 	self.add_child(instance)
 	var tween=create_tween()
 	tween.tween_method(instance.launch_projectile,0.0,1.0,1.0)
@@ -60,7 +62,8 @@ func animate_enemy_attack(playerNode):
 	instance.end_action()
 	var total_damage=get_attack_damage()
 	player.take_damage(total_damage)
-	
+	if animator!=null and animator.has_animation("Attack"):
+		animator.play("Idle")
 	return
 var id=-1
 func setup_id(index):

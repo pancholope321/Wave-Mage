@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://brfbvr1s5fcw" path="res://Scripts/Game/settings.gd" id="4_yl13b"]
 [ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/volume_settings.gd" id="5_3uny1"]
 [ext_resource type="Texture2D" uid="uid://hln34c0rn5qu" path="res://Sprites/UI sprites/settings_icon.png" id="6_kqm77"]
-[ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="6_v10og"]
+[ext_resource type="AudioStream" uid="uid://b110pgsempv4k" path="res://Sound/Music/Wavemage_epic update1 fadeinfadeout.wav" id="7_kqm77"]
 
 [sub_resource type="Theme" id="Theme_3uny1"]
 
@@ -238,8 +238,8 @@ offset_bottom = 363.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="WavemageBattleThemeMainLoop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_v10og")
+[node name="main_menu_theme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_kqm77")
 autoplay = true
 bus = &"Music"
 

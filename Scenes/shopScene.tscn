@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://8x8saxnb6mu4"]
+[gd_scene load_steps=8 format=3 uid="uid://8x8saxnb6mu4"]
 
 [ext_resource type="Script" uid="uid://blohxyrd26fsj" path="res://Scripts/Game/shop.gd" id="1_ectro"]
 [ext_resource type="PackedScene" uid="uid://4gkagmup2nk4" path="res://Templates_UI/ShopBuyButtonTemplate.tscn" id="2_e1g4l"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://7vb2ia3cflf1" path="res://Templates_UI/power_template.tscn" id="3_oocp6"]
 [ext_resource type="Texture2D" uid="uid://baaoj3tf6xeak" path="res://Sprites/Shop Sprites/button_actions.png" id="4_htbse"]
 [ext_resource type="Texture2D" uid="uid://snariptj783y" path="res://Sprites/Shop Sprites/button_refresh.png" id="5_ylkq5"]
+[ext_resource type="AudioStream" uid="uid://ckorn6h2j4ky2" path="res://Sound/Music/Wavemage_store ver. 1.wav" id="7_42g52"]
 
 [node name="Shop" type="Control" node_paths=PackedStringArray("powersContainer", "powerList")]
 layout_mode = 3
@@ -152,7 +153,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 851.0
-offset_top = 269.0
+offset_top = 270.0
 offset_right = -46.0
 offset_bottom = -36.0
 grow_horizontal = 2
@@ -163,6 +164,11 @@ horizontal_scroll_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="shop_theme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_42g52")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="main menu" to="." method="_on_menu_pressed"]
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]

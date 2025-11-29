@@ -46,6 +46,7 @@ func add_element_to_list(elementName,button):
 		actualize_power_list()
 
 func _on_play_pressed() -> void:
+	Global.save_json_config()
 	get_tree().change_scene_to_file("res://Scenes/fightScene.tscn")
 
 func _on_menu_pressed() -> void:
