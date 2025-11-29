@@ -16,8 +16,8 @@
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
 	"damageMultiplier":"res://Sprites/Structure Sprites/little_prism.png",
-	"health_upg":"res://Sprites/Structure Sprites/Health Up - Placeholder.png",
-	"health_potion":"res://icon.svg"
+	"health_upg":"res://Sprites/Structure Sprites/Health_Upgrade.png",
+	"health_potion":"res://Sprites/Structure Sprites/potion.png"
 },
 "power_name":{
 	"mirror":"Mirror",
