@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var settings = $"Settings Popup" 
 @onready var startBtn = $"Camera2D/Start Button" 
-@onready var shopBtn = $"Camera2D/continue Button"
+@onready var continueBtn = $"Camera2D/continue Button"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,4 +24,4 @@ func display_settings():
 	Sfx.play("NeutralButtonPress", true)
 	settings.visible = true 
 	startBtn.visible = false 
-	shopBtn.visible = false
+	continueBtn.visible = false

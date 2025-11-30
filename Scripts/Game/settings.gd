@@ -3,7 +3,7 @@ extends Control
 @onready var musicVol = $"PanelContainer/VBoxContainer/Music Volume" 
 @onready var sfxVol = $"PanelContainer/VBoxContainer/SFX Volume" 
 @onready var startBtn = $"../Camera2D/Start Button" 
-@onready var shopBtn = $"../Camera2D/continue Button"
+@onready var continueBtn = $"../Camera2D/continue Button"
 
 func _ready() -> void:
 	#get_tree().paused = true 
@@ -15,5 +15,5 @@ func save_settings():
 	Sfx.play("NeutralButtonPress", true)
 	Global.save_json_config() 
 	startBtn.visible = true
-	shopBtn.visible = true
+	continueBtn.visible = true
 	visible = false
