@@ -10,14 +10,20 @@
 	"skeleton_dagger":{"structure":"res://Structures/Enemies/skeleton_dagger.tscn"},
 	"skeleton_spear":{"structure":"res://Structures/Enemies/skeleton_spear.tscn"},
 	"health_upg":{"start_function_path":"res://Scripts/Powers/health_upg.gd","start_function":"add_more_health"},
-	"health_potion":{"consumable":"res://Consumables/consumable_template.tscn"}
+	"health_potion":{"consumable":"res://Consumables/consumable_template.tscn"},
+	"poison_dmg":{"structure":"res://Structures/poisonDamage.tscn"},
+	"fire_dmg":{"structure":"res://Structures/fireDamage.tscn"},
+	"wall_vine":{"structure":"res://Structures/vine_wall.tscn"},
+	"skeleton_mage":{"structure":"res://Structures/Enemies/skeleton_mage.tscn"}
 },
 "power_image":{
 	"mirror":"res://Sprites/Structure Sprites/silver_mirror.png",
 	"duplicatePower":"res://Sprites/Structure Sprites/silver_duplicator.png",
 	"damageMultiplier":"res://Sprites/Structure Sprites/little_prism.png",
 	"health_upg":"res://Sprites/Structure Sprites/Health_Upgrade.png",
-	"health_potion":"res://Sprites/Structure Sprites/potion.png"
+	"health_potion":"res://Sprites/Structure Sprites/potion.png",
+	"poison_dmg":"res://Sprites/Structure Sprites/poison_prism.png",
+	"fire_dmg":"res://Sprites/Structure Sprites/fire_pit_no_fire.png"
 },
 "power_name":{
 	"mirror":"Mirror",
@@ -29,7 +35,9 @@
 	"goblin_mage":"enemy",
 	"skeleton_spear":"enemy",
 	"skeleton_dagger":"enemy",
-	"health_potion":"Health Potion"
+	"health_potion":"Health Potion",
+	"poison_dmg":"Poison Prism",
+	"fire_dmg": "Fire Pit"
 },
 "power_description":{
 	"mirror":"Reflects the wave",
@@ -41,13 +49,17 @@
 	"goblin_mage":"Enemy attacking",
 	"skeleton_spear":"Enemy attacking",
 	"skeleton_dagger":"Enemy attacking",
-	"health_potion": "Heals by 15, has only one use"
+	"health_potion": "Heals by 15, has only one use",
+	"poison_dmg":"Adds the current damage as poison to the enemy",
+	"fire_dmg": "Adds Burn to the enemy"
 },
 "power_costs":{
 	"mirror":{"price":3,"growth_per_level":3},
 	"duplicatePower":{"price":3,"growth_per_level":3},
 	"damageMultiplier":{"price":3,"growth_per_level":3},
 	"health_upg":{"price":3,"growth_per_level":3},
-	"health_potion":{"price":4,"growth_per_level":0}
+	"health_potion":{"price":4,"growth_per_level":0},
+	"poison_dmg":{"price":3,"growth_per_level":3},
+	"fire_dmg":{"price":3,"growth_per_level":3}
 }
 }

@@ -5,7 +5,7 @@ var h=0
 var k=0
 var a=0
 @export var rotate_offset_deg=0
-func setup_start_end(start_set,end_set):
+func setup_start_end(start_set,end_set,wave_controller):
 	start=start_set
 	end=end_set
 	var y1=start.y
@@ -34,7 +34,7 @@ func launch_projectile(regulator):
 	self.global_position=Vector2(x,y)
 	self.rotation=direction + PI*rotate_offset_deg/180.0
 
-func end_action():
+func end_action(wave_controller):
 	#explotion and then queuefree, for example
 	self.queue_free()
 	pass

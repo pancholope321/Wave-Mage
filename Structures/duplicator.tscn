@@ -7,6 +7,7 @@
 size = Vector2(24, 64)
 
 [node name="duplicatePoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+y_sort_enabled = true
 script = ExtResource("1_84w76")
 point1 = NodePath(".")
 point2 = NodePath("duplicatePoint2")

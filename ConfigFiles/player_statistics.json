@@ -4,20 +4,26 @@
 		"duplicatePower":0,
 		"damageMultiplier":0,
 		"health_upg":0,
-		"health_potion":0
+		"health_potion":0,
+		"poison_dmg":0,
+		"fire_dmg":0
 	},
 	"power_activations":{
 		"mirror":0,
 		"duplicatePower":0,
 		"damageMultiplier":0,
 		"health_upg":0,
-		"health_potion":0
+		"health_potion":0,
+		"poison_dmg":0,
+		"fire_dmg":0
 	},
 	"power_utilities":{
 		"mirror":{},
 		"duplicatePower":{},
 		"damageMultiplier":{},
-		"health_potion":{}
+		"health_potion":{},
+		"poison_dmg":{},
+		"fire_dmg":{}
 	},
 	"player_stats":{
 		"money":0,

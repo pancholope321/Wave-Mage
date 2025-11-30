@@ -4,7 +4,9 @@ var test_json={
 "unlocked_powers":{
 	"mirror":0,
 	"duplicatePower":0,
-	"damageMultiplier":0
+	"damageMultiplier":0,
+	"poison_dmg":1,
+	"fire_dmg":1
 	},
 "power_activations":{
 	"mirror":0,
@@ -21,9 +23,10 @@ var enemy_json={
 "enemy_count":{
 	"goblin_spear":0,
 	"goblin_arrow":0,
-	"goblin_mage":1,
-	"skeleton_spear":1,
-	"skeleton_dagger":1
+	"goblin_mage":0,
+	"skeleton_spear":0,
+	"skeleton_dagger":0,
+	"skeleton_mage":3
 	},
 	"health":10
 }

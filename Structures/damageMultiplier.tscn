@@ -7,6 +7,7 @@
 size = Vector2(28, 50)
 
 [node name="damageMultPoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+y_sort_enabled = true
 script = ExtResource("1_ykwx6")
 point1 = NodePath(".")
 point2 = NodePath("damageMultPoint2")

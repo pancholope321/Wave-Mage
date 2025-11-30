@@ -4,5 +4,8 @@
 	"duplicatePower":"res://Scripts/Powers/duplicatePower.gd",
 	"mirror":"res://Scripts/Powers/mirror.gd",
 	"damageMultiplier":"res://Scripts/Powers/damageMultiplier.gd",
-	"health_potion":"res://Scripts/Powers/health_potion.gd"
+	"health_potion":"res://Scripts/Powers/health_potion.gd",
+	"poison_dmg":"res://Scripts/Powers/poison_dmg.gd",
+	"fire_dmg":"res://Scripts/Powers/fire_dmg.gd",
+	"wall_vine":"res://Scripts/Powers/wall_vine.gd"
 }

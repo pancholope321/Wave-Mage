@@ -22,9 +22,10 @@ func _ready() -> void:
 	
 @export var consumable_list:VBoxContainer
 var listOfPowers=[]
+var index=0
 func create_list_of_powers(enemyJson,PowerJson,structureJson):
 	listOfPowers=[]
-	var index=0
+	index=0
 	var keys_enemy=enemyJson["enemy_count"].keys()
 	var enemies=enemyJson["enemy_count"]
 	for key in keys_enemy:
@@ -40,6 +41,7 @@ func create_list_of_powers(enemyJson,PowerJson,structureJson):
 			instance.setup_wave_starting_point(player)
 			instance.setup_id(index)
 			instance.setup_health(enemyJson["health"])
+			instance.connect("finish_action",continue_function)
 			var newDict={
 			"id":index,
 			"powerName": "enemy",
@@ -121,7 +123,9 @@ func attack(damage,start_position=wave_start.global_position):
 				"damage":damage,
 				"order_activation":order_activation,
 				"node":structure.node,
-				"color":Color(1,1,1)
+				"color":Color(1,1,1),
+				"fire_dmg":0,
+				"poison_dmg":0
 			}
 			order.append(dictOrder)
 	
@@ -132,17 +136,33 @@ func attack(damage,start_position=wave_start.global_position):
 	clear_color_rects()
 	activate_end_round()
 
+var total_enemies=0
 func activate_end_round():
 	var enemyListCopy=enemyList.duplicate()
+	var results=[]
+	total_enemies=0
 	for enemy in enemyListCopy:
+		total_enemies+=1
 		if !enemy.is_alive():
 			enemyList.erase(enemy)
 		enemy.activate_final_actions()
-	await get_tree().create_timer(0).timeout
-	if enemyList.size()<=0:
-		fight_won()
-	else:
-		enemy_controller.start_attack(enemyList)
+	for node_to_delete in queue_delete:
+		node_to_delete
+		var id=node_to_delete.id
+		remove_enemy(id)
+		node_to_delete.queue_free()
+	queue_delete=[]
+
+var attacking=false
+func continue_function(node_signal):
+	total_enemies-=1
+	if total_enemies<=0 and !attacking:
+		attacking=true
+		if enemyList.size()<=0:
+			fight_won()
+		else:
+			enemy_controller.start_attack(enemyList)
+		total_enemies=0
 
 func fight_lost():
 	print("fight_lost")
@@ -533,10 +553,12 @@ func sort_by_distance(a, b):
 		return a.angle < b.angle
 
 
-func get_structures_in_angle(start_wave_position, angle_struct, damage,order_activ,color):
+func get_structures_in_angle(start,start_wave_position, angle_struct, damage,order_activ,color):
 	var min_angle = deg_to_rad(-angle_struct)  # negative angle
 	var max_angle = deg_to_rad(angle_struct)   # positive angle
 	var order = []
+	var fire_dmg=start.fire_dmg
+	var poison_dmg=start.poison_dmg
 	var order_activation=1+order_activ
 	if order_activation>20:
 		return []
@@ -662,7 +684,10 @@ func get_structures_in_angle(start_wave_position, angle_struct, damage,order_act
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
+					
 				}
 				
 				if point_data.get("is_clipped", false):
@@ -754,7 +779,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 	var ray1_dir = Vector2(cos(angle1), sin(angle1))
 	var ray2_dir = Vector2(cos(angle2), sin(angle2))
 	var forward_dir = ((ray1_dir + ray2_dir) * 0.5).normalized()
-	
+	var fire_dmg=start.fire_dmg
+	var poison_dmg=start.poison_dmg
+	print("poison_dmg: ",poison_dmg)
 	for structure in Structures:
 		if structure.id == start.id:
 			continue
@@ -809,7 +836,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -829,7 +858,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.top:
@@ -850,7 +881,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -871,7 +904,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.bottom:
@@ -893,7 +928,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder)
 				var position_struct2=Vector2(struct_end_pos.x,ypos2_end)
@@ -913,7 +950,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.center:
@@ -935,7 +974,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder)
 				var position_struct2=struct_end_pos
@@ -956,7 +997,9 @@ func get_structures_between_directions(start, angle_ray_1, end, angle_ray_2, dam
 					"damage": damage,
 					"order_activation":order_activation,
 					"node":structure.node,
-					"color":color
+					"color":color,
+					"fire_dmg":fire_dmg,
+					"poison_dmg":poison_dmg
 				}
 				order.append(dictOrder2)
 			betweenDirectionsCase.none:
@@ -1081,3 +1124,36 @@ func end_enemy_turn():
 	attack_button.disabled=false
 	attack_button.texture_normal.set_current_frame(0)
 	audioController.stopAttacking()
+	attacking=false
+	
+
+func get_random_position():
+	var randY=randf()
+	var randX=randf()
+	var topLeft_pos=topLeft.global_position
+	var topRight_pos=topRight.global_position
+	var bottomLeft_pos=bottomLeft.global_position
+	var bottomRight_pos=bottomRight.global_position
+	var set_position=randY*(randX*topLeft_pos+(1-randX)*topRight_pos)+(1-randY)*(randX*bottomLeft_pos+(1-randX)*bottomRight_pos)
+	return set_position
+
+func add_structure(structure,key):
+	add_child(structure)
+	structure.setup_wave_starting_point(player)
+	structure.setup_wave_bounding_area(topLeft,topRight,bottomLeft,bottomRight)
+	structure.setup_list_of_powers(listOfPowers)
+	structure.setup_id(index)
+	var newDict={
+	"id":index,
+	"powerName": key,
+	"startPos": structure.get_two_points()[0], 
+	"endPos": structure.get_two_points()[1],
+	"node":structure}
+	index+=1
+	listOfPowers.append(newDict)
+
+var queue_delete=[]
+func setup_eliminate_end_turn(node_name):
+	queue_delete.append(node_name)
+	
+	pass

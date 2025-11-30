@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dh0nh55lqhgl2"]
+[gd_scene load_steps=6 format=3 uid="uid://dh0nh55lqhgl2"]
 
 [ext_resource type="Script" uid="uid://cwsjr7tsfjhc" path="res://Scripts/Game/game_over.gd" id="1_houp4"]
 [ext_resource type="Texture2D" uid="uid://bgrd5h6grrrqt" path="res://Sprites/Fight_screen sprites/lose.png" id="2_jnb8n"]
 [ext_resource type="Texture2D" uid="uid://baaoj3tf6xeak" path="res://Sprites/Shop Sprites/button_actions.png" id="3_bwgl3"]
+[ext_resource type="AudioStream" uid="uid://dgu1mec1dqs1d" path="res://Sound/Music/Wavemage - Loss Cue.wav" id="4_x6tyv"]
+[ext_resource type="AudioStream" uid="uid://bg8ygob6mxt4p" path="res://Sound/Music/Wavemage - Loss_break_arpeggios.wav" id="5_x6tyv"]
 
 [node name="Control" type="Control" node_paths=PackedStringArray("character_label")]
 layout_mode = 3
@@ -82,4 +84,15 @@ text = "Main Menu"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Wavemage-LossCue" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_x6tyv")
+autoplay = true
+bus = &"Music"
+
+[node name="Wavemage-VictoryLossScreen" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_x6tyv")
+volume_db = -14.0
+bus = &"Music"
+
 [connection signal="pressed" from="Main Menu" to="." method="main_menu"]
+[connection signal="finished" from="Wavemage-LossCue" to="." method="_on_wavemage_loss_cue_finished"]

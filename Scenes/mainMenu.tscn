@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6qcen12x0kl7"]
+[gd_scene load_steps=20 format=3 uid="uid://c6qcen12x0kl7"]
 
 [ext_resource type="Script" uid="uid://bt2b4nicvgu64" path="res://Scripts/Game/main_menu.gd" id="1_5pknu"]
 [ext_resource type="Texture2D" uid="uid://ck8qkbfchmk86" path="res://icon.svg" id="1_60k44"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://doijsxad0r83y" path="res://Scripts/Game/volume_settings.gd" id="5_3uny1"]
 [ext_resource type="Texture2D" uid="uid://hln34c0rn5qu" path="res://Sprites/UI sprites/settings_icon.png" id="6_kqm77"]
 [ext_resource type="AudioStream" uid="uid://b110pgsempv4k" path="res://Sound/Music/Wavemage_epic update1 fadeinfadeout.wav" id="7_kqm77"]
+[ext_resource type="Script" uid="uid://cfhlscodxrhyk" path="res://Scripts/window_popup.gd" id="8_snj4n"]
 
 [sub_resource type="Theme" id="Theme_3uny1"]
 
@@ -207,6 +208,17 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_yij4q")
 theme_override_styles/normal = SubResource("StyleBoxFlat_kqm77")
 text = "CONTINUE GAME"
 
+[node name="asset used Button" type="Button" parent="Camera2D"]
+offset_left = 286.0
+offset_top = 255.0
+offset_right = 461.0
+offset_bottom = 291.0
+theme_override_fonts/font = ExtResource("3_b7htb")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/hover = SubResource("StyleBoxFlat_yij4q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kqm77")
+text = "ASSETS USED"
+
 [node name="Credits" type="Label" parent="Camera2D"]
 offset_left = -187.0
 offset_top = 189.0
@@ -215,7 +227,7 @@ offset_bottom = 311.0
 theme_override_fonts/font = ExtResource("3_b7htb")
 text = "DESIGN: Pancholope 
 ART: Flavius045, Mint_rps
-PROGRAMMING: Pancholope, CE-0, Sags, Lovemeff
+PROGRAMMING: Pancholope, CE-0
 MUSIC: Lukas Pfeiffer 
 SFX: Jaime54321"
 
@@ -243,9 +255,59 @@ stream = ExtResource("7_kqm77")
 autoplay = true
 bus = &"Music"
 
+[node name="Assets_popup" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -574.0
+offset_top = -319.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_snj4n")
+
+[node name="ColorRect" type="ColorRect" parent="Assets_popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.29219, 0.29219, 0.29219, 1)
+
+[node name="Label" type="RichTextLabel" parent="Assets_popup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fire, poison effects: Brullov: https://brullov.itch.io/fire-animation"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="close_window" type="Button" parent="Assets_popup"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_top = -30.0
+offset_right = 93.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Close Asset Information"
+
 [connection signal="value_changed" from="Settings Popup/PanelContainer/VBoxContainer/Music Volume/Slider" to="Settings Popup/PanelContainer/VBoxContainer/Music Volume" method="change_volume"]
 [connection signal="value_changed" from="Settings Popup/PanelContainer/VBoxContainer/SFX Volume/Slider" to="Settings Popup/PanelContainer/VBoxContainer/SFX Volume" method="change_volume"]
 [connection signal="button_down" from="Settings Popup/PanelContainer/VBoxContainer/Save Settings" to="Settings Popup" method="save_settings"]
 [connection signal="pressed" from="Camera2D/Start Button" to="." method="start_game"]
 [connection signal="pressed" from="Camera2D/continue Button" to="." method="continue_game"]
+[connection signal="pressed" from="Camera2D/asset used Button" to="Assets_popup" method="_on_asset_used_button_pressed"]
 [connection signal="button_down" from="Camera2D/Settings" to="." method="display_settings"]
+[connection signal="pressed" from="Assets_popup/close_window" to="Assets_popup" method="_on_close_window_pressed"]

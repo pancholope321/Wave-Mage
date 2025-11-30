@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://btxy3uideokcf"
+path="res://.godot/imported/Wavemage - victory_loss_screen.wav-346ca2d73186f16a553455ff8ae568e9.sample"
+
+[deps]
+
+source_file="res://Sound/Music/Wavemage - victory_loss_screen.wav"
+dest_files=["res://.godot/imported/Wavemage - victory_loss_screen.wav-346ca2d73186f16a553455ff8ae568e9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -9,7 +9,12 @@ func enemy(container,start,end,context):
 	var distance=abs(vector.length())
 	var damageMult=(start.damage+end.damage)/200.0
 	var damage=damageMult*distance
+	start.node.get_poison_dmg(start.poison_dmg)
+	start.node.get_fire_dmg(start.fire_dmg)
+	print()
+	#always last
 	start.node.recieve_damage(damage)
+	
 	if !start.node.is_alive():
 		await container.remove_enemy(start.id)
 	return damage

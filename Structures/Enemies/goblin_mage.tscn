@@ -173,7 +173,7 @@ projectile = ExtResource("2_s58lv")
 healthBar = NodePath("TextureProgressBar")
 health = 200.0
 animator = NodePath("AnimationPlayer")
-animate_time = 1.5
+animate_time = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")

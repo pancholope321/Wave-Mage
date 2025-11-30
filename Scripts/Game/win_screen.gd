@@ -34,3 +34,11 @@ func tween_coins_won(coinsWon):
 
 func textConverterformNumber(number,element):
 	element.text=str(round(number))
+
+
+func _on_wavemage_victory_cue_finished() -> void:
+	var music=$"Wavemage-VictoryLossScreen"
+	music.volume_db=-40
+	music.play()
+	var tween = create_tween()
+	tween.tween_property(music,"volume_db",0,4.0)

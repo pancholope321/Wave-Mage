@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c11qefhul8egk"
-path="res://.godot/imported/goblin_mage_vine_wall.png-6de5aafe17395c7dd427cc48d8169a4b.ctex"
+uid="uid://gjrhkqjx4nbi"
+path="res://.godot/imported/standing_goblin_archer_frames.png-330ec91c7e13e4c7c8f0226d3bc4f082.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Projectiles Sprites/goblin_mage_vine_wall.png"
-dest_files=["res://.godot/imported/goblin_mage_vine_wall.png-6de5aafe17395c7dd427cc48d8169a4b.ctex"]
+source_file="res://Sprites/Character sprites/standing_goblin_archer_frames.png"
+dest_files=["res://.godot/imported/standing_goblin_archer_frames.png-330ec91c7e13e4c7c8f0226d3bc4f082.ctex"]
 
 [params]
 

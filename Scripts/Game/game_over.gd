@@ -42,3 +42,11 @@ func _process(delta):
 		character_label.visible_ratio-=delta*time
 		if character_label.visible_ratio<=0.01:
 			forward=true
+
+
+func _on_wavemage_loss_cue_finished() -> void:
+	var music=$"Wavemage-VictoryLossScreen"
+	music.volume_db=-40
+	music.play()
+	var tween = create_tween()
+	tween.tween_property(music,"volume_db",0,4.0)

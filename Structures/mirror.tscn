@@ -7,6 +7,7 @@
 size = Vector2(131, 17)
 
 [node name="mirrorPoint1" type="Area2D" node_paths=PackedStringArray("point1", "point2")]
+y_sort_enabled = true
 script = ExtResource("1_b2u6c")
 point1 = NodePath(".")
 point2 = NodePath("mirrorPoint2")

@@ -1,0 +1,89 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccaxvy3uqdmqx"]
+
+[ext_resource type="Script" uid="uid://cy0pveu7x6ihx" path="res://Scripts/structureOrganizator_inamovible.gd" id="1_bijqf"]
+[ext_resource type="Texture2D" uid="uid://c11qefhul8egk" path="res://Sprites/Projectiles Sprites/vine_wall.png" id="2_bijqf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6w0w"]
+size = Vector2(24, 64)
+
+[sub_resource type="Animation" id="Animation_t3qcm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [28]
+}
+
+[sub_resource type="Animation" id="Animation_kon2f"]
+resource_name = "add_wall"
+step = 0.0357
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0357, 0.0714, 0.1071, 0.1428, 0.1785, 0.2142, 0.2499, 0.2856, 0.3213, 0.357, 0.3927, 0.4284, 0.4641, 0.4998, 0.5355, 0.5712, 0.6069, 0.6426, 0.6783, 0.714, 0.7497, 0.7854, 0.8211, 0.8568, 0.8925, 0.9282, 0.9639, 0.9996),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+}
+
+[sub_resource type="Animation" id="Animation_bijqf"]
+resource_name = "remove_wall"
+step = 0.0357
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0357, 0.0714, 0.1071, 0.1428, 0.1785, 0.2142, 0.2499, 0.2856, 0.3213, 0.357, 0.3927, 0.4284, 0.4641, 0.4998, 0.5355, 0.5712, 0.6069, 0.6426, 0.6783, 0.714, 0.7497, 0.7854, 0.8211, 0.8568, 0.8925, 0.9282, 0.9639, 0.9996),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8vv76"]
+_data = {
+&"RESET": SubResource("Animation_t3qcm"),
+&"add_wall": SubResource("Animation_kon2f"),
+&"remove_wall": SubResource("Animation_bijqf")
+}
+
+[node name="wallVine" type="Area2D" node_paths=PackedStringArray("point1", "point2", "my_sprite")]
+y_sort_enabled = true
+script = ExtResource("1_bijqf")
+point1 = NodePath(".")
+point2 = NodePath("duplicatePoint2")
+my_sprite = NodePath("Sprite2D")
+mobile = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_v6w0w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 32)
+texture = ExtResource("2_bijqf")
+hframes = 6
+vframes = 5
+frame = 28
+
+[node name="duplicatePoint2" type="Node2D" parent="."]
+position = Vector2(0, 71)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8vv76")
+}
+autoplay = "RESET"

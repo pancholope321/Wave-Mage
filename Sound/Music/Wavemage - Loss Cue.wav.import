@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dgu1mec1dqs1d"
+path="res://.godot/imported/Wavemage - Loss Cue.wav-0682ab2d13f9e615ef9c95e3b8e4f0a2.sample"
+
+[deps]
+
+source_file="res://Sound/Music/Wavemage - Loss Cue.wav"
+dest_files=["res://.godot/imported/Wavemage - Loss Cue.wav-0682ab2d13f9e615ef9c95e3b8e4f0a2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
