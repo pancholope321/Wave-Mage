@@ -3,9 +3,6 @@ extends Node
 # lets use the json on the config files
 # ConfigFiles>player_statistics>json 
 var defaultData = "res://ConfigFiles/player_statistics.json" 
-var buttonSFX = preload("res://Sound/SFX/NeutralButtonPress.wav")
-var buttonSFXPos = preload("res://Sound/SFX/PositiveButtonPress.wav") 
-var buttonSFXNeg = preload("res://Sound/SFX/NegativeButtonPress.wav")
  
 var playerStats : Dictionary
 
@@ -48,18 +45,14 @@ func _ready() -> void:
 
 """
 This function performs calculations on the input volume percentage and converts it to a reasonable 
-decibel value. E.g. At 100% volume, the music will be 6db, whereas SFX will be 3db.
+decibel value. E.g. At 100% volume, the music will be 6db, whereas SFX will be -4db.
 """
 func db_converter(input, bus): 
 	match bus:
 		"Music":
-			return (input/100)*10-4 
+			return ((input/100)*10-4)-((100-input)*0.25)
 		"SFX":
-			return (input/100)*10-14 
-
-func positive_button_press(audioPlayer):
-	audioPlayer.stream = buttonSFXPos 
-	audioPlayer.play
+			return ((input/100)*10-14)-((100-input)*0.25)
 
 func load_new_game():
 	var def_data=load_json_config(defaultData)
