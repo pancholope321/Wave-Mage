@@ -21,6 +21,10 @@ config/icon="uid://x3emi134poo8"
 Global="*res://Scripts/global.gd"
 Sfx="*res://Sound/SFX.tscn"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="Wave Mage"

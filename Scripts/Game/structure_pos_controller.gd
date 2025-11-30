@@ -63,7 +63,8 @@ func generate_enemy_json():
 	"goblin_arrow":0,
 	"goblin_mage":0,
 	"skeleton_spear":0,
-	"skeleton_dagger":0
+	"skeleton_dagger":0,
+	"skeleton_mage":0
 	},
 	"health":0
 	}
