@@ -1066,12 +1066,13 @@ func save_json_config(object, path):
 
 
 func _on_button_pressed() -> void:
-	Sfx.play("StartAttack",true)
-	attack(1)
-	audioController.attacking()
-	
 	attack_button.disabled=true
 	attack_button.texture_disabled.set_current_frame(0)
+	player.attack_animation()
+	audioController.attacking()
+	
+	
+	
 	
 
 

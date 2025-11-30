@@ -48,6 +48,7 @@ func animate_fire():
 	var instance=animation.instantiate()
 	add_child(instance)
 	instance.position=(point2.position)
+	Sfx.play("Fire",true)
 	await get_tree().create_timer(0.8).timeout
 	instance.queue_free()
 	await get_tree().create_timer(0.2).timeout
@@ -58,6 +59,7 @@ func animate_poison():
 	var instance=animation.instantiate()
 	add_child(instance)
 	instance.position=(point2.position)
+	Sfx.play("Poison",true)
 	await get_tree().create_timer(0.8).timeout
 	instance.queue_free()
 	await get_tree().create_timer(0.2).timeout

@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Wave Mage"
+config/version="1.0"
 run/main_scene="uid://c6qcen12x0kl7"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://x3emi134poo8"
 
 [autoload]
 
@@ -32,3 +33,4 @@ theme/custom_font="uid://chlag3glr1ni0"
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

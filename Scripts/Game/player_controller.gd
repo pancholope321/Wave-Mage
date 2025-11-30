@@ -6,6 +6,7 @@ extends Area2D
 @export var waveStart:Node2D
 @export var max_health=10.0
 @export var player_hp_bar:TextureProgressBar
+@export var animation_player:AnimationPlayer
 func _ready() -> void:
 	max_health=Global.playerStats["max_health"]
 	health=clamp(Global.playerStats["health"]+2,1,max_health)
@@ -29,3 +30,11 @@ func healing():
 func update_global_health():
 	Global.playerStats["health"]=health
 	Global.playerStats["max_health"]=max_health
+
+func attack_animation():
+	animation_player.play("Attack")
+	animation_player.queue("Idle")
+	
+func activate_attack():
+	waveController.attack(1)
+	Sfx.play("StartAttack",true)

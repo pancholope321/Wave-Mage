@@ -121,6 +121,7 @@ offset_bottom = 95.0
 texture_normal = ExtResource("5_qmf6k")
 
 [node name="Label" type="Label" parent="Settings Popup/PanelContainer/VBoxContainer/Control/Save Settings"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 17.0
 offset_right = 151.0
@@ -200,6 +201,7 @@ offset_bottom = 156.0
 texture_normal = ExtResource("5_qmf6k")
 
 [node name="Label" type="Label" parent="Camera2D/continue Button"]
+layout_mode = 0
 offset_left = 23.5
 offset_top = 16.5
 offset_right = 185.5
@@ -216,6 +218,7 @@ offset_bottom = 305.0
 texture_normal = ExtResource("5_qmf6k")
 
 [node name="Label" type="Label" parent="Camera2D/asset used Button"]
+layout_mode = 0
 offset_left = 9.0
 offset_top = 13.0
 offset_right = 217.0
