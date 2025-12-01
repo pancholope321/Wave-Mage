@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://cmwrawjnsytee"]
+[gd_scene load_steps=46 format=3 uid="uid://cmwrawjnsytee"]
 
 [ext_resource type="Script" uid="uid://d0ip6lwqofgqe" path="res://Scripts/Game/player_controller.gd" id="1_jag4a"]
 [ext_resource type="Script" uid="uid://l8qslq27mojq" path="res://Scripts/Game/wave_controller.gd" id="1_viax6"]
@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://do3kv0ug3vrln" path="res://Sprites/UI sprites/button animation sprites/image0006.png" id="35_g4oyw"]
 [ext_resource type="Texture2D" uid="uid://cmydkfynnu7oc" path="res://Sprites/UI sprites/button animation sprites/image0007.png" id="36_1a7uk"]
 [ext_resource type="Texture2D" uid="uid://bf0j8f3o0bvuq" path="res://Sprites/UI sprites/button animation sprites/image0008.png" id="37_bkjvu"]
+[ext_resource type="Texture2D" uid="uid://dwe0rb4kx5b3x" path="res://Sprites/Fight_screen sprites/portrait_2.png" id="38_8xmf6"]
 [ext_resource type="Texture2D" uid="uid://wkpw4k2vhkes" path="res://Sprites/UI sprites/button animation sprites/image0009.png" id="38_fbtmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fm3o4"]
@@ -492,6 +493,20 @@ horizontal_scroll_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="portrait" type="TextureRect" parent="Front UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 114.0
+offset_right = -973.0
+offset_bottom = -394.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("38_8xmf6")
+expand_mode = 1
 
 [node name="bounding_area" type="Node2D" parent="."]
 
