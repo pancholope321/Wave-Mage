@@ -9,9 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://bwfysidxnbar8" path="res://Sprites/Character sprites/mage_incantation_frames.png" id="5_8xmf6"]
 [ext_resource type="Script" uid="uid://cnm4t5s4fmlbr" path="res://Scripts/Game/audio_controller.gd" id="5_57ar5"]
 [ext_resource type="Script" uid="uid://b3cs3yyrjc3rm" path="res://Scripts/Game/enemy_controller.gd" id="5_yqjp4"]
-[ext_resource type="AudioStream" uid="uid://7ay8ebudw6np" path="res://Sound/Music/Wavemage battle theme intro.wav" id="6_7aek1"]
 [ext_resource type="Texture2D" uid="uid://ctgqe0kxneb08" path="res://Sprites/UI sprites/framework_1.png" id="7_fm3o4"]
 [ext_resource type="AudioStream" uid="uid://cuks8s6kxd831" path="res://Sound/Music/Wavemage battle theme main loop.wav" id="7_jag4a"]
+[ext_resource type="AudioStream" uid="uid://bedcp35igxvag" path="res://Sound/Music/WAvemage battle theme with intro.wav" id="10_4ja3e"]
 [ext_resource type="Texture2D" uid="uid://dmn6sd4jaexs5" path="res://Sprites/UI sprites/playerHealthBarBg.png" id="10_hhgo6"]
 [ext_resource type="Texture2D" uid="uid://obhx5hfe02cj" path="res://Sprites/UI sprites/playerHealthBarPanel.png" id="11_w5y70"]
 [ext_resource type="Texture2D" uid="uid://e7xcts26dm5n" path="res://Sprites/UI sprites/playerHealthBarFILL.png" id="12_v5lmx"]
@@ -415,7 +415,7 @@ start_music = NodePath("start music")
 music_loop = NodePath("music loop")
 
 [node name="start music" type="AudioStreamPlayer" parent="audio_controller"]
-stream = ExtResource("6_7aek1")
+stream = ExtResource("10_4ja3e")
 bus = &"Music"
 
 [node name="music loop" type="AudioStreamPlayer" parent="audio_controller"]
