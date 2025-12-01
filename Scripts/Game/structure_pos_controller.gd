@@ -24,11 +24,11 @@ var enemy_json={
 	"goblin_spear":0,
 	"goblin_arrow":0,
 	"goblin_mage":0,
-	"skeleton_spear":0,
-	"skeleton_dagger":0,
-	"skeleton_mage":3
+	"skeleton_spear":1,
+	"skeleton_dagger":1,
+	"skeleton_mage":1
 	},
-	"health":10
+	"health":1
 }
 @export var debug=false
 

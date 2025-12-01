@@ -175,6 +175,7 @@ damage = 0
 health = 200.0
 animator = NodePath("AnimationPlayer")
 animate_time = 2.0
+charac_animation_time = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")

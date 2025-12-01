@@ -14,7 +14,7 @@ config/name="Wave Mage"
 config/version="1.0"
 run/main_scene="uid://c6qcen12x0kl7"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="uid://x3emi134poo8"
+config/icon="uid://dpxy7ukcamdsw"
 
 [autoload]
 

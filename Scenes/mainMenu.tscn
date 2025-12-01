@@ -284,11 +284,16 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 75.0
+offset_right = -42.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Fire, poison effects: Brullov: https://brullov.itch.io/fire-animation 
-Settings icon: https://opengameart.org/content/gear-pixel-art-32x32"
-horizontal_alignment = 1
+Settings icon: https://opengameart.org/content/gear-pixel-art-32x32
+Fire+Poison SFX: https://www.zapsplat.com/music/designed-fire-whoosh-medium-slow-heavy-and-powerful/
+Drink potion SFX: https://www.zapsplat.com/music/two-drinking-glasses-full-of-water-or-other-drink-clink-together-cheers-celebration-version-3/
+Poison SFX: https://www.zapsplat.com/music/witches-cauldron-bubbling-boiling/
+Poison SFX: https://www.zapsplat.com/music/small-plastic-object-submerge-in-water-sinks-fills-with-water-and-bubbles-rise-to-the-surface-version-1/"
 vertical_alignment = 1
 
 [node name="close_window" type="Button" parent="Assets_popup"]

@@ -17,6 +17,7 @@ var current_poison=0
 var current_fire_dmg=0
 var wave_controller:Node2D
 
+
 func recieve_damage(damage):
 	health-=damage
 	health-=current_poison
@@ -39,6 +40,7 @@ func activate_final_actions():
 	if !alive:
 		Sfx.play("EnemyPlayerFaint",true)
 		emit_signal("finish_action", self)
+		await get_tree().create_timer(0.0).timeout
 		self.queue_free()
 	healthBar.value=5+90*(health/max_health)
 	emit_signal("finish_action", self)
@@ -86,6 +88,7 @@ func get_attack_damage():
 	return damage
 @export var animator:AnimationPlayer
 @export var animate_time:float=1.0
+@export var charac_animation_time:float=1.0
 func animate_enemy_attack(playerNode):
 	wave_controller=playerNode.waveController
 	if !alive:
@@ -97,6 +100,7 @@ func animate_enemy_attack(playerNode):
 	var end_set=player.global_position
 	instance.setup_start_end(start_set,end_set,wave_controller)
 	if animator!=null and animator.has_animation("Attack"):
+		animator.speed_scale=1.0/charac_animation_time
 		animator.play("Attack")
 	self.add_child(instance)
 	var tween=create_tween()

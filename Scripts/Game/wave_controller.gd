@@ -142,9 +142,10 @@ func activate_end_round():
 	var results=[]
 	total_enemies=0
 	for enemy in enemyListCopy:
-		total_enemies+=1
 		if !enemy.is_alive():
 			enemyList.erase(enemy)
+		else:
+			total_enemies+=1
 		enemy.activate_final_actions()
 	for node_to_delete in queue_delete:
 		node_to_delete
@@ -153,10 +154,14 @@ func activate_end_round():
 		node_to_delete.queue_free()
 	queue_delete=[]
 
+# added a dumb ==0 comparator to fix the problem XDXDXDXDXD
 var attacking=false
 func continue_function(node_signal):
 	total_enemies-=1
-	if total_enemies<=0 and !attacking:
+	print("enemyList: ",enemyList)
+	print("enemyList: total_enemies",total_enemies)
+	print("enemyList: attacking",attacking)
+	if enemyList.size()==0 or total_enemies<=0 and !attacking:
 		attacking=true
 		if enemyList.size()<=0:
 			await audioController.stopAttacking()

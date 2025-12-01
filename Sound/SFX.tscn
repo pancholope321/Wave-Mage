@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bscwke1fguoba"]
+[gd_scene load_steps=13 format=3 uid="uid://bscwke1fguoba"]
 
 [ext_resource type="Script" uid="uid://doqh5q63m8cg0" path="res://Sound/sfx.gd" id="1_l1k0v"]
 [ext_resource type="AudioStream" uid="uid://cu31t0nij506r" path="res://Sound/SFX/Duplicator.wav" id="2_wj0b4"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://bybqf1r2gpmt0" path="res://Sound/SFX/StartAttack.wav" id="9_wj0b4"]
 [ext_resource type="AudioStream" uid="uid://crn1dna0dhbiq" path="res://Sound/SFX/Fire.mp3" id="10_dcq6e"]
 [ext_resource type="AudioStream" uid="uid://b2ql2yao6glhp" path="res://Sound/SFX/Poison.mp3" id="11_j3rmh"]
+[ext_resource type="AudioStream" uid="uid://bju65coy4ivoq" path="res://Sound/SFX/potion_drink.mp3" id="12_j3rmh"]
 
 [node name="Sfx" type="Node"]
 script = ExtResource("1_l1k0v")
@@ -56,3 +57,6 @@ bus = &"SFX"
 [node name="Poison" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_j3rmh")
 bus = &"SFX"
+
+[node name="PotionDrink" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_j3rmh")

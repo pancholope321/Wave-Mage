@@ -174,13 +174,15 @@ healthBar = NodePath("TextureProgressBar")
 health = 200.0
 animator = NodePath("AnimationPlayer")
 animate_time = 2.0
+charac_animation_time = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_yk4my")
 position = Vector2(-1, 62)
-texture = ExtResource("3_2x6m7")
-hframes = 6
-vframes = 6
+texture = ExtResource("3_s58lv")
+offset = Vector2(-3, -4)
+hframes = 8
+vframes = 7
 frame = 1
 
 [node name="enemyP2" type="Node2D" parent="."]
