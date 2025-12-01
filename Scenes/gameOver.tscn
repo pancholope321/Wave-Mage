@@ -86,12 +86,13 @@ vertical_alignment = 1
 
 [node name="Wavemage-LossCue" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_x6tyv")
+volume_db = -8.0
 autoplay = true
 bus = &"Music"
 
 [node name="Wavemage-VictoryLossScreen" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_x6tyv")
-volume_db = -14.0
+volume_db = -8.0
 bus = &"Music"
 
 [connection signal="pressed" from="Main Menu" to="." method="main_menu"]

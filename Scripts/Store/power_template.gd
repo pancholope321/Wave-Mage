@@ -4,6 +4,7 @@ var description=""
 var name_power=""
 func set_texture(texture):
 	$TextureRect.texture=texture
+	$TextureRect.size.x=clamp($TextureRect.size.x,0,10)
 
 func set_quantity_label(quant_set):
 	$Label.text=str(roundi(quant_set))+":"
@@ -25,6 +26,7 @@ func _ready():
 	# Connect mouse signals
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	
 
 func _process(_delta):
 	if is_mouse_over and tooltip_instance:

@@ -41,4 +41,4 @@ func _on_wavemage_victory_cue_finished() -> void:
 	music.volume_db=-40
 	music.play()
 	var tween = create_tween()
-	tween.tween_property(music,"volume_db",0,4.0)
+	tween.tween_property(music,"volume_db",-2,2.0)

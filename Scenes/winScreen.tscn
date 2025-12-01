@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://co8vyyf5l87ww" path="res://Sprites/Fight_screen sprites/win.png" id="2_1lape"]
 [ext_resource type="Texture2D" uid="uid://baaoj3tf6xeak" path="res://Sprites/Shop Sprites/button_actions.png" id="3_o76b5"]
 [ext_resource type="AudioStream" uid="uid://ciowkvmfvsnfr" path="res://Sound/Music/Wavemage - Victory cue.wav" id="4_2yg6a"]
-[ext_resource type="AudioStream" uid="uid://btxy3uideokcf" path="res://Sound/Music/Wavemage - victory_loss_screen.wav" id="5_qu2hb"]
+[ext_resource type="AudioStream" uid="uid://cnde5bjrultpd" path="res://Sound/Music/Wavemage - win_break_arpeggios.wav" id="5_2yg6a"]
 
 [node name="Win Screen" type="Control" node_paths=PackedStringArray("coinTotalLabel", "coinsWonLabel")]
 layout_mode = 3
@@ -126,10 +126,12 @@ vertical_alignment = 1
 
 [node name="Wavemage-VictoryCue" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_2yg6a")
+volume_db = -4.0
 autoplay = true
 
 [node name="Wavemage-VictoryLossScreen" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_qu2hb")
+stream = ExtResource("5_2yg6a")
+volume_db = -2.0
 
 [connection signal="pressed" from="Shop" to="." method="to_shop"]
 [connection signal="finished" from="Wavemage-VictoryCue" to="." method="_on_wavemage_victory_cue_finished"]

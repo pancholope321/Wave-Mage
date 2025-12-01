@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bn8frjxpb3o8v" path="res://Templates_UI/tooltip.tscn" id="2_tm7j4"]
 
 [node name="power_template" type="HBoxContainer"]
+offset_right = 144.0
+offset_bottom = 42.0
 script = ExtResource("1_254xo")
 tooltip_scene = ExtResource("2_tm7j4")
 
@@ -15,6 +17,7 @@ theme_override_font_sizes/font_size = 30
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
 texture = ExtResource("1_ylesc")
 expand_mode = 3
 stretch_mode = 5

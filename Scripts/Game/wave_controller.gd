@@ -159,6 +159,7 @@ func continue_function(node_signal):
 	if total_enemies<=0 and !attacking:
 		attacking=true
 		if enemyList.size()<=0:
+			await audioController.stopAttacking()
 			fight_won()
 		else:
 			enemy_controller.start_attack(enemyList)
@@ -1124,7 +1125,7 @@ func remove_enemy(id):
 func end_enemy_turn():
 	attack_button.disabled=false
 	attack_button.texture_normal.set_current_frame(0)
-	audioController.stopAttacking()
+	await audioController.stopAttacking()
 	attacking=false
 	
 

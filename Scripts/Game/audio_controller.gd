@@ -21,6 +21,8 @@ func attacking():
 func stopAttacking():
 	var tween_audio=create_tween()
 	tween_audio.tween_method(audio_for_tweening,initialVolume-40,initialVolume,1.0)
+	await tween_audio.finished
+	return
 	#AudioServer.set_bus_volume_db(1,initialVolume)
 
 
